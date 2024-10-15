@@ -67,12 +67,21 @@ protected:
 
 	FTimerHandle attackWindowTimerHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float normalSpeed = 600;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float alertSpeed = 1500;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	bool getCanSeePlayer() { return canSeePlayer; }
 
 	UFUNCTION(BlueprintCallable)
-	void setCanSeePlayer(bool canSeePlayer_) { canSeePlayer = canSeePlayer_; }
+	void setCanSeePlayer(bool canSeePlayer_);
+
+	UFUNCTION(BlueprintCallable)
+	void resetCanSeePlayer();
 
 	UFUNCTION(BlueprintCallable)
 	class AAIController* getAIController();
@@ -108,7 +117,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	TArray<class UPaperFlipbook*> rangedAttackFlipbooks;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
+	
 	TArray<class UPaperFlipbook*> currentFlipbooks;
 
 	
@@ -152,7 +161,7 @@ protected:
 	float meleeDamage = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	float meleeAttackWindow = 0.5;
+	float meleeAttackDodgeWindow = 0.5;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	float meleeAttackRange = 150;
@@ -182,7 +191,7 @@ protected:
 	class UPaperFlipbook* deathFlipbook;
 
 	UFUNCTION(BlueprintCallable)
-	void HandleDeath();
+	virtual void HandleDeath();
 
 	bool isDead = false;
 

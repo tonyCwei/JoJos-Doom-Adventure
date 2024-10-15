@@ -162,9 +162,7 @@ void ABaseWeapon::resetFlipbook() {
 
 
 //for hold fire weapon only
-void ABaseWeapon::StopFire() {
-	
-}
+void ABaseWeapon::StopFire() {}
 
 // //for fist
 // void ABaseWeapon::Punch() {

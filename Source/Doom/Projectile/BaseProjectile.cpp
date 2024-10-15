@@ -94,7 +94,7 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 		//}
 
 
-		UE_LOG(LogTemp, Display, TEXT("On hit: %s"), *OtherActor->GetName());
+		//UE_LOG(LogTemp, Display, TEXT("On hit: %s"), *OtherActor->GetName());
 
 
 		//Apply Damage
@@ -129,7 +129,7 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 
 void ABaseProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Display, TEXT("On BeginOverlap: %s"), *OtherActor->GetName());
+	//UE_LOG(LogTemp, Display, TEXT("On BeginOverlap: %s"), *OtherActor->GetName());
 
 	if (!OtherActor->ActorHasTag("Player")) {
 		//Apply Damage

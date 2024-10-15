@@ -528,6 +528,37 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void pickupKey(int32 colorIndex);
 
+	//Camera Zoom
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ZoomAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	UCurveFloat* zoomFloatCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UTimelineComponent* zoomTimeline;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float zoomWalkSpeed = 300;
+
+	UFUNCTION()
+	void zoomTimelineUpdate(float Value);
+
+	bool isZooming = false;
+
+	bool canZoom();
+
+	void ZoomIn(const FInputActionValue& Value);
+
+	void ZoomOut(const FInputActionValue& Value);
+
+	void ZoomOutOverride();
+
+public:
+
+	bool getIsZooming() const { return isZooming; }
 
 };
 

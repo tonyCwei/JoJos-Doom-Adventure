@@ -37,6 +37,8 @@ void ABaseEnemy::BeginPlay()
 	playerCharacter = Cast<ADoomCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
 	gameStateRef = GetWorld()->GetGameState<ADoomGameStateBase>();
 
+	normalSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
 	currentFlipbooks = directionalFlipbooks;
 
 	OnTakeAnyDamage.AddDynamic(this, &ABaseEnemy::DamageTaken);
@@ -55,6 +57,7 @@ void ABaseEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void ABaseEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 	CheckEnemyState();
 
 	/*if (canSeePlayer && !isDead) {
@@ -63,7 +66,6 @@ void ABaseEnemy::Tick(float DeltaTime)
 
 	if (isDead) {
 		HandleDeath();
-		rotateToPlayer(DeltaTime);
 	}
 	else {
 		updateDirectionalSprite();
@@ -80,6 +82,18 @@ void ABaseEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 }
 
 
+
+void ABaseEnemy::setCanSeePlayer(bool canSeePlayer_)
+{
+	GetCharacterMovement()->MaxWalkSpeed = alertSpeed;
+	canSeePlayer = canSeePlayer_; 
+}
+
+void ABaseEnemy::resetCanSeePlayer()
+{
+	GetCharacterMovement()->MaxWalkSpeed = normalSpeed;
+	canSeePlayer = false;
+}
 
 AAIController* ABaseEnemy::getAIController()
 {
@@ -286,10 +300,11 @@ void ABaseEnemy::MeleeAttack()
 	isAttacking = true;
 	attackingstate = PreMeleeAttacking;
 
+	//Add attack info before starting the actual attack if player within range
 	float Distance = FVector::Dist(this->GetActorLocation(), playerCharacter->GetActorLocation());
 	if (Distance <= meleeAttackRange) {
 		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
-		curAttackInfo.Duration = meleeAttackWindow;
+		curAttackInfo.Duration = meleeAttackDodgeWindow;
 		curAttackInfo.Attacker = this;
 
 		gameStateRef->addAttack(curAttackInfo);
@@ -341,7 +356,7 @@ void ABaseEnemy::MeleeAttack()
 
 				}, 0.5, false);
 
-	}, meleeAttackWindow, false);
+	}, meleeAttackDodgeWindow, false);
 
 
 
@@ -353,7 +368,7 @@ void ABaseEnemy::MeleeAttack()
 void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)
 {
 	curHealth -= Damage;
-	UE_LOG(LogTemp, Display, TEXT("Heath: %f"), curHealth);
+	//UE_LOG(LogTemp, Display, TEXT("Heath: %f"), curHealth);
 
 	if (curHealth <= 0) {
 		isDead = true;
@@ -363,7 +378,7 @@ void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageTy
 	AAIController* myAIEnemyController = getAIController();
 	if (myAIEnemyController) {
 		UBlackboardComponent* MyBlackboard = myAIEnemyController->GetBlackboardComponent();
-		canSeePlayer = true;
+		setCanSeePlayer(true);
 		if (MyBlackboard) MyBlackboard->SetValueAsBool(FName("CanSeePlayer"), true);
 	}
 	
@@ -378,8 +393,8 @@ void ABaseEnemy::HandleDeath() {
 	FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), playerCharacter->GetActorLocation());
 	this->SetActorRotation(TargetRotation);
 
-
 	if (isDying) return;
+	
 
 	//Stop AI
 	AAIController* myAIEnemyController = getAIController();

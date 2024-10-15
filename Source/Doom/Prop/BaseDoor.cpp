@@ -97,7 +97,7 @@ void ABaseDoor::doorOpenTimelineFinished()
 			doorOpenTimeline->Reverse();
 			isClosed = true;
 		}, 
-		2, false);
+		1, false);
 	}
 }
 

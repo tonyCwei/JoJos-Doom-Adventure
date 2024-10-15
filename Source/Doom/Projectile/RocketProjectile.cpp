@@ -99,7 +99,7 @@ void ARocketProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			ObjectTypes,
 			false,
 			ActorsToIgnore,
-			EDrawDebugTrace::Type::ForDuration,
+			EDrawDebugTrace::Type::None,
 			HitResults,
 			true
 		);

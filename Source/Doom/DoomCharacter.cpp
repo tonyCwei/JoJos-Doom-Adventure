@@ -68,6 +68,9 @@ ADoomCharacter::ADoomCharacter()
 	//Create Death Timeline
 	deathTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("DeathTimeline"));
 
+	//Create Zoom Timeline
+	zoomTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("ZoomTimeline"));
+
 }
 
 void ADoomCharacter::BeginPlay()
@@ -155,35 +158,42 @@ void ADoomCharacter::BeginPlay()
 	WeaponSwapResetTimelineFinishedEvent.BindUFunction(this, FName("WeaponSwapResetTimelineFinished"));
 	WeaponSwapResetTimeline->SetTimelineFinishedFunc(WeaponSwapResetTimelineFinishedEvent);
 
-	//Death Timeline Binding
-	if (deathFloatCurve) {
-		// Bind the update function
-		FOnTimelineFloat UpdateFunction;
-		UpdateFunction.BindUFunction(this, FName("deathTimelineUpdate"));
-
-		// Bind the finished function
-		FOnTimelineEvent FinishedFunction;
-		FinishedFunction.BindUFunction(this, FName("deathTimelineFinished"));
-
-		// Add functions to the timeline
-		deathTimeline->AddInterpFloat(deathFloatCurve, UpdateFunction);
-		deathTimeline->SetTimelineFinishedFunc(FinishedFunction);
-
-		// Set the timeline to loop or play once
-		deathTimeline->SetLooping(false);
-
-	}
-
-
-
 
 	//Sprint
 	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 	//Bind anyDamage
 	OnTakeAnyDamage.AddDynamic(this, &ADoomCharacter::DamageTaken);
-	
 
+	//Death Timeline Binding
+	if (deathFloatCurve) {
+		// Bind the update function
+		FOnTimelineFloat deathUpdateFunction;
+		deathUpdateFunction.BindUFunction(this, FName("deathTimelineUpdate"));
+
+		// Bind the finished function
+		FOnTimelineEvent deathFinishedFunction;
+		deathFinishedFunction.BindUFunction(this, FName("deathTimelineFinished"));
+
+		// Add functions to the timeline
+		deathTimeline->AddInterpFloat(deathFloatCurve, deathUpdateFunction);
+		deathTimeline->SetTimelineFinishedFunc(deathFinishedFunction);
+
+		// Set the timeline to loop or play once
+		deathTimeline->SetLooping(false);
+
+	}
+
+	//Zoom Timeline Binding
+	if (zoomFloatCurve) {
+		FOnTimelineFloat UpdateFunction;
+		UpdateFunction.BindUFunction(this, FName("zoomTimelineUpdate"));
+		zoomTimeline->AddInterpFloat(zoomFloatCurve, UpdateFunction);
+	
+	}
+
+	
+	
 }
 
 void ADoomCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -197,7 +207,6 @@ void ADoomCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void ADoomCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//UE_LOG(LogTemp, Display, TEXT("%f"), GetVelocity().Size());
 	if (!isAlive) return;
 		
 	WeaponBob(DeltaTime);
@@ -244,6 +253,10 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		//Interact
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ADoomCharacter::Interact);
+
+		//Zoom
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Started, this, &ADoomCharacter::ZoomIn);
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Completed, this, &ADoomCharacter::ZoomOut);
 		
 	}
 	else
@@ -302,7 +315,7 @@ void ADoomCharacter::StopShoot(const FInputActionValue& Value) {
 }
 
 void ADoomCharacter::Melee(const FInputActionValue& Value) {
-	if (!canMelee || isShooting || IsSwapping) return;
+	if (!canMelee || isShooting || IsSwapping || isZooming) return;
 
 	canMelee = false;
 	curWeaponClass = WeaponChildActorComponent->GetChildActorClass();
@@ -389,6 +402,7 @@ bool ADoomCharacter::isMoving() const
 void ADoomCharacter::SprintStart(const FInputActionValue& Value)
 {
 	isSprinting = true;
+	ZoomOutOverride();
 	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 	drainStamina();
 }
@@ -448,6 +462,8 @@ void ADoomCharacter::regenStamina()
 void ADoomCharacter::Dash(const FInputActionValue& Value)
 {
 	if (isDashing || stamina < 25 ) return;
+
+	//ZoomOutOverride();
 
 	isInvincible = true;
 	isDashing = true;
@@ -583,7 +599,7 @@ void ADoomCharacter::WeaponBob(float DeltaTime)
 //Weapon Swap
 void ADoomCharacter::WeaponSwap(int32 WeaponIndex)
 {
-
+	ZoomOutOverride();
 	//bool SameWeapon = AllWeapons[WeaponIndex] == WeaponChildActorComponent->GetChildActorClass();
 	bool NoWeapon = WeaponIndex > AllWeapons.Num() - 1;
 	if ( NoWeapon ||
@@ -753,6 +769,8 @@ void ADoomCharacter::HandleDeath()
 
 void ADoomCharacter::deathTimelineUpdate(float Value)
 {
+
+
 	FVector camLocation = FMath::Lerp(FVector(-10,0,60), FVector(-10, 0, -60), Value);
 	FirstPersonCameraComponent->SetRelativeLocation(camLocation);
 
@@ -763,7 +781,7 @@ void ADoomCharacter::deathTimelineUpdate(float Value)
 
 void ADoomCharacter::deathTimelineFinished()
 {
-	//UE_LOG(LogTemp, Display, TEXT("Show Death Screen"));
+	
 	if (GameOverHUDClass) {
 		UUserWidget* GameOverHUD = CreateWidget<UUserWidget>(this->GetWorld(), GameOverHUDClass);
 		if (GameOverHUD) {
@@ -922,6 +940,49 @@ void ADoomCharacter::pickupKey(int32 colorIndex)
 	}
 
 
+}
+
+bool ADoomCharacter::canZoom()
+{
+	if (mainWeapon->GetAmmoType() == MeleeWeapon || isSprinting) return false;
+	return true;
+}
+
+void ADoomCharacter::zoomTimelineUpdate(float Value)
+{
+	//lerp FOV for camera
+	//float curFOV = FMath::Lerp(90, 60, Value);
+	FirstPersonCameraComponent->SetFieldOfView(Value);
+}
+
+void ADoomCharacter::ZoomIn(const FInputActionValue& Value)
+{
+	if (canZoom()) {
+		
+		isZooming = true;
+		zoomTimeline->Play();
+		GetCharacterMovement()->MaxWalkSpeed = zoomWalkSpeed;
+	}
+}
+
+void ADoomCharacter::ZoomOut(const FInputActionValue& Value)
+{
+	if (canZoom()) {
+
+		isZooming = false;
+		zoomTimeline->Reverse();
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
+	}
+}
+
+void ADoomCharacter::ZoomOutOverride()
+{
+	if (isZooming) {
+		isZooming = false;
+		zoomTimeline->Reverse();
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	}
 }
 
 

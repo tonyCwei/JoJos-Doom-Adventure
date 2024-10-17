@@ -53,23 +53,27 @@ void ARocketProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	sphereCollisionDamage->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	projectileMovement->StopMovementImmediately();
-	//Set flipbook and destroy, may need set scale
-	projectileFlipbookComponent->SetWorldScale3D(destroyScale);
 
-	//Set explosion flipbook location to make it look better
-	FVector relativeLocation = projectileFlipbookComponent->GetRelativeLocation();
-	FVector newRelativeLocation;
+	//Set rocket explosion flipbook location and scale to make it look better before play destroy flipbook
+	if (isRocketExplosion) {
+		projectileFlipbookComponent->SetWorldScale3D(destroyScale);
 
-	float Distance = FVector::Dist(this->GetActorLocation(), UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation());
+		FVector relativeLocation = projectileFlipbookComponent->GetRelativeLocation();
+		FVector newRelativeLocation;
 
-	if (Distance <= explosionRadius) {
-		newRelativeLocation = FVector(relativeLocation.X, relativeLocation.Y, relativeLocation.Z + 50);
+		float Distance = FVector::Dist(this->GetActorLocation(), UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation());
+
+		if (Distance <= explosionRadius) {
+			newRelativeLocation = FVector(relativeLocation.X, relativeLocation.Y, relativeLocation.Z + 50);
+		}
+		else {
+			newRelativeLocation = FVector(relativeLocation.X - explosionRadius / 2, relativeLocation.Y, relativeLocation.Z + 50);
+		}
+		projectileFlipbookComponent->SetRelativeLocation(newRelativeLocation);
+
+		
 	}
-	else {
-		newRelativeLocation = FVector(relativeLocation.X - explosionRadius / 2, relativeLocation.Y, relativeLocation.Z + 50);
-	}
-	projectileFlipbookComponent->SetRelativeLocation(newRelativeLocation);
-	
+
 	projectileFlipbookComponent->SetFlipbook(destroyFlipbook);
 
 	//Destroy after destroyFlipbook finishes playing
@@ -130,24 +134,30 @@ void ARocketProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 
 		sphereCollisionDamage->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		projectileMovement->StopMovementImmediately();
-		//Set flipbook and destroy, may need set scale
-		projectileFlipbookComponent->SetWorldScale3D(destroyScale);
+		
 
-		//Set explosion flipbook location to make it look better
-		FVector relativeLocation = projectileFlipbookComponent->GetRelativeLocation();
-		FVector newRelativeLocation;
+		//Set rocket explosion flipbook location and scale to make it look better before play destroy flipbook
+		if (isRocketExplosion) {
+			projectileFlipbookComponent->SetWorldScale3D(destroyScale);
 
-		float Distance = FVector::Dist(this->GetActorLocation(), UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation());
+			FVector relativeLocation = projectileFlipbookComponent->GetRelativeLocation();
+			FVector newRelativeLocation;
 
-		if (Distance <= explosionRadius) {
-			newRelativeLocation = FVector(relativeLocation.X, relativeLocation.Y, relativeLocation.Z + 50);
+			float Distance = FVector::Dist(this->GetActorLocation(), UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation());
+
+			if (Distance <= explosionRadius) {
+				newRelativeLocation = FVector(relativeLocation.X, relativeLocation.Y, relativeLocation.Z + 50);
+			}
+			else {
+				newRelativeLocation = FVector(relativeLocation.X - explosionRadius / 2, relativeLocation.Y, relativeLocation.Z + 50);
+			}
+			projectileFlipbookComponent->SetRelativeLocation(newRelativeLocation);
+
+
 		}
-		else {
-			newRelativeLocation = FVector(relativeLocation.X - explosionRadius / 2, relativeLocation.Y, relativeLocation.Z + 50);
-		}
-		projectileFlipbookComponent->SetRelativeLocation(newRelativeLocation);
 
 		projectileFlipbookComponent->SetFlipbook(destroyFlipbook);
+		
 
 
 		//Play sound

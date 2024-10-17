@@ -58,6 +58,9 @@ void AExplosiveBarrel::rotateToPlayer(float DeltaTime)
 
 void AExplosiveBarrel::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)
 {
+
+	boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 	myFlipBookComponent->SetLooping(false);
 	FVector ExplosionScale(10, 10, 10);
 	myFlipBookComponent->SetWorldScale3D(ExplosionScale);

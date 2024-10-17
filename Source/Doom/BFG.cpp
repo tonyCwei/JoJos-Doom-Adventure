@@ -8,37 +8,63 @@
 #include "PaperFlipbookComponent.h"
 #include "PaperFlipbook.h"
 
+void ABFG::BeginPlay()
+{
+	Super::BeginPlay();
+
+	WeaponFlipBookComponent->SetLooping(false);
+
+	chargeTimeNeeded = ChargingFlipbook->GetTotalDuration();
+}
+
 void ABFG::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	GetWorldTimerManager().ClearTimer(BFGFireHandle);
+	GetWorldTimerManager().ClearTimer(BFGFlipbookHandle);
 	GetWorldTimerManager().ClearTimer(BFGTimerHandle);
+	GetWorldTimerManager().ClearTimer(BFGFireHandle);
 }
 
+//Fire Weapon now means start Chargeing
 void ABFG::FireWeapon() {
     if (playerCharacter->getCell() < 30) return;
 
-    if (bFireOnce) {
-        bFireOnce = false;
-        //Fire projectile after fire animation finishes
-        PlayFireAnimation();
+	chargeStartTime = GetWorld()->GetTimeSeconds();
 
-		playWeaponSound();
+    if (!isCharging ) {
 
-	    GetWorld()->GetTimerManager().SetTimer(BFGFireHandle, [&]()
+		isCharging = true;
+
+		
+		
+        
+
+		//Start Charging
+		WeaponFlipBookComponent->SetFlipbook(ChargingFlipbook);
+		WeaponFlipBookComponent->Play();
+
+		chargeStartTime = GetWorld()->GetTimeSeconds();
+
+	   /* GetWorld()->GetTimerManager().SetTimer(BFGFireHandle, [&]()
 	    {
 	    ShootProjectle();
         WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
-	    }, WeaponFlipBookComponent->GetFlipbookLength(), false);  
+	    }, WeaponFlipBookComponent->GetFlipbookLength(), false);  */
         
 
-        //control fire rate
+		
+        //No need for fire rate since hold to fire
         
-	    GetWorld()->GetTimerManager().SetTimer(BFGTimerHandle, [&]()
-	    {
-	    bFireOnce = true;
-	    }, fireRate, false);  
+	    //GetWorld()->GetTimerManager().SetTimer(BFGTimerHandle, [&]()
+	    //{
+	    //bFireOnce = true;
+	    //}, fireRate, false);  
     } 
+
+
+
+
+
 }
 
 void ABFG::ShootProjectle() {
@@ -64,5 +90,50 @@ void ABFG::ShootProjectle() {
     playerCharacter->setCell(playerCharacter->getCell() - 30);
     playerCharacter->getPlayerHUD()->UpdateCell();
 
+	
+	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
+	
+	
+
     
+}
+
+void ABFG::StopFire()
+{
+	if (!isCharging || hasFired) return;
+
+	float chargedTime = GetWorld()->GetTimeSeconds() - chargeStartTime;
+
+	if (chargedTime < chargeTimeNeeded) {
+		WeaponFlipBookComponent->SetPlayRate(3);
+		WeaponFlipBookComponent->Reverse();
+		
+		GetWorld()->GetTimerManager().SetTimer(BFGFlipbookHandle, [&]()
+			{
+				isCharging = false;
+				WeaponFlipBookComponent->SetPlayRate(1);
+				WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+			}, 0.5, false);
+	}
+	else {
+		ShootProjectle();
+		hasFired = true;
+
+		GetWorld()->GetTimerManager().SetTimer(BFGFireHandle, [&]()
+			{
+				isCharging = false;
+				hasFired = false;
+				WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+			}, WeaponFlipBookComponent->GetFlipbookLength(), false);
+	}
+
+	
+	 
+	
+}
+
+
+void ABFG::cancelCharging()
+{
+	
 }

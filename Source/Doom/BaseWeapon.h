@@ -121,6 +121,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	class USoundCue* weaponSwapSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* weaponHitSound;
+
 public:
 
 	UFUNCTION(BlueprintCallable)
@@ -128,4 +131,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void playWeaponSwapSound();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void playWeaponHitSound();
 };

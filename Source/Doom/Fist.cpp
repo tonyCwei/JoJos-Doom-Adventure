@@ -20,6 +20,7 @@ void AFist::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AFist::FireWeapon() {
    //Super::FireWeapon();
+    playWeaponSound();
    Punch();
    resetFlipbook();
 }

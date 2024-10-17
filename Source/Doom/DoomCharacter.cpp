@@ -611,6 +611,13 @@ void ADoomCharacter::WeaponSwap(int32 WeaponIndex)
 		return;
 	}
 
+	//Stop fire cur weapon
+	ABaseWeapon* curWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
+
+	if (curWeapon) {
+		curWeapon->StopFire();
+	}
+
 
 	IsSwapping = true;
 	WeaponSwapTimeline->PlayFromStart();

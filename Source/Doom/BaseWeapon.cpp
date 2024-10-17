@@ -104,6 +104,8 @@ void ABaseWeapon::FireWeapon(){
 				FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
 				GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
 			}
+
+			playWeaponHitSound();
 		}
 
 
@@ -239,5 +241,13 @@ void ABaseWeapon::playWeaponSwapSound()
 {
 	if (weaponSwapSound) {
 		UGameplayStatics::PlaySoundAtLocation(this, weaponSwapSound, this->GetActorLocation());
+	}
+}
+
+void ABaseWeapon::playWeaponHitSound()
+{
+
+	if (weaponHitSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, weaponHitSound, this->GetActorLocation());
 	}
 }

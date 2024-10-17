@@ -30,5 +30,6 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult);
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* expSound;
 };

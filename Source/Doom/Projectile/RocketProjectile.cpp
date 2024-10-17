@@ -9,6 +9,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Doom/DoomCharacter.h"
+#include "Sound/SoundCue.h"
 
 void ARocketProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
@@ -73,6 +74,11 @@ void ARocketProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	//Destroy after destroyFlipbook finishes playing
 
+
+	//Play sound
+	if (expSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, expSound, this->GetActorLocation());
+	}
 
 	GetWorld()->GetTimerManager().SetTimer(ProjectileTimerHandle, [&]()
 		{
@@ -142,6 +148,13 @@ void ARocketProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		projectileFlipbookComponent->SetRelativeLocation(newRelativeLocation);
 
 		projectileFlipbookComponent->SetFlipbook(destroyFlipbook);
+
+
+		//Play sound
+		if (expSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, expSound, this->GetActorLocation());
+		}
+
 
 		//Destroy after destroyFlipbook finishes playing
 

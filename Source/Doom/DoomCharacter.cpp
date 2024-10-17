@@ -615,6 +615,8 @@ void ADoomCharacter::WeaponSwap(int32 WeaponIndex)
 	IsSwapping = true;
 	WeaponSwapTimeline->PlayFromStart();
 	SwapIndex = WeaponIndex;
+
+	
 }
 
 
@@ -670,7 +672,17 @@ void ADoomCharacter::WeaponSwapTimelineFinished()
 	WeaponChildActorComponent->SetChildActorClass(AllWeapons[SwapIndex]);
 	mainWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
 	UpdateCurAmmoText();
+
+	//Play Weapon Swap sound when finishing swapping
+	ABaseWeapon* curWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
+
+	if (curWeapon) {
+		curWeapon->playWeaponSwapSound();
+	}
+
+
 	WeaponSwapResetTimeline->PlayFromStart();
+
 
 	
 }
@@ -690,6 +702,8 @@ void ADoomCharacter::WeaponSwapResetTimelineProgress(float Alpha)
 void ADoomCharacter::WeaponSwapResetTimelineFinished()
 {
 	IsSwapping = false;
+	
+
 }
 
 

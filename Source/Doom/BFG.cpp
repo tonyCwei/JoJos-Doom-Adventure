@@ -23,7 +23,8 @@ void ABFG::FireWeapon() {
         //Fire projectile after fire animation finishes
         PlayFireAnimation();
 
-        
+		playWeaponSound();
+
 	    GetWorld()->GetTimerManager().SetTimer(BFGFireHandle, [&]()
 	    {
 	    ShootProjectle();

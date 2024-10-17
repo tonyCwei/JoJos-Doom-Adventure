@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Character.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ABaseWeapon::ABaseWeapon()
@@ -110,6 +111,9 @@ void ABaseWeapon::FireWeapon(){
 
 	//Decrease Ammo
 	decreaseAmmo();
+
+	//PlaySound
+	playWeaponSound();
 	
 	//Animation
 	PlayFireAnimation();
@@ -142,6 +146,9 @@ void ABaseWeapon::ShootProjectle() {
 	
 	//Decrease Ammo
 	decreaseAmmo();
+
+	//Play Sound
+	playWeaponSound();
 	
 	//Animation
 	PlayFireAnimation();
@@ -217,5 +224,20 @@ void ABaseWeapon::decreaseAmmo() {
 	
 	default:
 		return;
+	}
+}
+
+void ABaseWeapon::playWeaponSound()
+{
+	if (weaponSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, weaponSound, this->GetActorLocation());
+	}
+	
+}
+
+void ABaseWeapon::playWeaponSwapSound()
+{
+	if (weaponSwapSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, weaponSwapSound, this->GetActorLocation());
 	}
 }

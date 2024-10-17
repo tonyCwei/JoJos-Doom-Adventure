@@ -111,4 +111,21 @@ public:
 	UFUNCTION()
 	Ammo GetAmmoType() { return ammoType; }
 
+
+// Audio
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* weaponSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* weaponSwapSound;
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	virtual void playWeaponSound();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void playWeaponSwapSound();
 };

@@ -39,6 +39,12 @@ void AExplosiveBarrel::BeginPlay()
 
 }
 
+void AExplosiveBarrel::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorldTimerManager().ClearTimer(destroyTimerHandle);
+}
+
 // Called every frame
 void AExplosiveBarrel::Tick(float DeltaTime)
 {
@@ -124,7 +130,7 @@ void AExplosiveBarrel::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 
 	}
 
-	FTimerHandle destroyTimerHandle;
+	
 	GetWorldTimerManager().SetTimer(destroyTimerHandle, [&]() {
 		Destroy();
 		}, myFlipBookComponent->GetFlipbookLength(), false);

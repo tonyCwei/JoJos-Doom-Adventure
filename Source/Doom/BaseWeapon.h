@@ -124,6 +124,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	class USoundCue* weaponHitSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* emptyMagSound;
+
 public:
 
 	UFUNCTION(BlueprintCallable)
@@ -134,4 +137,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void playWeaponHitSound();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void playEmptyMagSound();
 };

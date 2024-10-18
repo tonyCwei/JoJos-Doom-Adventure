@@ -14,6 +14,11 @@ class DOOM_API ABFG : public ABaseWeapon
 {
 	GENERATED_BODY()
 
+
+public:
+
+	ABFG();
+
 private:
 	
 	bool hasFired = false;
@@ -25,6 +30,8 @@ private:
 	FTimerHandle BFGTimerHandle;
 
 	FTimerHandle BFGFlipbookHandle;
+
+	FTimerHandle BFGAudioHandle;
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,6 +45,18 @@ protected:
 	class UPaperFlipbook* ChargingFlipbook;
 
 	float chargeStartTime;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* myAudioComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* chargingSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* fullychargedSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* restSound;
 
 public:
 

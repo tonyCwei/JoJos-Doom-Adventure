@@ -132,8 +132,6 @@ private:
 
 	bool canMelee = true;
 
-	
-
 	bool isShooting = false;
 
 //TimerHandles

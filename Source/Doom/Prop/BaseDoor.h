@@ -89,4 +89,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void unlockDoor();
 
+
+//Audio
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* lockedSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* unlockSound;
+
 };

@@ -66,7 +66,10 @@ void ABaseWeapon::Tick(float DeltaTime)
 void ABaseWeapon::FireWeapon(){
 	//UE_LOG(LogTemp, Warning, TEXT("BaseWeapon Fire"));
 
-	if (!hasEnoughAmmo()) return;
+	if (!hasEnoughAmmo()) {
+		playEmptyMagSound();
+		return;
+	}
 	//Parameters for line trace for objects
 	FVector lineTraceLocation = LineTraceComponent->GetComponentLocation();
     FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(LineTraceComponent->GetComponentRotation());
@@ -98,7 +101,7 @@ void ABaseWeapon::FireWeapon(){
 		UGameplayStatics::ApplyDamage(HitActor, weaponDamage, MyOwnerInstigator, this, DamageTypeClass);
 
 		
-		if (HitActor->ActorHasTag("enemy")) {
+		if (HitActor->ActorHasTag("Enemy")) {
 			
 			if (bloodToSpawn) {
 				FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
@@ -123,7 +126,10 @@ void ABaseWeapon::FireWeapon(){
 
 //For Weapons shoot projectle instead of line trace
 void ABaseWeapon::ShootProjectle() {
-	if (!hasEnoughAmmo()) return;
+	if (!hasEnoughAmmo()) {
+		playEmptyMagSound();
+		return;
+	}
 	
 	//UE_LOG(LogTemp, Display, TEXT("Shoot projectle"));
 	//SpawnActor
@@ -249,5 +255,12 @@ void ABaseWeapon::playWeaponHitSound()
 
 	if (weaponHitSound) {
 		UGameplayStatics::PlaySoundAtLocation(this, weaponHitSound, this->GetActorLocation());
+	}
+}
+
+void ABaseWeapon::playEmptyMagSound()
+{
+	if (emptyMagSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, emptyMagSound, this->GetActorLocation());
 	}
 }

@@ -7,6 +7,14 @@
 #include "UI/PlayerHUD.h"
 #include "PaperFlipbookComponent.h"
 #include "PaperFlipbook.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
+
+ABFG::ABFG()
+{
+	myAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+	myAudioComponent->SetupAttachment(RootComponent);
+}
 
 void ABFG::BeginPlay()
 {
@@ -23,11 +31,15 @@ void ABFG::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorldTimerManager().ClearTimer(BFGFlipbookHandle);
 	GetWorldTimerManager().ClearTimer(BFGTimerHandle);
 	GetWorldTimerManager().ClearTimer(BFGFireHandle);
+	GetWorldTimerManager().ClearTimer(BFGAudioHandle);
 }
 
 //Fire Weapon now means start Chargeing
 void ABFG::FireWeapon() {
-    if (playerCharacter->getCell() < 30) return;
+    if (playerCharacter->getCell() < 30) {
+		playEmptyMagSound();
+		return;
+	};
 
 	chargeStartTime = GetWorld()->GetTimeSeconds();
 
@@ -45,11 +57,20 @@ void ABFG::FireWeapon() {
 
 		chargeStartTime = GetWorld()->GetTimeSeconds();
 
-	   /* GetWorld()->GetTimerManager().SetTimer(BFGFireHandle, [&]()
-	    {
-	    ShootProjectle();
-        WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
-	    }, WeaponFlipBookComponent->GetFlipbookLength(), false);  */
+
+		myAudioComponent->SetSound(chargingSound);
+		myAudioComponent->Play();
+
+
+		if (fullychargedSound && myAudioComponent->Sound) {
+			GetWorld()->GetTimerManager().SetTimer(BFGAudioHandle, [&]()
+				{
+					myAudioComponent->SetSound(fullychargedSound);
+					myAudioComponent->Play();
+				}, myAudioComponent->Sound->GetDuration(), false);
+	
+		}
+	   
         
 
 		
@@ -93,7 +114,9 @@ void ABFG::ShootProjectle() {
 	
 	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
 	
-	
+	GetWorldTimerManager().ClearTimer(BFGAudioHandle);
+	myAudioComponent->Stop();
+	playWeaponSound();
 
     
 }
@@ -105,8 +128,16 @@ void ABFG::StopFire()
 	float chargedTime = GetWorld()->GetTimeSeconds() - chargeStartTime;
 
 	if (chargedTime < chargeTimeNeeded) {
-		WeaponFlipBookComponent->SetPlayRate(3);
+		WeaponFlipBookComponent->SetPlayRate(2);
 		WeaponFlipBookComponent->Reverse();
+
+
+		if (myAudioComponent && restSound) {
+			GetWorldTimerManager().ClearTimer(BFGAudioHandle);
+			myAudioComponent->SetSound(restSound);
+			myAudioComponent->Play();
+		}
+		
 		
 		GetWorld()->GetTimerManager().SetTimer(BFGFlipbookHandle, [&]()
 			{

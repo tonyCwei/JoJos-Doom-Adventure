@@ -8,7 +8,7 @@
 #include "Components/TimelineComponent.h"
 #include "Doom/DoomCharacter.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Sound/SoundCue.h"
 
 
 // Sets default values
@@ -104,7 +104,7 @@ void ABaseDoor::doorOpenTimelineFinished()
 void ABaseDoor::openDoor()
 {
 
-	if (!isLocked) {
+	if (isClosed && !isLocked) {
 		isClosed = false;
 
 		steamDoor->SetActive(true);
@@ -117,8 +117,7 @@ void ABaseDoor::openDoor()
 
 void ABaseDoor::unlockDoor()
 {
-
-	
+	//Gray Door
 	if (keyColor == "GrayKey") {
 		//Do Dead Door
 		//call player ui and update message
@@ -126,18 +125,29 @@ void ABaseDoor::unlockDoor()
 		return;
 	} 
 	
+	//Player No Key
 	ADoomCharacter* playerCharacterRef = Cast<ADoomCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
 	
 	if (!playerCharacterRef->ActorHasTag(keyColor)) {
 		//call player ui and update message
 		UE_LOG(LogTemp, Display, TEXT("You need to aquire %s !"), *keyColor.ToString());
+
+		if (lockedSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, lockedSound, this->GetActorLocation());
+		}
+
 		return;
 	}
 
+	//Unlcok
 	isLocked = false;
 
 	if (unlockedDoorUIMaterial) {
 		doorSmallUI->SetMaterial(0, unlockedDoorUIMaterial);
+	}
+
+	if (unlockSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, unlockSound, this->GetActorLocation());
 	}
 	
 }

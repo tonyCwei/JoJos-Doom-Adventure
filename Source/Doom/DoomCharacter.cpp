@@ -20,6 +20,7 @@
 #include "Doom/GameState/DoomGameStateBase.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Prop/BaseDoor.h"
+#include "Ability/Scanner.h"
 
 
 
@@ -257,7 +258,9 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		//Zoom
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Started, this, &ADoomCharacter::ZoomIn);
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Completed, this, &ADoomCharacter::ZoomOut);
-		
+
+		//Scan
+		EnhancedInputComponent->BindAction(ScanAction, ETriggerEvent::Started, this, &ADoomCharacter::Scan);
 	}
 	else
 	{
@@ -346,6 +349,7 @@ void ADoomCharacter::ClearAllTimerHandles()
 	GetWorldTimerManager().ClearTimer(dashTimerHandle);
 	GetWorldTimerManager().ClearTimer(perfectDodgeTimerHandle);
 	GetWorldTimerManager().ClearTimer(perfectDodgeEffectHandle);
+	GetWorldTimerManager().ClearTimer(scanTimerHandle);
 }
 
 
@@ -1003,6 +1007,28 @@ void ADoomCharacter::ZoomOutOverride()
 		isZooming = false;
 		zoomTimeline->Reverse();
 		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	}
+}
+
+void ADoomCharacter::Scan()
+{
+	if (canScan) {
+		canScan = false;
+
+		FVector spawnLocation = GetActorLocation();
+		FRotator spawnRotation = GetActorRotation();
+
+		if (ScannerClass) {
+			GetWorld()->SpawnActor<AScanner>(ScannerClass, spawnLocation, spawnRotation);
+		}
+
+		
+
+		GetWorld()->GetTimerManager().SetTimer(scanTimerHandle, [&]()
+			{
+				canScan = true;
+			}, scanCD, false);
+
 	}
 }
 

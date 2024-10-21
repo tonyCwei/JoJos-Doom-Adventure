@@ -150,6 +150,8 @@ private:
 
 	FTimerHandle perfectDodgeEffectHandle;
 
+	FTimerHandle scanTimerHandle;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void ClearAllTimerHandles();
@@ -296,7 +298,7 @@ private:
 	UInputAction* DashAction;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Stats", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dodge", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class ABulletTimeAura> myBulletTimeAura;
 
 	bool isDashing = false;
@@ -310,7 +312,7 @@ private:
 
 	
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Stats", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dodge", meta = (AllowPrivateAccess = "true"))
 	float perfectDodgeWindow = 0.5;
 
 public:	
@@ -557,6 +559,22 @@ protected:
 public:
 
 	bool getIsZooming() const { return isZooming; }
+
+//Scanner
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ScanAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scan", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf< class AScanner> ScannerClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scan", meta = (AllowPrivateAccess = "true"))
+	float scanCD = 5;
+
+	bool canScan = true;
+
+	void Scan();
 
 };
 

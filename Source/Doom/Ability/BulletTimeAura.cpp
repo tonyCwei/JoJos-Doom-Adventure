@@ -26,11 +26,18 @@ ABulletTimeAura::ABulletTimeAura()
 void ABulletTimeAura::BeginPlay()
 {
 	Super::BeginPlay();
-	UGameplayStatics::PlaySound2D(this, slowTimeStart);
+
+	if (slowTimeStart) {
+		UGameplayStatics::PlaySound2D(this, slowTimeStart);
+	}	
 	
 	GetWorld()->GetTimerManager().SetTimer(destroyHandle, [&]()
 		{
-			UGameplayStatics::PlaySound2D(this, slowTimeEnd);
+
+			if (slowTimeEnd) {
+				UGameplayStatics::PlaySound2D(this, slowTimeEnd);
+			}
+			
 			Destroy();
 		}, duration, false);
 

@@ -74,9 +74,11 @@ void ABaseWeapon::FireWeapon(){
 	FVector lineTraceLocation = LineTraceComponent->GetComponentLocation();
     FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(LineTraceComponent->GetComponentRotation());
 	FVector lineTraceEnd = lineTraceForward * lineTraceDistance + lineTraceLocation;
-	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = {UEngineTypes::ConvertToObjectType(ECC_WorldStatic), 
-														 UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
-														 UEngineTypes::ConvertToObjectType(ECC_Pawn)};
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = {	UEngineTypes::ConvertToObjectType(ECC_WorldStatic), 
+															UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
+															UEngineTypes::ConvertToObjectType(ECC_Pawn),
+															UEngineTypes::ConvertToObjectType(ECC_Destructible) 
+														};
 	
 	TArray<AActor*> ActorsToIgnore = {Cast<AActor>(this), UGameplayStatics::GetPlayerCharacter(this,0)};
 	FHitResult HitResult;													 

@@ -9,10 +9,14 @@
 #include <Kismet/KismetMathLibrary.h>
 #include "Doom/Projectile/BaseProjectile.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
+
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "BrainComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Perception/PawnSensingComponent.h"
 
 
 
@@ -28,6 +32,16 @@ ABaseEnemy::ABaseEnemy()
 	
 	ProjectileSpawn = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawn"));
 	ProjectileSpawn->SetupAttachment(RootComponent);
+
+	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
+
+	if (PawnSensingComponent)
+	{
+		PawnSensingComponent->SightRadius = 1500.0f;
+		PawnSensingComponent->HearingThreshold = 600.0f;
+		PawnSensingComponent->LOSHearingThreshold = 1200.0f;
+		PawnSensingComponent->bHearNoises = true;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -42,6 +56,18 @@ void ABaseEnemy::BeginPlay()
 	currentFlipbooks = directionalFlipbooks;
 
 	OnTakeAnyDamage.AddDynamic(this, &ABaseEnemy::DamageTaken);
+
+	//Bind AI
+	if (PawnSensingComponent) {
+		PawnSensingComponent->OnSeePawn.AddDynamic(this, &ABaseEnemy::OnPawnSeen);
+		PawnSensingComponent->OnHearNoise.AddDynamic(this, &ABaseEnemy::OnNoiseHeard);
+
+	}
+
+	myAIController = getAIController();
+	if (myAIController && myBehaviorTree) {
+		myAIController->RunBehaviorTree(myBehaviorTree);
+	}
 	
 }
 
@@ -51,6 +77,7 @@ void ABaseEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorldTimerManager().ClearTimer(attackingTimerHandle);
 	GetWorldTimerManager().ClearTimer(deathTimerHandle);
 	GetWorldTimerManager().ClearTimer(attackWindowTimerHandle);
+	GetWorldTimerManager().ClearTimer(resetCanSeePlayerTimerHandle);
 }
 
 // Called every frame
@@ -332,7 +359,7 @@ void ABaseEnemy::MeleeAttack()
 				ObjectTypes,
 				false,
 				ActorsToIgnore,
-				EDrawDebugTrace::Type::ForDuration,
+				EDrawDebugTrace::Type::None,
 				HitResult,
 				true);
 
@@ -421,4 +448,52 @@ void ABaseEnemy::HandleDeath() {
 		}, 3, false);
 
 	isDying = true;
+}
+
+void ABaseEnemy::OnPawnSeen(APawn* SeenPawn)
+{
+	ADoomCharacter* playerRef = Cast<ADoomCharacter>(SeenPawn);
+	if (playerRef) {
+		if (playerRef->getIsAlive()) {
+			setCanSeePlayer(true);
+			setBlackBoardCanSeePlayer(true);
+
+		}
+		else {
+			resetCanSeePlayer();
+			setBlackBoardCanSeePlayer(false);
+		}
+
+		//If can't sense player after 5s, go back to patrol, add clearTimer to make it a retriggerable delay
+		GetWorldTimerManager().ClearTimer(resetCanSeePlayerTimerHandle);
+		GetWorld()->GetTimerManager().SetTimer(resetCanSeePlayerTimerHandle, [&]() {
+			resetCanSeePlayer();
+			setBlackBoardCanSeePlayer(false);
+			}, 5, false);
+	}
+}
+
+void ABaseEnemy::setBlackBoardCanSeePlayer(bool value)
+{
+	if (myAIController) {
+		UBlackboardComponent* BlackboardComp = myAIController->GetBlackboardComponent();
+		if (BlackboardComp) {
+			BlackboardComp->SetValueAsBool(TEXT("CanSeePlayer"), value);
+		}
+	}
+}
+
+void ABaseEnemy::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume)
+{
+	if (!canSeePlayer && NoiseInstigator == UGameplayStatics::GetPlayerCharacter(this, 0)) {
+		/*AAIController* myAIEnemyController = getAIController();
+		
+		FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), Location);
+		this->SetActorRotation(FRotator(0, TargetRotation.Yaw, 0));*/
+		setCanSeePlayer(true);
+		setBlackBoardCanSeePlayer(true);
+
+	}
+
+	
 }

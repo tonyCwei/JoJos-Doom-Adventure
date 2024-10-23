@@ -15,12 +15,11 @@ class DOOM_API ASelfDestructEnemy : public ABaseEnemy
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	ASelfDestructEnemy();
+
 
 
 protected:
-	virtual void BeginPlay() override;
+
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
@@ -43,8 +42,6 @@ protected:
 
 	FTimerHandle blinkEffectTimerHandle;
 
-	FTimerHandle resetCanSeePlayerTimerHandle;
-
 	//Self Des
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float destructRadius = 450;
@@ -62,24 +59,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	class UPaperFlipbook* selfDesFlipbook;
-
-
-	//Pawn sensing and BT in C++
-	class AAIController* myAIController;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-	class UPawnSensingComponent* PawnSensingComponent;
-
-	UFUNCTION()
-	void OnPawnSeen(APawn* SeenPawn);
-
-	void setBlackBoardCanSeePlayer(bool value);
-
-	/*UFUNCTION()
-	void OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume)*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-	class UBehaviorTree* myBehaviorTree;
 
 public:
 	UFUNCTION(BlueprintCallable)

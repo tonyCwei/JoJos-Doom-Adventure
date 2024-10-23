@@ -197,4 +197,26 @@ protected:
 
 	bool isDying = false;
 
+
+
+//Pawn sensing and BT in C++
+protected:
+	FTimerHandle resetCanSeePlayerTimerHandle;
+
+	class AAIController* myAIController;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	class UPawnSensingComponent* PawnSensingComponent;
+
+	UFUNCTION()
+	void OnPawnSeen(APawn* SeenPawn);
+
+	UFUNCTION()
+	void OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume);
+
+	void setBlackBoardCanSeePlayer(bool value);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	class UBehaviorTree* myBehaviorTree;
+
 };

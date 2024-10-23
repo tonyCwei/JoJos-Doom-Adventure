@@ -17,7 +17,9 @@ void ARocketProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	FVector actorLocation = this->GetActorLocation();
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_WorldStatic),
 														 UEngineTypes::ConvertToObjectType(ECC_WorldDynamic),
-														 UEngineTypes::ConvertToObjectType(ECC_Pawn) };
+														 UEngineTypes::ConvertToObjectType(ECC_Pawn),
+														 UEngineTypes::ConvertToObjectType(ECC_Destructible) };
+
 	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
 
 	bool hasHit = UKismetSystemLibrary::SphereTraceMultiForObjects(

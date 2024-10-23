@@ -105,7 +105,7 @@ void AExplosiveBarrel::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 		ObjectTypes,
 		false,
 		ActorsToIgnore,
-		EDrawDebugTrace::Type::ForDuration,
+		EDrawDebugTrace::Type::None,
 		HitResults,
 		true
 	);

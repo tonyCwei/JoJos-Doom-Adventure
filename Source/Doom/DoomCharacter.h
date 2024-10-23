@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "DoomCharacter.generated.h"
 
+
 class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
@@ -576,5 +577,10 @@ protected:
 
 	void Scan();
 
+//Noise Emitter for AI
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UPawnNoiseEmitterComponent* myNoiseEmitter;
 };
 

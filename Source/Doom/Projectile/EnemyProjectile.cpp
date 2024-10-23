@@ -35,7 +35,7 @@ void AEnemyProjectile::BeginPlay()
 void AEnemyProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 
-	UE_LOG(LogTemp, Display, TEXT("Enemy On hit: %s"), *OtherActor->GetName());
+	//UE_LOG(LogTemp, Display, TEXT("Enemy On hit: %s"), *OtherActor->GetName());
 
 
 	//Apply Damage
@@ -43,11 +43,11 @@ void AEnemyProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, U
 	auto DamageTypeClass = UDamageType::StaticClass();
 
 	if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile")) {
-		if (OtherActor->ActorHasTag("enemy")) {
-			UGameplayStatics::ApplyDamage(OtherActor, 1, MyInstigator, this, DamageTypeClass);
+		if (OtherActor->ActorHasTag("Player")) {
+			UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
 		}
 		else {
-			UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
+			UGameplayStatics::ApplyDamage(OtherActor, 1, MyInstigator, this, DamageTypeClass);
 		}
 
 	}
@@ -85,7 +85,7 @@ void AEnemyProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	else {
 
 
-		UE_LOG(LogTemp, Display, TEXT("Enemy On BeginOverlap"));
+		//UE_LOG(LogTemp, Display, TEXT("Enemy On BeginOverlap"));
 
 
 		//Apply Damage

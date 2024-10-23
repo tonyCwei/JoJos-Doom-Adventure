@@ -21,6 +21,9 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Prop/BaseDoor.h"
 #include "Ability/Scanner.h"
+#include "Components/PawnNoiseEmitterComponent.h"
+
+
 
 
 
@@ -71,6 +74,10 @@ ADoomCharacter::ADoomCharacter()
 
 	//Create Zoom Timeline
 	zoomTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("ZoomTimeline"));
+
+	//Noise Emitter
+	myNoiseEmitter = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("NoiseEmitter"));
+	
 
 }
 
@@ -299,6 +306,9 @@ void ADoomCharacter::Shoot(const FInputActionValue& Value) {
 	if (!canMelee || IsSwapping) return;
 
 	mainWeapon->FireWeapon();
+	
+	myNoiseEmitter->MakeNoise(this, 1, GetActorLocation());
+
 	isShooting = true;
 	ShouldBob = false;
 	WeaponChildActorComponent->SetRelativeLocation(WeaponChildActorLocation);

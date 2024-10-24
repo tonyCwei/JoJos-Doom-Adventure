@@ -22,7 +22,7 @@
 #include "Prop/BaseDoor.h"
 #include "Ability/Scanner.h"
 #include "Components/PawnNoiseEmitterComponent.h"
-
+#include "Sound/SoundCue.h"
 
 
 
@@ -325,6 +325,15 @@ void ADoomCharacter::StopShoot(const FInputActionValue& Value) {
 	
 	mainWeapon->StopFire();
 	ShouldBob = true;
+}
+
+void ADoomCharacter::Jump()
+{
+	if (GetCharacterMovement()->IsMovingOnGround()) {
+		Super::Jump();
+		play2DSound(jumpSound);
+	}
+	
 }
 
 void ADoomCharacter::Melee(const FInputActionValue& Value) {
@@ -760,6 +769,9 @@ void ADoomCharacter::DamageTaken(AActor* DamagedActor, float Damage, const UDama
 			DamagedHUD->AddToViewport();
 		}
 	}
+
+	play2DSound(takeDamageSound);
+
 }
 
 void ADoomCharacter::HandleDeath()
@@ -775,6 +787,7 @@ void ADoomCharacter::HandleDeath()
 
 	deathTimeline->Play();
 
+	play2DSound(deathSound);
 
 	FTimerHandle cursorTimerHandle;
 
@@ -1041,6 +1054,15 @@ void ADoomCharacter::Scan()
 
 	}
 }
+
+void ADoomCharacter::play2DSound(USoundCue* soundCue)
+{
+	if (soundCue) {
+		UGameplayStatics::PlaySound2D(this, soundCue);
+	}
+}
+
+
 
 
 

@@ -8,6 +8,8 @@
 
 #include "BaseWeapon.generated.h"
 
+class USoundCue;
+
 UENUM(BlueprintType)
 enum Ammo {
 	Bullet UMETA(DisplayName = "Bullet"),
@@ -116,16 +118,16 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* weaponSound;
+	 USoundCue* weaponSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* weaponSwapSound;
+	 USoundCue* weaponSwapSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* weaponHitSound;
+	 USoundCue* weaponHitSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* emptyMagSound;
+	 USoundCue* emptyMagSound;
 
 public:
 

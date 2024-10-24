@@ -16,6 +16,8 @@ class UInputMappingContext;
 struct FInputActionValue;
 
 class UTimelineComponent;
+class USoundCue;
+
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -87,6 +89,7 @@ protected:
 
 	void StopShoot(const FInputActionValue& Value);
 
+	void Jump() override;
 
 protected:
 	// APawn interface
@@ -582,5 +585,19 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UPawnNoiseEmitterComponent* myNoiseEmitter;
+
+//Audio
+
+	UFUNCTION()
+	void play2DSound(USoundCue* soundCue);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* takeDamageSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* deathSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* jumpSound;
 };
 

@@ -37,6 +37,7 @@ void AExplosiveBarrel::BeginPlay()
 
 	playerCharacterRef = Cast<ADoomCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
 
+	boxCollision->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
 }
 
 void AExplosiveBarrel::EndPlay(const EEndPlayReason::Type EndPlayReason)

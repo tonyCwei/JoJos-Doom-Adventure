@@ -67,7 +67,7 @@ void ABFG::FireWeapon() {
 				{
 					myAudioComponent->SetSound(fullychargedSound);
 					myAudioComponent->Play();
-				}, myAudioComponent->Sound->GetDuration(), false);
+				}, chargeTimeNeeded, false);
 	
 		}
 	   

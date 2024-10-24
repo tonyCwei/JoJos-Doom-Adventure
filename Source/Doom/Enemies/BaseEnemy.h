@@ -219,4 +219,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 	class UBehaviorTree* myBehaviorTree;
 
+
+//CustomDepth pass for scanner
+public:
+	FTimerHandle customDepthHandle;
+
+	UFUNCTION(BlueprintCallable)
+	void activateCustomDepth();
+
 };

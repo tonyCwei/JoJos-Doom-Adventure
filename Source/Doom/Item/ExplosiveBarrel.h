@@ -58,6 +58,10 @@ protected:
 	UFUNCTION()
 	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser);
 
+public:
+	FTimerHandle customDepthHandle;
 
+	UFUNCTION(BlueprintCallable)
+	void activateCustomDepth();
 
 };

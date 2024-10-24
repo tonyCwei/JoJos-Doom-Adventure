@@ -5,6 +5,11 @@
 #include "PaperSpriteComponent.h"
 #include "Components/SphereComponent.h"
 #include "Doom/DoomCharacter.h"
+#include "Blueprint/UserWidget.h"
+#include "Sound/SoundCue.h"
+#include <Kismet/GameplayStatics.h>
+
+
 
 // Sets default values
 AItemPickup::AItemPickup()
@@ -28,6 +33,12 @@ void AItemPickup::BeginPlay()
 	sphereCollision->OnComponentBeginOverlap.AddDynamic(this, &AItemPickup::BeginOverlap);
 }
 
+void AItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorldTimerManager().ClearTimer(customDepthHandle);
+}
+
 // Called every frame
 void AItemPickup::Tick(float DeltaTime)
 {
@@ -47,6 +58,19 @@ void AItemPickup::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 
 	if (OtherActor->ActorHasTag("Player")) {
+		
+		if (pickupHUDClass) {
+			UUserWidget* pickupHUD = CreateWidget<UUserWidget>(this->GetWorld(), pickupHUDClass);
+			if (pickupHUD) {
+				pickupHUD->AddToViewport();
+			}
+		}
+
+		if (pickupSound) {
+			UGameplayStatics::PlaySound2D(this, pickupSound);
+		}
+
+
 		ADoomCharacter* playerCharacterRef = Cast<ADoomCharacter>(OtherActor);
 
 		if (playerCharacterRef) {
@@ -98,5 +122,14 @@ void AItemPickup::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 	
 	}
 
+}
+
+void AItemPickup::activateCustomDepth()
+{
+	itemSprite->SetRenderCustomDepth(true);
+
+	GetWorldTimerManager().SetTimer(customDepthHandle, [&]() {
+		itemSprite->SetRenderCustomDepth(false);
+		}, 5, false);
 }
 

@@ -31,6 +31,12 @@ void AWeaponPickup::BeginPlay()
 	sphereCollision->OnComponentBeginOverlap.AddDynamic(this, &AWeaponPickup::BeginOverlap);
 }
 
+void AWeaponPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorldTimerManager().ClearTimer(customDepthHandle);
+}
+
 // Called every frame
 void AWeaponPickup::Tick(float DeltaTime)
 {
@@ -58,5 +64,14 @@ void AWeaponPickup::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		}
 	}
 	
+}
+
+void AWeaponPickup::activateCustomDepth()
+{
+	WeaponSprite->SetRenderCustomDepth(true);
+
+	GetWorldTimerManager().SetTimer(customDepthHandle, [&]() {
+		WeaponSprite->SetRenderCustomDepth(false);
+		}, 5, false);
 }
 

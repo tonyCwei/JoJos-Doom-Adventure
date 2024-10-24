@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "BaseEnemy.h"
@@ -78,6 +78,7 @@ void ABaseEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorldTimerManager().ClearTimer(deathTimerHandle);
 	GetWorldTimerManager().ClearTimer(attackWindowTimerHandle);
 	GetWorldTimerManager().ClearTimer(resetCanSeePlayerTimerHandle);
+	GetWorldTimerManager().ClearTimer(customDepthHandle);
 }
 
 // Called every frame
@@ -483,6 +484,7 @@ void ABaseEnemy::setBlackBoardCanSeePlayer(bool value)
 	}
 }
 
+
 void ABaseEnemy::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume)
 {
 	if (!canSeePlayer && NoiseInstigator == UGameplayStatics::GetPlayerCharacter(this, 0)) {
@@ -497,3 +499,14 @@ void ABaseEnemy::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, f
 
 	
 }
+
+
+void ABaseEnemy::activateCustomDepth()
+{
+	EnemyFlipBookComponent->SetRenderCustomDepth(true);
+
+	GetWorldTimerManager().SetTimer(customDepthHandle, [&]() {
+		EnemyFlipBookComponent->SetRenderCustomDepth(false);
+		}, 5, false);
+}
+

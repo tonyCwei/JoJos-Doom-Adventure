@@ -43,6 +43,7 @@ void AExplosiveBarrel::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	GetWorldTimerManager().ClearTimer(destroyTimerHandle);
+	GetWorldTimerManager().ClearTimer(customDepthHandle);
 }
 
 // Called every frame
@@ -135,5 +136,15 @@ void AExplosiveBarrel::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 		Destroy();
 		}, myFlipBookComponent->GetFlipbookLength(), false);
 
+}
+
+void AExplosiveBarrel::activateCustomDepth()
+{
+	//UE_LOG(LogTemp, Display, TEXT("activateCustomDepth"));
+	myFlipBookComponent->SetRenderCustomDepth(true);
+
+	GetWorldTimerManager().SetTimer(customDepthHandle, [&]() {
+		myFlipBookComponent->SetRenderCustomDepth(false);
+		}, 5, false);
 }
 

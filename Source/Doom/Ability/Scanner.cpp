@@ -7,6 +7,10 @@
 #include "Kismet/GameplayStatics.h" 
 #include "Components/TimelineComponent.h"
 #include "Kismet/KismetMaterialLibrary.h"
+#include "Doom/Item/ExplosiveBarrel.h"
+#include "Doom/Item/ItemPickup.h"
+#include "Doom/WeaponPickup.h"
+#include "Doom/Enemies/BaseEnemy.h"
 
 // Sets default values
 AScanner::AScanner()
@@ -62,9 +66,58 @@ void AScanner::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AScanner::scanTimelineUpdate(float Value)
 {
+	//Update Scanner effect
 	if (MaterialParameterCollection)
 	{
 		UKismetMaterialLibrary::SetScalarParameterValue(this, MaterialParameterCollection, FName("Radius"), Value);
+	}
+
+	//Active customdepth for objects hit by scanner
+	TArray<FHitResult> HitResults;
+	FVector actorLocation = this->GetActorLocation();
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_WorldDynamic),
+															UEngineTypes::ConvertToObjectType(ECC_Pawn),
+															UEngineTypes::ConvertToObjectType(ECC_Destructible) };
+
+	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
+
+	float curRadius = Value * maxScanRadius;
+
+	bool hasHit = UKismetSystemLibrary::SphereTraceMultiForObjects(
+		this->GetWorld(),
+		actorLocation,
+		actorLocation,
+		curRadius,
+		ObjectTypes,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::Type::None,
+		HitResults,
+		true
+	);
+
+
+	if (hasHit) {
+		for (FHitResult hitResult : HitResults) {
+			AActor* HitActor = hitResult.GetActor();
+			if (HitActor->ActorHasTag("ExplosiveBarrel")) {
+				Cast<AExplosiveBarrel>(HitActor)->activateCustomDepth();
+			}
+			else if (HitActor->ActorHasTag("ItemPickup")) {
+				Cast<AItemPickup>(HitActor)->activateCustomDepth();
+			}
+			else if (HitActor->ActorHasTag("WeaponPickup")) {
+				Cast<AWeaponPickup>(HitActor)->activateCustomDepth();
+			}
+			else if (HitActor->ActorHasTag("Enemy")) {
+				Cast<ABaseEnemy>(HitActor)->activateCustomDepth();
+			}
+
+
+			
+
+		}
+
 	}
 }
 

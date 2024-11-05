@@ -13,6 +13,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Character.h"
 #include "Sound/SoundCue.h"
+#include "Enemies/BaseEnemy.h"
 
 // Sets default values
 ABaseWeapon::ABaseWeapon()
@@ -75,7 +76,7 @@ void ABaseWeapon::FireWeapon(){
     FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(LineTraceComponent->GetComponentRotation());
 	FVector lineTraceEnd = lineTraceForward * lineTraceDistance + lineTraceLocation;
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = {	UEngineTypes::ConvertToObjectType(ECC_WorldStatic), 
-															UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
+															//UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
 															UEngineTypes::ConvertToObjectType(ECC_Pawn),
 															UEngineTypes::ConvertToObjectType(ECC_Destructible) 
 														};
@@ -105,7 +106,9 @@ void ABaseWeapon::FireWeapon(){
 		
 		if (HitActor->ActorHasTag("Enemy")) {
 			
-			if (bloodToSpawn) {
+			ABaseEnemy* hitEnemy = Cast<ABaseEnemy>(HitActor);
+
+			if (hitEnemy && !hitEnemy->isInvin && bloodToSpawn) {
 				FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
 				GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
 			}

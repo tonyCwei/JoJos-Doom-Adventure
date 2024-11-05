@@ -67,13 +67,23 @@ protected:
 
 	FTimerHandle attackWindowTimerHandle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UCapsuleComponent* myCapsuleComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float normalSpeed = 600;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float alertSpeed = 1500;
 
+
+	
+
 public:
+
+	bool isInvin = false;
+
+	bool shouldUpdateDirectionalSprite = true;
+
 	UFUNCTION(BlueprintCallable)
 	bool getCanSeePlayer() { return canSeePlayer; }
 
@@ -99,7 +109,7 @@ protected:
 
 	void rotateToPlayer(float DeltaTime);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float rotationSpeed = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
@@ -133,13 +143,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<AttackingState> attackingstate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	bool isAttacking = false;
 	
 	//Ranged Attack
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class ABaseProjectile> ProjectileClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
@@ -157,13 +167,13 @@ public:
 
 // Melee Attack
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float meleeDamage = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float meleeAttackDodgeWindow = 0.5;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float meleeAttackRange = 150;
 
 	FAttackInfo curAttackInfo;
@@ -178,7 +188,7 @@ public:
 
 // Damage System
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float curHealth = 5;
 
 	UFUNCTION()
@@ -197,6 +207,8 @@ protected:
 
 	bool isDying = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float bodyDestroyTime = 3;
 
 
 //Pawn sensing and BT in C++
@@ -205,7 +217,7 @@ protected:
 
 	class AAIController* myAIController;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	class UPawnSensingComponent* PawnSensingComponent;
 
 	UFUNCTION()
@@ -216,7 +228,7 @@ protected:
 
 	void setBlackBoardCanSeePlayer(bool value);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	class UBehaviorTree* myBehaviorTree;
 
 

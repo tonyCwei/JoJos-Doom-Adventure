@@ -6,6 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "BaseDoor.generated.h"
 
+
+class USoundCue;
+
+
 UCLASS()
 class DOOM_API ABaseDoor : public AActor
 {
@@ -92,9 +96,15 @@ public:
 
 //Audio
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* lockedSound;
+	USoundCue* lockedSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	class USoundCue* unlockSound;
+	USoundCue* unlockSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* openSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* closeSound;
 
 };

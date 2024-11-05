@@ -10,6 +10,9 @@
  * 
  */
 class UTextBlock;
+class UImage;
+class UBorder;
+
 
 UENUM(BlueprintType)
 enum Face {
@@ -78,19 +81,19 @@ private:
 
 	//KeyCards
 	UPROPERTY(meta = (BindWidget))
-	class UImage* RedKey;
+	UImage* RedKey;
 
 	UPROPERTY(meta = (BindWidget))
-	class UImage* OrangeKey;
+	UImage* OrangeKey;
 
 	UPROPERTY(meta = (BindWidget))
-	class UImage* BlueKey;
+	UImage* BlueKey;
 
 	//Player Face
 
 
 	UPROPERTY(meta = (BindWidget))
-	class UImage* PlayerFace;
+	UImage* PlayerFace;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<Face> curFace;
@@ -139,4 +142,35 @@ public:
 
 	void setFaceBrush(int32 textureIndex);
 
+//crosshair
+protected:
+	UPROPERTY(meta = (BindWidget))
+	UBorder* TopCrosshair;
+
+	UPROPERTY(meta = (BindWidget))
+	UBorder* BottomCrosshair;
+
+	UPROPERTY(meta = (BindWidget))
+	UBorder* LeftCrosshair;
+
+	UPROPERTY(meta = (BindWidget))
+	UBorder* RightCrosshair;
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float crosshairSpread;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float crosshairThickness = 2.5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float crosshairLength = 6;
+
+	void handleCrosshair();
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void setCrosshairSpread(float crosshairSpread_) { crosshairSpread = crosshairSpread_; }
 };

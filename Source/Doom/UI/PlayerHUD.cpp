@@ -10,6 +10,8 @@
 #include "Components/Image.h"
 #include "Engine/Texture.h"
 #include "TimerManager.h"
+#include "Components/Border.h"
+#include "Components/CanvasPanelSlot.h"
 
 
 
@@ -31,6 +33,7 @@ void UPlayerHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
     Super::NativeTick(MyGeometry, InDeltaTime);
     updateStaminaBar();
+    handleCrosshair();
 
 }
 
@@ -262,6 +265,27 @@ void UPlayerHUD::setFaceBrush(int32 textureIndex)
 {
     curFaceTextureIndex = textureIndex;
     PlayerFace->SetBrushFromTexture(faceTextures[curFaceTextureIndex], true);
+}
+
+void UPlayerHUD::handleCrosshair()
+{
+    UCanvasPanelSlot* bottomCrossCanvasSlot = Cast<UCanvasPanelSlot>(BottomCrosshair->Slot);
+    bottomCrossCanvasSlot->SetSize(FVector2D(crosshairThickness, crosshairLength));
+    bottomCrossCanvasSlot->SetPosition(FVector2D(-crosshairThickness/2, crosshairSpread));
+
+    UCanvasPanelSlot* topCrossCanvasSlot = Cast<UCanvasPanelSlot>(TopCrosshair->Slot);
+    topCrossCanvasSlot->SetSize(FVector2D(crosshairThickness, crosshairLength));
+    topCrossCanvasSlot->SetPosition(FVector2D(-crosshairThickness / 2, -crosshairLength - crosshairSpread));
+
+    UCanvasPanelSlot* leftCrossCanvasSlot = Cast<UCanvasPanelSlot>(LeftCrosshair->Slot);
+    leftCrossCanvasSlot->SetSize(FVector2D(crosshairLength, crosshairThickness));
+    leftCrossCanvasSlot->SetPosition(FVector2D(- crosshairLength - crosshairSpread, - crosshairThickness / 2));
+
+    UCanvasPanelSlot* rightCrossCanvasSlot = Cast<UCanvasPanelSlot>(RightCrosshair->Slot);
+    rightCrossCanvasSlot->SetSize(FVector2D(crosshairLength, crosshairThickness));
+    rightCrossCanvasSlot->SetPosition(FVector2D(crosshairLength + crosshairSpread - crosshairLength, -crosshairThickness / 2));
+
+
 }
 
 

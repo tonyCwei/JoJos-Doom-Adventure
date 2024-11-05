@@ -218,6 +218,7 @@ void ADoomCharacter::Tick(float DeltaTime)
 	if (!isAlive) return;
 		
 	WeaponBob(DeltaTime);
+	updateCrosshair();
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -515,7 +516,7 @@ void ADoomCharacter::Dash(const FInputActionValue& Value)
 	GetWorld()->GetTimerManager().SetTimer(perfectDodgeTimerHandle, [&]()
 		{
 			isInvincible = false;
-		}, perfectDodgeWindow, false);
+		}, 0.1, false);
 
 	
 	GetWorld()->GetTimerManager().SetTimer(dashTimerHandle, [&]()
@@ -992,15 +993,29 @@ void ADoomCharacter::pickupKey(int32 colorIndex)
 
 bool ADoomCharacter::canZoom()
 {
-	if (mainWeapon->GetAmmoType() == MeleeWeapon || isSprinting) return false;
+	if (mainWeapon->GetAmmoType() == MeleeWeapon || mainWeapon->GetAmmoType() == Cell || isSprinting) return false;
 	return true;
 }
 
 void ADoomCharacter::zoomTimelineUpdate(float Value)
 {
 	//lerp FOV for camera
-	//float curFOV = FMath::Lerp(90, 60, Value);
+	/*float curFOV = FMath::Lerp(90, 60, Value);
+	FirstPersonCameraComponent->SetFieldOfView(curFOV);*/
+	
+	//Cam FOV
 	FirstPersonCameraComponent->SetFieldOfView(Value);
+
+
+	//Crosshair
+
+	float MappedValue = FMath::GetMappedRangeValueClamped(
+		FVector2D(90, 60),
+		FVector2D(30, 10),
+		Value
+	);
+
+	playerHUD->setCrosshairSpread(MappedValue);
 }
 
 void ADoomCharacter::ZoomIn(const FInputActionValue& Value)
@@ -1010,6 +1025,8 @@ void ADoomCharacter::ZoomIn(const FInputActionValue& Value)
 		isZooming = true;
 		zoomTimeline->Play();
 		GetCharacterMovement()->MaxWalkSpeed = zoomWalkSpeed;
+		play2DSound(zoomSound);
+		
 	}
 }
 
@@ -1062,7 +1079,20 @@ void ADoomCharacter::play2DSound(USoundCue* soundCue)
 	}
 }
 
+void ADoomCharacter::updateCrosshair()
+{
+	if (isZooming) return;
+	
+	float playerVelocity = GetVelocity().Length();
 
+	float MappedValue = FMath::GetMappedRangeValueClamped(
+		FVector2D(0, 1000),
+		FVector2D(30, 100),
+		playerVelocity
+	);
+
+	playerHUD->setCrosshairSpread(MappedValue);
+}
 
 
 

@@ -547,6 +547,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float zoomWalkSpeed = 300;
 
+
 	UFUNCTION()
 	void zoomTimelineUpdate(float Value);
 
@@ -599,5 +600,13 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	USoundCue* jumpSound;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* zoomSound;
+
+	//update crosshair
+protected:
+	void updateCrosshair();
 };
 

@@ -26,6 +26,7 @@ ABaseEnemy::ABaseEnemy()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	myCapsuleComponent = GetCapsuleComponent();
 
 	EnemyFlipBookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("EnemyFlipBook"));
 	EnemyFlipBookComponent->SetupAttachment(RootComponent);
@@ -95,7 +96,7 @@ void ABaseEnemy::Tick(float DeltaTime)
 	if (isDead) {
 		HandleDeath();
 	}
-	else {
+	else if (shouldUpdateDirectionalSprite) {
 		updateDirectionalSprite();
 	}
 	
@@ -247,7 +248,7 @@ void ABaseEnemy::rotateToPlayer(float DeltaTime)
 
 void ABaseEnemy::CheckEnemyState()
 {
-	if (GetVelocity().Size() > 0) {
+	if (GetVelocity().X != 0 || GetVelocity().Y != 0) {
 		if (isAttacking) {
 			switch (attackingstate) {
 				case PreMeleeAttacking:
@@ -395,8 +396,10 @@ void ABaseEnemy::MeleeAttack()
 
 void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)
 {
+	if (isInvin) return;
+
 	curHealth -= Damage;
-	//UE_LOG(LogTemp, Display, TEXT("Heath: %f"), curHealth);
+	UE_LOG(LogTemp, Display, TEXT("Boss Heath: %f"), curHealth);
 
 	if (curHealth <= 0) {
 		isDead = true;
@@ -446,7 +449,7 @@ void ABaseEnemy::HandleDeath() {
 	GetWorld()->GetTimerManager().SetTimer(deathTimerHandle, [&]()
 		{
 			Destroy();
-		}, 3, false);
+		}, bodyDestroyTime, false);
 
 	isDying = true;
 }

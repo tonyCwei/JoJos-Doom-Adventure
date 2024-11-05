@@ -95,6 +95,9 @@ void ABaseDoor::doorOpenTimelineFinished()
 		GetWorldTimerManager().SetTimer
 		(closeTimerHanlde, [&]() {
 			doorOpenTimeline->Reverse();
+			if (closeSound) {
+				UGameplayStatics::PlaySoundAtLocation(this, closeSound, this->GetActorLocation());
+			}
 			isClosed = true;
 		}, 
 		1, false);
@@ -111,6 +114,10 @@ void ABaseDoor::openDoor()
 		steamDoor2->SetActive(true);
 
 		doorOpenTimeline->Play();
+
+		if (openSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, openSound, this->GetActorLocation());
+		}
 	}
 	
 }

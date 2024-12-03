@@ -12,7 +12,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Curves/CurveFloat.h"
 #include "Components/TimelineComponent.h"
-
+#include "Doom/Enemies/SelfDestructEnemy.h"
 
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -35,6 +35,23 @@ AHarubus::AHarubus()
 	onetwentyTimeline = CreateDefaultSubobject<UTimelineComponent> (TEXT("OnetwentyTimeline"));
 
 	dropAttackTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("DropAttackTimeline"));
+
+	//Summon Attack
+	SummonSpawn0 = CreateDefaultSubobject<USceneComponent>(TEXT("SummonSpawn0"));
+	SummonSpawn0->SetupAttachment(RootComponent);
+	
+
+	SummonSpawn1 = CreateDefaultSubobject<USceneComponent>(TEXT("SummonSpawn1"));
+	SummonSpawn1->SetupAttachment(RootComponent);
+	
+
+	SummonSpawn2 = CreateDefaultSubobject<USceneComponent>(TEXT("SummonSpawn2"));
+	SummonSpawn2->SetupAttachment(RootComponent);
+	
+
+	SummonSpawn3 = CreateDefaultSubobject<USceneComponent>(TEXT("SummonSpawn3"));
+	SummonSpawn3->SetupAttachment(RootComponent);
+	
 
 }
 
@@ -81,6 +98,12 @@ void AHarubus::BeginPlay()
 
 	}
 
+	//Summon Attack
+	summonSpawns.Add(SummonSpawn0);
+	summonSpawns.Add(SummonSpawn1);
+	summonSpawns.Add(SummonSpawn2);
+	summonSpawns.Add(SummonSpawn3);
+
 
 }
 
@@ -88,11 +111,16 @@ void AHarubus::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	GetWorldTimerManager().ClearTimer(onetwentyAttackTimer);
+	GetWorldTimerManager().ClearTimer(spawnTimerHandle);
 }
 
 void AHarubus::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (shouldFacePlayer) {
+		facePlayerYaw();
+	}
 
 }
 
@@ -375,6 +403,76 @@ void AHarubus::dropAttack()
 {
 	facePlayerYaw();
 	startPreDropAttack();
+
+}
+
+
+
+
+void AHarubus::spawnSelfDes()
+{
+
+	if (spawnCount < 4) {
+		USceneComponent* summonSpawn = summonSpawns[spawnCount];
+		FVector spawnLocation = summonSpawn->GetComponentLocation();
+		FRotator spawnRotation = summonSpawn->GetComponentRotation();
+
+		
+		ASelfDestructEnemy* selfDesEnemy = GetWorld()->SpawnActor<ASelfDestructEnemy>(SelfDesEnemyClass, spawnLocation, spawnRotation);
+		selfDesEnemy->setCanSeePlayer(true);
+		selfDesEnemy->setBlackBoardCanSeePlayer(true);
+
+
+		spawnCount++;
+	}
+	else {
+		GetWorldTimerManager().ClearTimer(spawnTimerHandle);
+		shouldFacePlayer = false;
+	}
+
+
+
+
+}
+
+void AHarubus::startSummonAttack()
+{
+	if (SelfDesEnemyFlameClass) {
+		for (USceneComponent* summonSpawn : summonSpawns) {
+			FVector spawnLocation = summonSpawn->GetComponentLocation();
+			FRotator spawnRotation = summonSpawn->GetComponentRotation();
+			GetWorld()->SpawnActor<AActor>(SelfDesEnemyFlameClass, spawnLocation, spawnRotation);
+		}
+	}
+
+
+
+	if (SelfDesEnemyClass) {
+		spawnCount = 0;
+		GetWorldTimerManager().SetTimer(spawnTimerHandle, this, &AHarubus::spawnSelfDes, SpawnInterval, true);
+
+	}
+}
+
+void AHarubus::summonAttack()
+{
+	shouldFacePlayer = true;
+
+	if (summonAttackEffect) {
+		FVector effectLocation = GetActorLocation() + FVector(0, 0, -240);
+
+		GetWorld()->SpawnActor<AActor>(summonAttackEffect, effectLocation, FRotator(0, 0, 0));
+	}
+	
+
+	FTimerHandle startAttackTimer;
+
+	GetWorldTimerManager().SetTimer(startAttackTimer, [&]() {
+		startSummonAttack();
+		}, 2.5, false);
+
+
+	
 
 }
 

@@ -42,6 +42,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	class UPaperFlipbookComponent* AnimationFlipBookComponent;
 
+	bool shouldFacePlayer = false;
+
 
 //Utilities
 protected:
@@ -145,4 +147,54 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void dropAttack();
+
+
+// Summon Attack
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class ASelfDestructEnemy> SelfDesEnemyClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AActor> SelfDesEnemyFlameClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AActor> summonAttackEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	float SpawnInterval = 0.25;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* SummonSpawn0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* SummonSpawn1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* SummonSpawn2;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* SummonSpawn3;
+
+	TArray<USceneComponent*> summonSpawns;
+
+	FTimerHandle spawnTimerHandle;
+
+	int32 spawnCount = 0;
+
+	UFUNCTION()
+	void spawnSelfDes();
+
+
+	
+public:
+
+
+
+	UFUNCTION(BlueprintCallable)
+	void summonAttack();
+
+	UFUNCTION()
+	void startSummonAttack();
+
 };

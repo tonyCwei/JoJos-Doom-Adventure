@@ -226,10 +226,14 @@ protected:
 	UFUNCTION()
 	void OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume);
 
-	void setBlackBoardCanSeePlayer(bool value);
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	class UBehaviorTree* myBehaviorTree;
+
+public:
+
+	void setBlackBoardCanSeePlayer(bool value);
 
 
 //CustomDepth pass for scanner

@@ -13,6 +13,9 @@
 #include "Curves/CurveFloat.h"
 #include "Components/TimelineComponent.h"
 #include "Doom/Enemies/SelfDestructEnemy.h"
+#include "LaserTower.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -52,7 +55,16 @@ AHarubus::AHarubus()
 	SummonSpawn3 = CreateDefaultSubobject<USceneComponent>(TEXT("SummonSpawn3"));
 	SummonSpawn3->SetupAttachment(RootComponent);
 	
+	//Laser Attack
 
+	laserSpwan = CreateDefaultSubobject<USceneComponent>(TEXT("LaserSpwan"));
+	laserSpwan->SetupAttachment(RootComponent);
+
+	preLaserEffectSpwan = CreateDefaultSubobject<USceneComponent>(TEXT("PreLaserEffectSpwan"));
+	preLaserEffectSpwan->SetupAttachment(laserSpwan);
+
+	laserVFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LaserVFX"));
+	laserVFX->SetupAttachment(laserSpwan);
 }
 
 void AHarubus::BeginPlay()
@@ -105,6 +117,13 @@ void AHarubus::BeginPlay()
 	summonSpawns.Add(SummonSpawn3);
 
 
+	//Laser Attack
+	if (laserTowerClass) {
+		laserTowerRef = GetWorld()->SpawnActor<ALaserTower>(laserTowerClass, laserTowerSpwanLocation, FRotator(0,0,0));
+	}
+
+	
+
 }
 
 void AHarubus::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -121,6 +140,11 @@ void AHarubus::Tick(float DeltaTime)
 	if (shouldFacePlayer) {
 		facePlayerYaw();
 	}
+
+	if (isLaserAttacking) {
+		laserAttackTick();
+	}
+
 
 }
 
@@ -363,7 +387,7 @@ void AHarubus::dropAttackSphereTrace()
 		ObjectTypes,
 		false,
 		ActorsToIgnore,
-		EDrawDebugTrace::Type::ForDuration,
+		EDrawDebugTrace::Type::None,
 		HitResults,
 		true
 	);
@@ -454,8 +478,11 @@ void AHarubus::startSummonAttack()
 	}
 }
 
+
+
 void AHarubus::summonAttack()
 {
+	facePlayerYaw();
 	shouldFacePlayer = true;
 
 	if (summonAttackEffect) {
@@ -477,5 +504,107 @@ void AHarubus::summonAttack()
 }
 
 
-//Drop Attack finish
-// IsInvin = false, shoudl update driectional sprite = true, enable gravity,
+
+
+void AHarubus::laserAttack()
+{
+
+	facePlayerYaw();
+	shouldFacePlayer = true;
+	
+
+	//Play Pre FX
+	if (preLaserAttackEffect) {
+		GetWorld()->SpawnActor<AActor>(preLaserAttackEffect, preLaserEffectSpwan->GetComponentLocation(), FRotator(0, 0, 0));
+	}
+
+
+	//Activate Tower
+	if (laserTowerRef) {
+		laserTowerRef->activateTower();
+	}
+	
+
+	FTimerHandle startAttackTimer;
+
+	GetWorldTimerManager().SetTimer(startAttackTimer, [&]() {
+		//Start Self Laser
+		laserVFX->SetVisibility(true);
+		isLaserAttacking = true;
+		shouldUpdateDirectionalSprite = false;
+		if (laserAttackFlipbook) {
+			EnemyFlipBookComponent->SetFlipbook(laserAttackFlipbook);
+		
+		}
+	}, 3, false);
+	
+	
+
+
+}
+
+void AHarubus::endLaserAttack()
+{
+	if (laserTowerRef) {
+		laserTowerRef->deactivateTower();
+	}
+
+	//Start Self Laser
+	laserVFX->SetVisibility(false);
+	isLaserAttacking = false;
+	shouldFacePlayer = false;
+	shouldUpdateDirectionalSprite = true;
+}
+
+void AHarubus::laserAttackTick()
+{
+
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_WorldStatic),
+		UEngineTypes::ConvertToObjectType(ECC_WorldDynamic),
+		UEngineTypes::ConvertToObjectType(ECC_Pawn),
+		UEngineTypes::ConvertToObjectType(ECC_Destructible)
+	};
+
+	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
+
+	FVector laserStart = laserSpwan->GetComponentLocation();
+	FVector laserEnd = playerCharacter->GetActorLocation();
+
+
+	FHitResult HitResult;
+
+	bool hasHit = UKismetSystemLibrary::LineTraceSingleForObjects(this->GetWorld(),
+		laserStart,
+		laserEnd,
+		ObjectTypes,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::Type::None,
+		HitResult,
+		true);
+
+	if (hasHit) {
+		laserVFX->SetVectorParameter("Beam End", HitResult.Location);
+
+		AActor* HitActor = HitResult.GetActor();
+
+		if (HitActor->ActorHasTag("Player") && canLaserHurt) {
+			UGameplayStatics::ApplyDamage(HitActor, laserDamage, GetInstigatorController(), this, UDamageType::StaticClass());
+			laserHasHurt();
+		}
+
+	}
+}
+
+void AHarubus::laserHasHurt()
+{
+	GetWorldTimerManager().ClearTimer(laserHurtTimerHandle);
+	canLaserHurt = false;
+
+	GetWorld()->GetTimerManager().SetTimer(laserHurtTimerHandle, [&]()
+		{
+			canLaserHurt = true;
+		}, laserHurtInterval, false);
+}
+
+

@@ -91,7 +91,7 @@ void ABaseWeapon::FireWeapon(){
 													ObjectTypes, 
 													false, 
 													ActorsToIgnore,
-													EDrawDebugTrace::Type::ForDuration, 
+													EDrawDebugTrace::Type::None, 
 													HitResult, 
 													true);
 	

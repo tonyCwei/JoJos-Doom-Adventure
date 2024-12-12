@@ -151,16 +151,16 @@ public:
 
 // Summon Attack
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class ASelfDestructEnemy> SelfDesEnemyClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class AActor> SelfDesEnemyFlameClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class AActor> summonAttackEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttackEdits", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SummonAttack", meta = (AllowPrivateAccess = "true"))
 	float SpawnInterval = 0.25;
 
 
@@ -197,4 +197,57 @@ public:
 	UFUNCTION()
 	void startSummonAttack();
 
+
+//Laser Attack
+protected:
+	//Self Laser
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* laserSpwan;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* preLaserEffectSpwan;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	class UNiagaraComponent* laserVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AActor> preLaserAttackEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	UPaperFlipbook* laserAttackFlipbook;
+
+	bool isLaserAttacking = false;
+
+	void laserAttackTick();
+	
+	bool canLaserHurt = true;
+
+	void laserHasHurt();
+
+	FTimerHandle laserHurtTimerHandle;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	float laserHurtInterval = 1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	float laserDamage = 1;
+
+
+	//Laser Tower
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class ALaserTower> laserTowerClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	FVector laserTowerSpwanLocation;
+
+	class ALaserTower* laserTowerRef;
+
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void laserAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void endLaserAttack();
 };

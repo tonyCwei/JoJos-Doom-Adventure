@@ -30,7 +30,7 @@ void ARocketProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		ObjectTypes,
 		false,
 		ActorsToIgnore,
-		EDrawDebugTrace::Type::ForDuration,
+		EDrawDebugTrace::Type::None,
 		HitResults,
 		true
 	);

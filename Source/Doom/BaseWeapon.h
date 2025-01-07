@@ -84,6 +84,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> bloodToSpawn;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	class UParticleSystem* hitVFX;
+
+
+
 public:
 
 	UFUNCTION(BlueprintCallable)

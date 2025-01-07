@@ -33,7 +33,7 @@ protected:
 	bool isAdded = false;
 
 
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
+	virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
 
 	
 	void BeginOverlap(UPrimitiveComponent* OverlappedComponent,

@@ -14,6 +14,8 @@
 #include "GameFramework/Character.h"
 #include "Sound/SoundCue.h"
 #include "Enemies/BaseEnemy.h"
+#include "Particles/ParticleSystem.h"
+#include "Math/RotationMatrix.h"
 
 // Sets default values
 ABaseWeapon::ABaseWeapon()
@@ -91,7 +93,7 @@ void ABaseWeapon::FireWeapon(){
 													ObjectTypes, 
 													false, 
 													ActorsToIgnore,
-													EDrawDebugTrace::Type::None, 
+													EDrawDebugTrace::Type::ForDuration, 
 													HitResult, 
 													true);
 	
@@ -112,8 +114,19 @@ void ABaseWeapon::FireWeapon(){
 				FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
 				GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
 			}
-
 			playWeaponHitSound();
+		} 
+		else if (ammoType == Bullet || ammoType == Shell) {
+			if (hitVFX) {
+				
+				FRotator spwanRotation = UKismetMathLibrary::MakeRotFromZ(HitResult.Normal);
+
+
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), hitVFX, HitResult.Location, spwanRotation);
+			}
+		
+		
+		
 		}
 
 

@@ -55,6 +55,8 @@ void AEnemyProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, U
 
 	sphereCollisionDamage->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	boxCollisionDodge->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	
 	//Set flipbook and destroy, may need set scale
 	projectileFlipbookComponent->SetWorldScale3D(destroyScale);
 	projectileFlipbookComponent->SetFlipbook(destroyFlipbook);

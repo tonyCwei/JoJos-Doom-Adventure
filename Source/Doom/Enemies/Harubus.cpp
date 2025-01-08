@@ -203,7 +203,7 @@ void AHarubus::ShootProjectle()
 
 void AHarubus::onetwentyAttack()
 {
-
+	facePlayerYaw();
 	isAttacking = true;
 	attackingstate = RangedAttacking;
 
@@ -259,7 +259,7 @@ void AHarubus::startPreDropAttack()
 		AnimationFlipBookComponent->SetRelativeLocation(FVector(0,0,40));
 		AnimationFlipBookComponent->SetRelativeScale3D(FVector(9, 9, 9));
 
-		AnimationFlipBookComponent->Play();
+		AnimationFlipBookComponent->PlayFromStart();
 	}
 
 	//Disappear after flame
@@ -483,7 +483,7 @@ void AHarubus::startSummonAttack()
 void AHarubus::summonAttack()
 {
 	facePlayerYaw();
-	shouldFacePlayer = true;
+	//shouldFacePlayer = true;
 
 	if (summonAttackEffect) {
 		FVector effectLocation = GetActorLocation() + FVector(0, 0, -240);
@@ -556,6 +556,8 @@ void AHarubus::endLaserAttack()
 	shouldUpdateDirectionalSprite = true;
 }
 
+
+
 void AHarubus::laserAttackTick()
 {
 
@@ -608,3 +610,27 @@ void AHarubus::laserHasHurt()
 }
 
 
+void AHarubus::risingSunAttack()
+{
+	facePlayerYaw();
+
+	risingSunSpawnLocation = GetActorLocation() + GetActorForwardVector() * 100 - FVector(0, 0, 400);
+
+
+	if (risingProjectileClass) {
+		GetWorld()->SpawnActor<AActor>(risingProjectileClass, risingSunSpawnLocation, FRotator(0, 180, 0));
+
+		FTimerHandle leftrightTimerHandle;
+
+		GetWorldTimerManager().SetTimer(leftrightTimerHandle, [&]() {
+			GetWorld()->SpawnActor<AActor>(risingProjectileClass, risingSunSpawnLocation - GetActorRightVector() * 600, FRotator(0, 180, 0));
+			GetWorld()->SpawnActor<AActor>(risingProjectileClass, risingSunSpawnLocation + GetActorRightVector() * 600, FRotator(0, 180, 0));
+
+			}
+		, 0.3, false);
+
+
+	}
+
+
+}

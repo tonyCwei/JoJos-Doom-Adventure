@@ -150,10 +150,8 @@ void ARisingProjectile::riseTimelineFinished()
 
 	GetWorld()->GetTimerManager().SetTimer(activateTimerHandle, [&]()
 		{
-			UE_LOG(LogTemp, Display, TEXT("activateTimerHandle"));
-
-			projectileMovement->InitialSpeed = 4000;
-			projectileMovement->MaxSpeed = 4000;
+			projectileMovement->InitialSpeed = shootSpeed;
+			projectileMovement->MaxSpeed = shootSpeed;
 
 			projectileMovement->Velocity = GetActorForwardVector() * projectileMovement->InitialSpeed;
 			projectileMovement->Activate();

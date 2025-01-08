@@ -250,4 +250,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void endLaserAttack();
+
+
+//Rising Sun Attack
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RisingSunAttack", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AActor> risingProjectileClass;
+
+
+	FVector risingSunSpawnLocation;
+public:
+	UFUNCTION(BlueprintCallable)
+	void risingSunAttack();
+
 };

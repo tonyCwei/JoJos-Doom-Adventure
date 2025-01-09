@@ -155,7 +155,7 @@ void ARisingProjectile::riseTimelineFinished()
 
 			projectileMovement->Velocity = GetActorForwardVector() * projectileMovement->InitialSpeed;
 			projectileMovement->Activate();
-		}, 2, false);
+		}, 3, false);
 
 	
 	

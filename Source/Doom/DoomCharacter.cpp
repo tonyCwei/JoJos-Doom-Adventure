@@ -809,7 +809,7 @@ void ADoomCharacter::HandleDeath()
 			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 			PlayerController->SetInputMode(InputMode);
 
-		}, 3, false);
+		}, 4, false);
 
 	
 

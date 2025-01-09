@@ -16,6 +16,7 @@
 #include "LaserTower.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Doom/UI/BossHUD.h"
 
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -70,6 +71,10 @@ AHarubus::AHarubus()
 void AHarubus::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//Boss HUD
+	
+	addBossHUD();
 
 
 	//120 Attack Timeline Binding
@@ -137,15 +142,51 @@ void AHarubus::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (shouldFacePlayer) {
+	if (!isDead && shouldFacePlayer) {
 		facePlayerYaw();
 	}
 
-	if (isLaserAttacking) {
+	if (!isDead && isLaserAttacking) {
 		laserAttackTick();
 	}
 
 
+}
+
+void AHarubus::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)
+{
+	Super::DamageTaken(DamagedActor, Damage, DamageType, DamageInstigator, DamageCauser);
+	updateHealthBar();
+}
+
+void AHarubus::HandleDeath()
+{
+	Super::HandleDeath();
+	if (myBossHUD) {
+		myBossHUD->RemoveFromViewport();
+	}
+}
+
+void AHarubus::addBossHUD()
+{
+	if (bossHUDClass) {
+		myBossHUD = CreateWidget<UBossHUD>(this->GetWorld(), bossHUDClass);
+	}
+	
+	
+	if (myBossHUD) {
+		myBossHUD->AddToViewport();	
+	}
+
+	updateHealthBar();
+}
+
+void AHarubus::updateHealthBar()
+{
+	float curPercent = curHealth / maxHealth;
+	if (myBossHUD) {
+		myBossHUD->setBossHealthBarPercent(curPercent);
+	}
 }
 
 void AHarubus::facePlayerYaw()
@@ -215,13 +256,15 @@ void AHarubus::onetwentyAttack()
 
 	FRotator currRotation = GetActorRotation();
 
+	double lookatRotationPitch = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), playerCharacter->GetActorLocation()).Pitch;
+
 	if (FMath::RandRange(0, 1) == 0) {
-		onetwentyStart = FRotator(currRotation.Pitch, currRotation.Yaw - 60, currRotation.Roll);
-		onetwentyEnd = FRotator(currRotation.Pitch, currRotation.Yaw + 60, currRotation.Roll);
+		onetwentyStart = FRotator(lookatRotationPitch, currRotation.Yaw - 60, currRotation.Roll);
+		onetwentyEnd = FRotator(lookatRotationPitch, currRotation.Yaw + 60, currRotation.Roll);
 	}
 	else {
-		onetwentyStart = FRotator(currRotation.Pitch, currRotation.Yaw + 60, currRotation.Roll);
-		onetwentyEnd = FRotator(currRotation.Pitch, currRotation.Yaw - 60, currRotation.Roll);
+		onetwentyStart = FRotator(lookatRotationPitch, currRotation.Yaw + 60, currRotation.Roll);
+		onetwentyEnd = FRotator(lookatRotationPitch, currRotation.Yaw - 60, currRotation.Roll);
 	}
 
 	onetwentyTimeline->PlayFromStart();
@@ -241,6 +284,7 @@ void AHarubus::onetwentyTimelineFinished()
 {
 	GetWorldTimerManager().ClearTimer(onetwentyAttackTimer);
 	isAttacking = false;
+	this->SetActorRotation(FRotator(0, GetActorRotation().Yaw, GetActorRotation().Roll));
 }
 
 

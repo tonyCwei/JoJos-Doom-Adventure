@@ -45,6 +45,25 @@ protected:
 	bool shouldFacePlayer = false;
 
 
+	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser) override;
+
+	
+	void HandleDeath() override;
+
+//BossHUD
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UBossHUD> bossHUDClass;
+
+	class UBossHUD* myBossHUD;
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void addBossHUD();
+
+	void updateHealthBar();
+
 //Utilities
 protected:
 

@@ -46,9 +46,9 @@ void AEnemyProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, U
 		if (OtherActor->ActorHasTag("Player")) {
 			UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
 		}
-		else {
+		/*else {
 			UGameplayStatics::ApplyDamage(OtherActor, 1, MyInstigator, this, DamageTypeClass);
-		}
+		}*/
 
 	}
 
@@ -98,9 +98,9 @@ void AEnemyProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 			if (OtherActor->ActorHasTag("Player")) {
 				UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
 			}
-			else {
+			/*else {
 				UGameplayStatics::ApplyDamage(OtherActor, 1, MyInstigator, this, DamageTypeClass);
-			}
+			}*/
 			
 		}
 

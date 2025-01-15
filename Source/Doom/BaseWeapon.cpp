@@ -17,6 +17,7 @@
 #include "Particles/ParticleSystem.h"
 #include "Math/RotationMatrix.h"
 
+
 // Sets default values
 ABaseWeapon::ABaseWeapon()
 {
@@ -112,7 +113,9 @@ void ABaseWeapon::FireWeapon(){
 
 			if (hitEnemy && !hitEnemy->isInvin && bloodToSpawn) {
 				FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
-				GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
+				AActor* blood = GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
+				blood->AttachToActor(hitEnemy, FAttachmentTransformRules(EAttachmentRule::KeepWorld, true));
+
 			}
 			playWeaponHitSound();
 		} 

@@ -23,7 +23,8 @@
 #include "Ability/Scanner.h"
 #include "Components/PawnNoiseEmitterComponent.h"
 #include "Sound/SoundCue.h"
-
+#include "Prop/Interactable.h"
+#include "Components/SpotLightComponent.h" 
 
 
 
@@ -36,6 +37,8 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 ADoomCharacter::ADoomCharacter()
 {
+
+
 
 
 	
@@ -52,6 +55,14 @@ ADoomCharacter::ADoomCharacter()
 	//Create Weapon Child Actor
 	WeaponChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponChildActor"));
 	WeaponChildActorComponent->SetupAttachment(FirstPersonCameraComponent);
+
+
+	//FlashLights
+	outerFlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("OuterFlashLight"));
+	outerFlashLight->SetupAttachment(FirstPersonCameraComponent);
+
+	innerFlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("InnerFlashLight"));
+	innerFlashLight->SetupAttachment(FirstPersonCameraComponent);
 
 	//Create Weapon Bob Timeline
 	WeaponBobTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("WeaponBobTimeline"));
@@ -269,6 +280,9 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		//Scan
 		EnhancedInputComponent->BindAction(ScanAction, ETriggerEvent::Started, this, &ADoomCharacter::Scan);
+
+		//ToggleFlash
+		EnhancedInputComponent->BindAction(ToggleFlashAction, ETriggerEvent::Started, this, &ADoomCharacter::ToggleFlash);
 	}
 	else
 	{
@@ -335,6 +349,12 @@ void ADoomCharacter::Jump()
 		play2DSound(jumpSound);
 	}
 	
+}
+
+void ADoomCharacter::ToggleFlash(const FInputActionValue& Value)
+{
+	outerFlashLight->SetVisibility(!outerFlashLight->IsVisible());
+	innerFlashLight->SetVisibility(!innerFlashLight->IsVisible());
 }
 
 void ADoomCharacter::Melee(const FInputActionValue& Value) {
@@ -944,7 +964,12 @@ void ADoomCharacter::Interact(const FInputActionValue& Value)
 		if (HitActor->ActorHasTag("Door")) {
 			InteractDoor(HitActor);
 		}
-
+		else if (HitActor->ActorHasTag("Interactable")) {
+			UPrimitiveComponent* HitComponent = HitResult.GetComponent();
+			AInteractable* interactedObject = Cast<AInteractable>(HitActor);
+				if (interactedObject) interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
+			
+		}
 	}
 }
 

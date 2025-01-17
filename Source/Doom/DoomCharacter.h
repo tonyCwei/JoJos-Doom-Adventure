@@ -14,6 +14,7 @@ class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
+class USpotLightComponent;
 
 class UTimelineComponent;
 class USoundCue;
@@ -57,9 +58,13 @@ class ADoomCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MeleeAction;
 
-	/** Melee Input Action */
+	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
+
+	/** ToggleFlash Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ToggleFlashAction;
 	
 public:
 	ADoomCharacter();
@@ -91,6 +96,8 @@ protected:
 
 	void Jump() override;
 
+	void ToggleFlash(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -109,6 +116,14 @@ protected:
 
 
 private:
+	//FlashLights
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	USpotLightComponent* outerFlashLight;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	USpotLightComponent* innerFlashLight;
+
+
 	//Weapon
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	class UChildActorComponent* WeaponChildActorComponent;	

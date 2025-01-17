@@ -31,6 +31,7 @@ void AInteractable::BeginPlay()
 //
 //}
 
+
 void AInteractable::interact(FString interactedComponentName, AActor* interactingActor)
 {
 	if (interactedComponentName == interactableMesh->GetName()) {

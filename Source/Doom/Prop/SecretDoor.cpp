@@ -95,7 +95,7 @@ void ASecretDoor::interact(FString interactedComponentName, AActor* interactingA
 {
 	Super::interact(interactedComponentName, interactingActor);
 	
-	if (hasNeededKeys(interactingActor)) {
+	if (interactedComponentName == interactableMesh->GetName() && hasNeededKeys(interactingActor)) {
 		if (shouldTranslate)  translateTimeline->Play();
 		if (shouldRotate)  rotationTimeline->Play();
 	}

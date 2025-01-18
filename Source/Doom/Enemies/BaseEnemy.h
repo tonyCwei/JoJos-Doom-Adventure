@@ -75,7 +75,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	float alertSpeed = 1500;
 
-
+	FVector startingLocation;
 	
 
 public:
@@ -96,6 +96,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	class AAIController* getAIController();
 
+	UFUNCTION(BlueprintCallable)
+	void resetLocation();
 
 	//Flipbook
 protected: 
@@ -245,5 +247,16 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void activateCustomDepth();
+
+
+//Audio
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* hitSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* deathSound;
+
+
 
 };

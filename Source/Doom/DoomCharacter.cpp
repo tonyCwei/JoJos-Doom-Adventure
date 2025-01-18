@@ -355,6 +355,9 @@ void ADoomCharacter::ToggleFlash(const FInputActionValue& Value)
 {
 	outerFlashLight->SetVisibility(!outerFlashLight->IsVisible());
 	innerFlashLight->SetVisibility(!innerFlashLight->IsVisible());
+	if (flashToggleSound) {
+		UGameplayStatics::PlaySound2D(this, flashToggleSound);
+	}
 }
 
 void ADoomCharacter::Melee(const FInputActionValue& Value) {

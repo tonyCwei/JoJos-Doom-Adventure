@@ -17,6 +17,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
+#include "Sound/SoundCue.h"
 
 
 void ASelfDestructEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -166,6 +167,10 @@ void ASelfDestructEnemy::HandleDeath()
 			}, 1, false);
 
 		isDestructing = true;
+
+		if (explodeSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, explodeSound, this->GetActorLocation());
+		}
 	}
 	else {
 		Super::HandleDeath();

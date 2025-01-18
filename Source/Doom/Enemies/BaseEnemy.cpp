@@ -18,6 +18,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
+#include "Sound/SoundCue.h"
+
 
 
 // Sets default values
@@ -55,6 +57,8 @@ void ABaseEnemy::BeginPlay()
 	normalSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 	currentFlipbooks = directionalFlipbooks;
+
+	startingLocation = GetActorLocation();
 
 	OnTakeAnyDamage.AddDynamic(this, &ABaseEnemy::DamageTaken);
 
@@ -134,6 +138,11 @@ AAIController* ABaseEnemy::getAIController()
 		
 	}
 	return nullptr;
+}
+
+void ABaseEnemy::resetLocation()
+{
+	this->SetActorLocation(startingLocation);
 }
 
 void ABaseEnemy::updateDirectionalSprite()
@@ -405,6 +414,10 @@ void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageTy
 		isDead = true;
 	}
 
+	if (hitSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, hitSound, this->GetActorLocation());
+	}
+
 	//Sense player when damaged
 	AAIController* myAIEnemyController = getAIController();
 	if (myAIEnemyController) {
@@ -445,6 +458,8 @@ void ABaseEnemy::HandleDeath() {
 	EnemyFlipBookComponent->SetFlipbook(deathFlipbook);
 	EnemyFlipBookComponent->SetLooping(false);
 	
+
+	
 	
 	GetWorld()->GetTimerManager().SetTimer(deathTimerHandle, [&]()
 		{
@@ -452,6 +467,11 @@ void ABaseEnemy::HandleDeath() {
 		}, bodyDestroyTime, false);
 
 	isDying = true;
+
+	//play deathsound
+	if (deathSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, deathSound, this->GetActorLocation());
+	}
 }
 
 void ABaseEnemy::OnPawnSeen(APawn* SeenPawn)

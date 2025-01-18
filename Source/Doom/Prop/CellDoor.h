@@ -49,6 +49,9 @@ protected:
 	FVector glassDoorStartLocation;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* doorOpenSound;
+
 
 public:
 

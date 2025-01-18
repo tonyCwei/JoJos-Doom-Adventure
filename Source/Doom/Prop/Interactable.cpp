@@ -2,6 +2,8 @@
 
 
 #include "Interactable.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 AInteractable::AInteractable()
@@ -32,11 +34,28 @@ void AInteractable::BeginPlay()
 //}
 
 
+void AInteractable::playErrorSound()
+{
+	if (errorSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, errorSound, this->GetActorLocation());
+
+	}
+}
+
+void AInteractable::playSuccessSound()
+{
+	if (successSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, successSound, this->GetActorLocation());
+
+	}
+}
+
 void AInteractable::interact(FString interactedComponentName, AActor* interactingActor)
 {
-	if (interactedComponentName == interactableMesh->GetName()) {
-		UE_LOG(LogTemp, Display, TEXT("%s is being interacted"), *this->GetName());
-	}
+	if (interactedComponentName != interactableMesh->GetName()) return;
+	
+	UE_LOG(LogTemp, Display, TEXT("%s is being interacted"), *this->GetName());
+
 	
 }
 

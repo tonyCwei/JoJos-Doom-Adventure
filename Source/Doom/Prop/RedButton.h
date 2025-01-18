@@ -26,6 +26,9 @@ protected:
 
 	bool canBePressed = true;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	class USoundCue* pressSound;
+
 public:
 
 	void interact(FString interactedComponentName, AActor* interactingActor) override;

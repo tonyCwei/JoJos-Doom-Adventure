@@ -24,4 +24,6 @@ protected:
 
 	bool isActived = false;
 
+
+	
 };

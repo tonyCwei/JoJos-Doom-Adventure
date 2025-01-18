@@ -6,7 +6,8 @@
 #include "Components/RectLightComponent.h"
 #include "Curves/CurveFloat.h"
 #include "Components/TimelineComponent.h"
-
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ACellDoor::ACellDoor()
@@ -70,5 +71,8 @@ void ACellDoor::open()
 {
 	cellLight->SetVisibility(true);
 	doorOpenTimeline->Play();
+	if (doorOpenSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, doorOpenSound, this->GetActorLocation());
+	}
 }
 

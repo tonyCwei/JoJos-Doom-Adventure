@@ -2,6 +2,8 @@
 
 
 #include "RedButton.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 ARedButton::ARedButton()
 {
@@ -22,5 +24,11 @@ void ARedButton::interact(FString interactedComponentName, AActor* interactingAc
 				buttonTop->SetRelativeLocation(FVector(0, 0, 0));
 				canBePressed = true;
 			}, 0.2, false);
+
+
+		if (pressSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, pressSound, this->GetActorLocation());
+		
+		}
 	}
 }

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Interactable.generated.h"
 
+class USoundCue;
+
 UCLASS()
 class DOOM_API AInteractable : public AActor
 {
@@ -28,6 +30,16 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* interactableMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* errorSound;
+
+	virtual void playErrorSound();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* successSound;
+
+	virtual void playSuccessSound();
 
 
 public:

@@ -5,11 +5,13 @@
 #include "CellDoor.h"
 #include "EmergencyLight.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 void ACellRedButton::interact(FString interactedComponentName, AActor* interactingActor)
 {
 	Super::interact(interactedComponentName, interactingActor);
 
+	
 
 	if (!isActived) {
 		isActived = true;

@@ -3,6 +3,8 @@
 
 #include "SecretDoor.h"
 #include "Components/TimelineComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 ASecretDoor::ASecretDoor()
 {
@@ -91,17 +93,41 @@ bool ASecretDoor::hasNeededKeys(AActor* interactingActor)
 	return true;
 }
 
+void ASecretDoor::playMovingPlatformSound()
+{
+	if (MovingPlatformSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, MovingPlatformSound, movingMesh->GetComponentLocation());
+	
+	}
+}
+
 void ASecretDoor::interact(FString interactedComponentName, AActor* interactingActor)
 {
 	Super::interact(interactedComponentName, interactingActor);
 	
-	if (interactedComponentName == interactableMesh->GetName() && hasNeededKeys(interactingActor)) {
-		playSuccessSound();
+
+
+	if (hasNeededKeys(interactingActor) && !isActivated) {
+		isActivated = true;
+		
 		if (shouldTranslate)  translateTimeline->Play();
 		if (shouldRotate)  rotationTimeline->Play();
+
+		playSuccessSound();
+		playMovingPlatformSound();
 	}
-	else {
+	else if (!errorMessagePlayed && !isActivated) {
+		errorMessagePlayed = true;
 		playErrorSound();
+
+		FTimerHandle errorMessageTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(errorMessageTimerHandle, [&]()
+			{
+				errorMessagePlayed = false;
+			}, 6, false);
+
+
+
 	}
 
 }

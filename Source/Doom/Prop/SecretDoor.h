@@ -29,7 +29,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* movingMesh;
 
 
@@ -71,12 +71,20 @@ protected:
 	void rotationTimelineUpdate(float Value);
 
 
+
 	//Key Check
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	TArray<FName> keysNeeded;
 
-	bool hasNeededKeys(AActor* interactingActor);
+	virtual bool hasNeededKeys(AActor* interactingActor);
 
+	bool errorMessagePlayed = false;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* MovingPlatformSound;
+
+	void playMovingPlatformSound();
 
 public:
 

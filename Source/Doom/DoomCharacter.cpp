@@ -970,7 +970,13 @@ void ADoomCharacter::Interact(const FInputActionValue& Value)
 		else if (HitActor->ActorHasTag("Interactable")) {
 			UPrimitiveComponent* HitComponent = HitResult.GetComponent();
 			AInteractable* interactedObject = Cast<AInteractable>(HitActor);
-				if (interactedObject) interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
+			if (interactedObject) {
+			
+				interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
+				UE_LOG(LogTemp, Display, TEXT("%s, %s"), *HitActor->GetName(), *HitComponent->GetName());
+			}
+
+
 			
 		}
 	}

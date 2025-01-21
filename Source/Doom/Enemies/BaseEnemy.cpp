@@ -493,7 +493,7 @@ void ABaseEnemy::OnPawnSeen(APawn* SeenPawn)
 		GetWorld()->GetTimerManager().SetTimer(resetCanSeePlayerTimerHandle, [&]() {
 			resetCanSeePlayer();
 			setBlackBoardCanSeePlayer(false);
-			}, 5, false);
+			}, 3, false);
 	}
 }
 

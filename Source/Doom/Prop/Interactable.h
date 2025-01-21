@@ -28,7 +28,7 @@ protected:
 
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* interactableMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
@@ -41,6 +41,7 @@ protected:
 
 	virtual void playSuccessSound();
 
+	bool isActivated = false;
 
 public:
 

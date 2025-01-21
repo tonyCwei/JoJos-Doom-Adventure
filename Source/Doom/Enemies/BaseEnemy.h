@@ -238,6 +238,7 @@ protected:
 
 public:
 
+	UFUNCTION(BlueprintCallable)
 	void setBlackBoardCanSeePlayer(bool value);
 
 

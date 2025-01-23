@@ -67,4 +67,12 @@ protected:
 
 	void laserAttack(float DeltaTime);
 
+
+
+	//audio
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* AudioComponent;
+
+
+
 };

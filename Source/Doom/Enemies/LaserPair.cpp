@@ -7,6 +7,8 @@
 #include "NiagaraComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 
 
 // Sets default values
@@ -32,6 +34,9 @@ ALaserPair::ALaserPair()
 
 	laser1VFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Laser1VFX"));
 	laser1VFX->SetupAttachment(RootComponent);
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("LaserAudio"));
+	AudioComponent->SetupAttachment(RootComponent);
 
 	
 

@@ -3,6 +3,7 @@
 
 #include "MovingPlatform.h"
 #include "Components/TimelineComponent.h"
+#include "Components/BoxComponent.h"
 
 AMovingPlatform::AMovingPlatform()
 {
@@ -14,9 +15,26 @@ AMovingPlatform::AMovingPlatform()
         GeneratorLight->SetupAttachment(movingMesh);
         generatorLights.Add(GeneratorLight);
     }
+
+    for (int32 i = 0; i < 4; i++)
+    {
+        UBoxComponent* invisiableWall = CreateDefaultSubobject<UBoxComponent>(*FString::Printf(TEXT("invisiableWall_%d"), i));
+        invisiableWall->SetupAttachment(movingMesh);
+        invisiableWalls.Add(invisiableWall);
+    }
+
+
+   
 }
 
 
+
+void AMovingPlatform::translateTimelineFinished()
+{
+    for (auto invisWall : invisiableWalls) {
+        invisWall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    }
+}
 
 void AMovingPlatform::activateGenerators()
 {
@@ -32,6 +50,12 @@ void AMovingPlatform::interact(FString interactedComponentName, AActor* interact
         if (activatedGenerators == 3 && !isActivated) {
             isActivated = true;
             
+            for (auto invisWall : invisiableWalls) {
+                invisWall->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+            }
+            
+            
+
             if (shouldTranslate)  translateTimeline->Play();
             if (shouldRotate)  rotationTimeline->Play();
 
@@ -47,7 +71,7 @@ void AMovingPlatform::interact(FString interactedComponentName, AActor* interact
             GetWorld()->GetTimerManager().SetTimer(errorMessageTimerHandle, [&]()
                 {
                     errorMessagePlayed = false;
-                }, 10, false);
+                }, 8, false);
             
         
         

@@ -55,7 +55,7 @@ void AFist::FireWeapon() {
  		auto DamageTypeClass = UDamageType::StaticClass();
  		UGameplayStatics::ApplyDamage(HitActor, weaponDamage, MyOwnerInstigator, this, DamageTypeClass);
 
-        if (HitActor->ActorHasTag("enemy")) {
+        if (HitActor->ActorHasTag("Enemy") && !HitActor->ActorHasTag("Boss")) {
             //Knock Enemy Back with Fist
             ABaseEnemy* enemyCharacter = Cast<ABaseEnemy>(HitActor);
 

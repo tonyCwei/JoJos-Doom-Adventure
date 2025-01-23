@@ -28,11 +28,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	UMaterialInterface* greenlightMaterial;
 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
+	TArray<class UBoxComponent*> invisiableWalls;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	int32 activatedGenerators = 0;
 
-
+	void translateTimelineFinished() override;
 
 public:
 

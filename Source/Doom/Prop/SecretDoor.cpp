@@ -32,12 +32,12 @@ void ASecretDoor::BeginPlay()
 		translateUpdateFunction.BindUFunction(this, FName("translateTimelineUpdate"));
 
 		// Bind the finished function
-		/*FOnTimelineEvent FinishedFunction;
-		FinishedFunction.BindUFunction(this, FName("doorOpenTimelineFinished"));*/
+		FOnTimelineEvent translateFinishedFunction;
+		translateFinishedFunction.BindUFunction(this, FName("translateTimelineFinished"));
 
 		// Add functions to the timeline
 		translateTimeline->AddInterpFloat(translateFloatCurve, translateUpdateFunction);
-		//doorOpenTimeline->SetTimelineFinishedFunc(FinishedFunction);
+		translateTimeline->SetTimelineFinishedFunc(translateFinishedFunction);
 
 		// Set the timeline to loop or play once
 		translateTimeline->SetLooping(false);
@@ -50,12 +50,12 @@ void ASecretDoor::BeginPlay()
 		rotationUpdateFunction.BindUFunction(this, FName("rotationTimelineUpdate"));
 
 		// Bind the finished function
-		/*FOnTimelineEvent FinishedFunction;
-		FinishedFunction.BindUFunction(this, FName("doorOpenTimelineFinished"));*/
+		FOnTimelineEvent rotationFinishedFunction;
+		rotationFinishedFunction.BindUFunction(this, FName("rotationTimelineFinished"));
 
 		// Add functions to the timeline
 		rotationTimeline->AddInterpFloat(rotationFloatCurve, rotationUpdateFunction);
-		//doorOpenTimeline->SetTimelineFinishedFunc(FinishedFunction);
+		rotationTimeline->SetTimelineFinishedFunc(rotationFinishedFunction);
 
 		// Set the timeline to loop or play once
 		rotationTimeline->SetLooping(false);
@@ -74,10 +74,20 @@ void ASecretDoor::translateTimelineUpdate(float Value)
 	movingMesh->SetRelativeLocation(newLocation);
 }
 
+void ASecretDoor::translateTimelineFinished()
+{
+	return;
+}
+
 void ASecretDoor::rotationTimelineUpdate(float Value)
 {
 	FRotator newRotation = FMath::Lerp(startingRelativeRotation, targetRelativeRotation, Value);
 	movingMesh->SetRelativeRotation(newRotation);
+}
+
+void ASecretDoor::rotationTimelineFinished()
+{
+	return;
 }
 
 

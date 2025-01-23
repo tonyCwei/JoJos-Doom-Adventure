@@ -50,6 +50,9 @@ protected:
 
 	UFUNCTION()
 	void translateTimelineUpdate(float Value);
+
+	UFUNCTION()
+	virtual void translateTimelineFinished();
 	
 
 	//Rotate
@@ -70,7 +73,8 @@ protected:
 	UFUNCTION()
 	void rotationTimelineUpdate(float Value);
 
-
+	UFUNCTION()
+	virtual void rotationTimelineFinished();
 
 	//Key Check
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))

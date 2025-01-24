@@ -487,8 +487,11 @@ void AHarubus::spawnSelfDes()
 
 		
 		ASelfDestructEnemy* selfDesEnemy = GetWorld()->SpawnActor<ASelfDestructEnemy>(SelfDesEnemyClass, spawnLocation, spawnRotation);
-		selfDesEnemy->setCanSeePlayer(true);
-		selfDesEnemy->setBlackBoardCanSeePlayer(true);
+		if (selfDesEnemy) {
+			selfDesEnemy->setCanSeePlayer(true);
+			selfDesEnemy->setBlackBoardCanSeePlayer(true);
+		}
+		
 
 
 		spawnCount++;

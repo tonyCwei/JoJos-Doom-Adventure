@@ -258,6 +258,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	USoundCue* deathSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	float hitSoundIntervel = 0.1;
+
+
+	bool hitSoundPlayed = false;
+
+
+
 
 
 };

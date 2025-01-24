@@ -148,8 +148,8 @@ void ABaseEnemy::resetLocation()
 void ABaseEnemy::updateDirectionalSprite()
 {
 	
-
-
+	if (!playerCharacter) return;
+	
 	FVector vEnemeyPlayer = playerCharacter->GetActorLocation() - GetActorLocation();
 	vEnemeyPlayer.Normalize();
 
@@ -414,8 +414,16 @@ void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageTy
 		isDead = true;
 	}
 
-	if (hitSound) {
+	if (hitSound && !hitSoundPlayed) {
+		hitSoundPlayed = true;
 		UGameplayStatics::PlaySoundAtLocation(this, hitSound, this->GetActorLocation());
+
+
+		FTimerHandle hitSoundTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(hitSoundTimerHandle, [&]()
+			{
+				hitSoundPlayed = false;
+			}, hitSoundIntervel, false);
 	}
 
 	//Sense player when damaged

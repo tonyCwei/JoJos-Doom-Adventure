@@ -91,7 +91,7 @@ void ARisingProjectile::DestroySelf()
 			Destroy();
 		}, projectileFlipbookComponent->GetFlipbookLength() * 0.9, false);
 
-	//UE_LOG(LogTemp, Display, TEXT("DestroySelf"));
+	UE_LOG(LogTemp, Display, TEXT("DestroySelf"));
 }
 
 void ARisingProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -99,6 +99,8 @@ void ARisingProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	//Apply Damage
 	auto MyInstigator = GetInstigatorController();
 	auto DamageTypeClass = UDamageType::StaticClass();
+	
+	UE_LOG(LogTemp, Display, TEXT("RisingSun OnHit"));
 
 	if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile") && !OtherActor->ActorHasTag("Enemy")) {
 		if (OtherActor->ActorHasTag("Player")) {
@@ -107,11 +109,14 @@ void ARisingProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		DestroySelf();
 	}
 
-	//UE_LOG(LogTemp, Display, TEXT("RisingSun On Hit"));
+	
 }
 
 void ARisingProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
+	UE_LOG(LogTemp, Display, TEXT("RisingSun On BeginOverlap"));
+
 	if (OtherActor->ActorHasTag("BulletTimeAura")) {
 		//UE_LOG(LogTemp, Display, TEXT("SlowTime"));
 		ABulletTimeAura* myBulletTimeAura = Cast<ABulletTimeAura>(OtherActor);
@@ -120,23 +125,27 @@ void ARisingProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		}
 
 	}
-	else if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile") && !OtherActor->ActorHasTag("Enemy")) {
+	else  {
 
 
-		//UE_LOG(LogTemp, Display, TEXT("RisingSun On BeginOverlap"));
+		
 
 
 		//Apply Damage
-		auto MyInstigator = GetInstigatorController();
-		auto DamageTypeClass = UDamageType::StaticClass();	
-		if (OtherActor->ActorHasTag("Player")) {
-			UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
+		if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile") && !OtherActor->ActorHasTag("Enemy")) {
+			auto MyInstigator = GetInstigatorController();
+			auto DamageTypeClass = UDamageType::StaticClass();
+			if (OtherActor->ActorHasTag("Player")) {
+				UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
+			}
+			DestroySelf();
 		}
-		DestroySelf();
 		
 
 		
 	}
+
+	
 }
 
 void ARisingProjectile::riseTimelineUpdate(float Value)
@@ -178,8 +187,8 @@ void ARisingProjectile::riseTimelineFinished()
 
 	sunAudioComponent->Deactivate();
 	
-	//sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Block);
-	//sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Block);
+	sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Overlap);
+	sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
 
 	
 }

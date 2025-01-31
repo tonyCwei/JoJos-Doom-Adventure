@@ -59,12 +59,15 @@ void AFist::FireWeapon() {
             //Knock Enemy Back with Fist
             ABaseEnemy* enemyCharacter = Cast<ABaseEnemy>(HitActor);
 
-            FVector launchDirection = enemyCharacter->GetActorLocation() - playerCharacter->GetActorLocation();
-            launchDirection.Normalize();
+            if (enemyCharacter) {
+                FVector launchDirection = enemyCharacter->GetActorLocation() - playerCharacter->GetActorLocation();
+                launchDirection.Normalize();
 
-            enemyCharacter->GetCharacterMovement()->StopMovementKeepPathing();
-            FVector LaunchVelocity(launchDirection.X * 3000, launchDirection.Y * 3000, 0);
-            enemyCharacter->LaunchCharacter(LaunchVelocity, true, false);
+                enemyCharacter->GetCharacterMovement()->StopMovementKeepPathing();
+                FVector LaunchVelocity(launchDirection.X * 3000, launchDirection.Y * 3000, 0);
+                enemyCharacter->LaunchCharacter(LaunchVelocity, true, false);
+            }
+            
 
             ////Spawn Blood
             //if (bloodToSpawn) {

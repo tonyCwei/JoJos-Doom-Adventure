@@ -25,6 +25,10 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
+
 AHarubus::AHarubus()
 {
 
@@ -66,6 +70,11 @@ AHarubus::AHarubus()
 
 	laserVFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LaserVFX"));
 	laserVFX->SetupAttachment(laserSpwan);
+
+	//Audio
+	myAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("myAudio"));
+	myAudioComponent->bAutoActivate = false;
+	myAudioComponent->SetupAttachment(RootComponent);
 }
 
 void AHarubus::BeginPlay()
@@ -233,6 +242,10 @@ void AHarubus::ShootProjectle()
 			Projectile2->SetOwner(this);
 
 		}
+
+		if (projectileSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, projectileSound, this->GetActorLocation());
+		}
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Empty ProjectileClass"));
@@ -306,6 +319,11 @@ void AHarubus::startPreDropAttack()
 		AnimationFlipBookComponent->PlayFromStart();
 	}
 
+	if (preDropSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, preDropSound, this->GetActorLocation());
+	}
+
+
 	//Disappear after flame
 	FTimerHandle disappearTimerHandle;
 	GetWorldTimerManager().SetTimer(disappearTimerHandle, [&]()
@@ -343,6 +361,10 @@ void AHarubus::startDropAttack()
 	if (dropAttackIndicator) {
 		GetWorld()->SpawnActor<AActor>(dropAttackIndicator, dropAttackEndLocation, FRotator(0,0,0));
 	}
+
+	if (midDropSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, midDropSound, this->GetActorLocation());
+	}
 	
 	//give player time to run away from the red circle
 	FTimerHandle actualDropTimerHandle;
@@ -376,6 +398,10 @@ void AHarubus::dropAttackTimelineFinished()
 		FVector effectLocation = dropAttackEndLocation + FVector(0, 0, -100);
 
 		GetWorld()->SpawnActor<AActor>(dropAttackLandEffect, effectLocation, FRotator(0, 0, 0));
+	}
+
+	if (finalDropSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, finalDropSound, this->GetActorLocation());
 	}
 
 
@@ -538,6 +564,9 @@ void AHarubus::summonAttack()
 		GetWorld()->SpawnActor<AActor>(summonAttackEffect, effectLocation, FRotator(0, 0, 0));
 	}
 	
+	if (summonSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, summonSound, this->GetActorLocation());
+	}
 
 	FTimerHandle startAttackTimer;
 
@@ -571,6 +600,9 @@ void AHarubus::laserAttack()
 		laserTowerRef->activateTower();
 	}
 	
+	if (laserStartSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, laserStartSound, this->GetActorLocation());
+	}
 
 	FTimerHandle startAttackTimer;
 
@@ -583,6 +615,12 @@ void AHarubus::laserAttack()
 			EnemyFlipBookComponent->SetFlipbook(laserAttackFlipbook);
 		
 		}
+
+		if (laserAttackSound && myAudioComponent) {
+			myAudioComponent->SetSound(laserAttackSound);
+			myAudioComponent->Play();
+		}
+
 	}, 3, false);
 	
 	
@@ -596,11 +634,16 @@ void AHarubus::endLaserAttack()
 		laserTowerRef->deactivateTower();
 	}
 
-	//Start Self Laser
+	//End Self Laser
 	laserVFX->SetVisibility(false);
 	isLaserAttacking = false;
 	shouldFacePlayer = false;
 	shouldUpdateDirectionalSprite = true;
+
+	if (myAudioComponent) {
+		myAudioComponent->Stop();
+	}
+
 }
 
 
@@ -679,5 +722,7 @@ void AHarubus::risingSunAttack()
 
 	}
 
-
+	if (sunAttackSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, sunAttackSound, this->GetActorLocation());
+	}
 }

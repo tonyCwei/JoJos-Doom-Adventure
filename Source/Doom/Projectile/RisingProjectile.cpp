@@ -11,7 +11,8 @@
 #include <Kismet/KismetMathLibrary.h>
 #include "Doom/DoomCharacter.h"
 #include "Components/TimelineComponent.h"
-
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 
 
 
@@ -20,6 +21,9 @@ ARisingProjectile::ARisingProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	riseTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("DoorOpenTimeline"));
+
+	sunAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("sunAudio"));
+	sunAudioComponent->SetupAttachment(RootComponent);
 }
 
 void ARisingProjectile::BeginPlay()
@@ -86,6 +90,8 @@ void ARisingProjectile::DestroySelf()
 		{
 			Destroy();
 		}, projectileFlipbookComponent->GetFlipbookLength() * 0.9, false);
+
+	//UE_LOG(LogTemp, Display, TEXT("DestroySelf"));
 }
 
 void ARisingProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -101,7 +107,7 @@ void ARisingProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		DestroySelf();
 	}
 
-	
+	//UE_LOG(LogTemp, Display, TEXT("RisingSun On Hit"));
 }
 
 void ARisingProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -114,22 +120,20 @@ void ARisingProjectile::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		}
 
 	}
-	else {
+	else if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile") && !OtherActor->ActorHasTag("Enemy")) {
 
 
-		//UE_LOG(LogTemp, Display, TEXT("Enemy On BeginOverlap"));
+		//UE_LOG(LogTemp, Display, TEXT("RisingSun On BeginOverlap"));
 
 
 		//Apply Damage
 		auto MyInstigator = GetInstigatorController();
-		auto DamageTypeClass = UDamageType::StaticClass();
-
-		if (OtherActor && OtherActor != this && !OtherActor->ActorHasTag("Projectile") && !OtherActor->ActorHasTag("Enemy")) {
-			if (OtherActor->ActorHasTag("Player")) {
-				UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
-			}
-			DestroySelf();
+		auto DamageTypeClass = UDamageType::StaticClass();	
+		if (OtherActor->ActorHasTag("Player")) {
+			UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyInstigator, this, DamageTypeClass);
 		}
+		DestroySelf();
+		
 
 		
 	}
@@ -145,19 +149,38 @@ void ARisingProjectile::riseTimelineFinished()
 {
 
 	
-	FTimerHandle activateTimerHandle;
-	
-
-	GetWorld()->GetTimerManager().SetTimer(activateTimerHandle, [&]()
+	//FTimerHandle activateTimerHandle;
+	/*GetWorld()->GetTimerManager().SetTimer(activateTimerHandle, [&]()
 		{
 			projectileMovement->InitialSpeed = shootSpeed;
 			projectileMovement->MaxSpeed = shootSpeed;
 
 			projectileMovement->Velocity = GetActorForwardVector() * projectileMovement->InitialSpeed;
 			projectileMovement->Activate();
-		}, 3, false);
 
+			if (sunShootSound) {
+				UGameplayStatics::PlaySoundAtLocation(this, sunShootSound, this->GetActorLocation());
+			}
+
+			sunAudioComponent->Deactivate();
+		}, 3, false);*/
+
+
+	projectileMovement->InitialSpeed = shootSpeed;
+	projectileMovement->MaxSpeed = shootSpeed;
+
+	projectileMovement->Velocity = GetActorForwardVector() * projectileMovement->InitialSpeed;
+	projectileMovement->Activate();
+
+	if (sunShootSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, sunShootSound, this->GetActorLocation());
+	}
+
+	sunAudioComponent->Deactivate();
 	
+	//sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Block);
+	//sphereCollisionDamage->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Block);
+
 	
 }
 
@@ -176,9 +199,9 @@ void ARisingProjectile::DamageTaken(AActor* DamagedActor, float Damage, const UD
 {
 	curHealth -= Damage;
 
-	
-	
-	
+	if (sunHitSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, sunHitSound, this->GetActorLocation());
+	}
 	
 	if (curHealth <= 0) {
 		curHealth = 0;
@@ -196,8 +219,6 @@ void ARisingProjectile::DamageTaken(AActor* DamagedActor, float Damage, const UD
 				//projectileFlipbookComponent->SetSpriteColor(FLinearColor(1.0f, 0.0f, 0.0f, 1.0f));
 				projectileFlipbookComponent->SetFlipbook(idleFlipbook);
 			}, 0.1, false);
-
-	
 	
 	}
 

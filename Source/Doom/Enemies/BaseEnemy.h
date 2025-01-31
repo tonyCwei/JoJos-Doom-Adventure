@@ -259,6 +259,12 @@ protected:
 	USoundCue* deathSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* projectileSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* MeleeSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	float hitSoundIntervel = 0.1;
 
 

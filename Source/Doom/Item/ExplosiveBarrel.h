@@ -64,4 +64,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void activateCustomDepth();
 
+//audio
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundCue* explosionSound;
+
 };

@@ -11,6 +11,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Doom/DoomCharacter.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+
 // Sets default values
 AExplosiveBarrel::AExplosiveBarrel()
 {
@@ -136,6 +139,10 @@ void AExplosiveBarrel::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 	GetWorldTimerManager().SetTimer(destroyTimerHandle, [&]() {
 		Destroy();
 		}, myFlipBookComponent->GetFlipbookLength(), false);
+
+	if (explosionSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, explosionSound, this->GetActorLocation());
+	}
 
 }
 

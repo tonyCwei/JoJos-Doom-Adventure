@@ -108,6 +108,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void deactivateTower();
 
-	
+//Audio
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "BGM")
+	class UAudioComponent* laserAudio1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "BGM")
+	class UAudioComponent* laserAudio2;
 	
 };

@@ -314,6 +314,11 @@ void ABaseEnemy::ShootProjectle()
 	if (ProjectileClass) {
 		ABaseProjectile* Projectile = GetWorld()->SpawnActor<ABaseProjectile>(ProjectileClass, spawnLocation, spawnRotation);
 		//ABaseProjectile* Projectile = GetWorld()->SpawnActorDeferred<ABaseProjectile>(ProjectileClass, SpawnTransform);
+		if (projectileSound) {
+			UGameplayStatics::PlaySoundAtLocation(this, projectileSound, this->GetActorLocation());
+		}
+
+
 		if (Projectile) {
 
 			//Projectile->projectileDamage = weaponDamage;
@@ -384,6 +389,10 @@ void ABaseEnemy::MeleeAttack()
 					auto DamageTypeClass = UDamageType::StaticClass();
 					UGameplayStatics::ApplyDamage(HitActor, meleeDamage, MyOwnerInstigator, this, DamageTypeClass);
 				}
+			}
+
+			if (MeleeSound) {
+				UGameplayStatics::PlaySoundAtLocation(this, MeleeSound, this->GetActorLocation());
 			}
 
 			GetWorld()->GetTimerManager().ClearTimer(attackingTimerHandle);

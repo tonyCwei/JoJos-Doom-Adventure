@@ -8,6 +8,7 @@
 #include "NiagaraComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values
 ALaserTower::ALaserTower()
@@ -32,6 +33,15 @@ ALaserTower::ALaserTower()
 	laser2VFX->SetupAttachment(laser2);
 
 	towerActivateTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("TowerActivateTimeline"));
+
+
+	laserAudio1 = CreateDefaultSubobject<UAudioComponent>(TEXT("LaserAudio1"));
+	laserAudio1->bAutoActivate = false;
+	laserAudio1->SetupAttachment(laser1VFX);
+
+	laserAudio2 = CreateDefaultSubobject<UAudioComponent>(TEXT("LaserAudio2"));
+	laserAudio2->bAutoActivate = false;
+	laserAudio2->SetupAttachment(laser2VFX);
 
 }
 
@@ -111,6 +121,9 @@ void ALaserTower::activateLaser()
 
 	laser1VFX->SetVisibility(true);
 	laser2VFX->SetVisibility(true);
+
+	laserAudio1->Activate();
+	laserAudio2->Activate();
 }
 
 void ALaserTower::deactivateLaser()
@@ -120,6 +133,9 @@ void ALaserTower::deactivateLaser()
 
 	laser1VFX->SetVisibility(false);
 	laser2VFX->SetVisibility(false);
+
+	laserAudio1->Deactivate();
+	laserAudio2->Deactivate();
 
 }
 

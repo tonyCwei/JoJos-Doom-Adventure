@@ -245,10 +245,10 @@ protected:
 
 	FTimerHandle laserHurtTimerHandle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
 	float laserHurtInterval = 1;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
 	float laserDamage = 1;
 
 

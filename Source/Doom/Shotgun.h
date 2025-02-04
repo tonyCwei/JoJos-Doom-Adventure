@@ -22,6 +22,13 @@ private:
 protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float spreadAngle = 10.f;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	int32 PelletCount = 6;
+
 public:
 
 	void FireWeapon() override;

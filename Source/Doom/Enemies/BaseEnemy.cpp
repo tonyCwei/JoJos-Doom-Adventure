@@ -446,6 +446,80 @@ void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageTy
 	
 }
 
+void ABaseEnemy::DashAttack()
+{
+	isAttacking = true;
+	attackingstate = PreMeleeAttacking;
+
+	//Add attack info before starting the actual attack if player within range
+	float Distance = FVector::Dist(this->GetActorLocation(), playerCharacter->GetActorLocation());
+	if (Distance <= dashAttackRange) {
+		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
+		curAttackInfo.Duration = dashAttackDodgeWindow;
+		curAttackInfo.Attacker = this;
+
+		gameStateRef->addAttack(curAttackInfo);
+		isAdded = true;
+	}
+
+	//give a attack window delay for perfect dodge
+	GetWorld()->GetTimerManager().SetTimer(attackWindowTimerHandle, [&]()
+		{
+
+			attackingstate = MeleeAttacking;
+
+			FVector myForwardVector = this->GetActorForwardVector();
+			FVector LaunchVelocity = FVector(myForwardVector.X * 5000, myForwardVector.Y * 5000, 0);
+			LaunchCharacter(LaunchVelocity, false, false);
+
+
+			//Line Trace
+			FVector lineTraceLocation = this->GetActorLocation();
+			FVector lineTraceForward = this->GetActorForwardVector();
+			FVector lineTraceEnd = lineTraceForward * dashAttackRange + lineTraceLocation;
+			TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_Pawn) };
+
+			TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
+			FHitResult HitResult;
+
+			//Line Trace
+			bool hasHit = UKismetSystemLibrary::LineTraceSingleForObjects(this->GetWorld(),
+				lineTraceLocation,
+				lineTraceEnd,
+				ObjectTypes,
+				false,
+				ActorsToIgnore,
+				EDrawDebugTrace::Type::None,
+				HitResult,
+				true);
+
+			//Apply DMG
+			if (hasHit) {
+				AActor* HitActor = HitResult.GetActor();
+
+				if (HitActor == UGameplayStatics::GetPlayerCharacter(this, 0)) {
+					//AActor* myOwner = GetOwner();
+					AController* MyOwnerInstigator = GetInstigatorController();
+					auto DamageTypeClass = UDamageType::StaticClass();
+					UGameplayStatics::ApplyDamage(HitActor, dashAttackDamage, MyOwnerInstigator, this, DamageTypeClass);
+				}
+			}
+
+			if (MeleeSound) {
+				UGameplayStatics::PlaySoundAtLocation(this, MeleeSound, this->GetActorLocation());
+			}
+
+			GetWorld()->GetTimerManager().ClearTimer(attackingTimerHandle);
+			GetWorld()->GetTimerManager().SetTimer(attackingTimerHandle, [&]()
+				{
+					isAttacking = false;
+					if (isAdded) gameStateRef->removeAttack(curAttackInfo);
+
+				}, 0.5, false);
+
+		}, dashAttackDodgeWindow, false);
+}
+
 void ABaseEnemy::HandleDeath() {
 	
 	

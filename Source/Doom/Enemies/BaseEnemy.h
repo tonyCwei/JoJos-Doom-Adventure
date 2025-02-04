@@ -187,6 +187,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void MeleeAttack();
 
+//Dash Attack for dogs
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float dashAttackDamage = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float dashAttackDodgeWindow = 0.5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	float dashAttackRange = 440;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	virtual void DashAttack();
 
 // Damage System
 protected:

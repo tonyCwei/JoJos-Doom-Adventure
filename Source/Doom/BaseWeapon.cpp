@@ -79,7 +79,7 @@ void ABaseWeapon::FireWeapon(){
     FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(LineTraceComponent->GetComponentRotation());
 	FVector lineTraceEnd = lineTraceForward * lineTraceDistance + lineTraceLocation;
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = {	UEngineTypes::ConvertToObjectType(ECC_WorldStatic), 
-															//UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
+															UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
 															UEngineTypes::ConvertToObjectType(ECC_Pawn),
 															UEngineTypes::ConvertToObjectType(ECC_Destructible) 
 														};

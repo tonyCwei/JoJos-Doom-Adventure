@@ -77,7 +77,9 @@ void AScanner::scanTimelineUpdate(float Value)
 	FVector actorLocation = this->GetActorLocation();
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_WorldDynamic),
 															UEngineTypes::ConvertToObjectType(ECC_Pawn),
-															UEngineTypes::ConvertToObjectType(ECC_Destructible) };
+															UEngineTypes::ConvertToObjectType(ECC_Destructible),
+															UEngineTypes::ConvertToObjectType(ECC_PhysicsBody),
+	};
 
 	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
 

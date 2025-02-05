@@ -25,8 +25,7 @@
 #include "Sound/SoundCue.h"
 #include "Prop/Interactable.h"
 #include "Components/SpotLightComponent.h" 
-
-
+#include "GameState/CharacterVars.h"
 
 
 
@@ -311,9 +310,19 @@ void ADoomCharacter::Look(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
+		float sensitivityX = 1;
+		float sensitivityY = 1;
+
+		if (doomCharacterData) {
+			sensitivityX = doomCharacterData->sensitivityX;
+			sensitivityY = doomCharacterData->sensitivityY;
+		}
+
+
+
 		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput(LookAxisVector.Y);
+		AddControllerYawInput(LookAxisVector.X * sensitivityX);
+		AddControllerPitchInput(LookAxisVector.Y * sensitivityY);
 	}
 }
 

@@ -82,6 +82,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	class UCharacterVars* doomCharacterData;
+
 protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);

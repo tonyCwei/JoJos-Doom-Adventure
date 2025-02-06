@@ -82,8 +82,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	class UCharacterVars* doomCharacterData;
+	
 
 protected:
 	/** Called for movement input */
@@ -112,11 +111,11 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-//Game State Ref
+//Game Mode/instance/Save
 protected:
 	class ADoomGameStateBase* gameStateRef;
 
-
+	class UDoomSaveGame* myDoomSaveGame;
 
 private:
 	//FlashLights

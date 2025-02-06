@@ -67,6 +67,6 @@ public:
 //audio
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	USoundCue* explosionSound;
+	class USoundCue* explosionSound;
 
 };

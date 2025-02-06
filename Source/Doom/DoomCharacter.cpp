@@ -25,8 +25,8 @@
 #include "Sound/SoundCue.h"
 #include "Prop/Interactable.h"
 #include "Components/SpotLightComponent.h" 
-#include "GameState/CharacterVars.h"
-
+#include "GameInstance/DoomGameInstance.h"
+#include "GameInstance/DoomSaveGame.h"
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -109,9 +109,13 @@ void ADoomCharacter::BeginPlay()
 		PlayerController->SetInputMode(InputMode);
 	}
 
-	//Game State Ref
+	//Game Instance Related 
 	gameStateRef = GetWorld()->GetGameState<ADoomGameStateBase>();
 
+	UDoomGameInstance* myGameInstance = Cast<UDoomGameInstance>(GetGameInstance());
+	if (myGameInstance && myGameInstance->doomSaveGame) {
+		myDoomSaveGame = myGameInstance->doomSaveGame;
+	}
 
 
 	//Assign Main Weapon
@@ -310,19 +314,20 @@ void ADoomCharacter::Look(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		float sensitivityX = 1;
-		float sensitivityY = 1;
-
-		if (doomCharacterData) {
-			sensitivityX = doomCharacterData->sensitivityX;
-			sensitivityY = doomCharacterData->sensitivityY;
+		
+		if (!isZooming) {
+			float sensitivity = myDoomSaveGame->mouseSensitivity;
+			// add yaw and pitch input to controller
+			AddControllerYawInput(LookAxisVector.X * sensitivity);
+			AddControllerPitchInput(LookAxisVector.Y * sensitivity);
 		}
-
-
-
-		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X * sensitivityX);
-		AddControllerPitchInput(LookAxisVector.Y * sensitivityY);
+		else {
+			float zoomSensitivity = myDoomSaveGame->zoomSensitivity;
+			AddControllerYawInput(LookAxisVector.X * zoomSensitivity);
+			AddControllerPitchInput(LookAxisVector.Y * zoomSensitivity);
+		}
+		
+		
 	}
 }
 

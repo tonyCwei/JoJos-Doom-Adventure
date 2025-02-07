@@ -31,9 +31,10 @@ protected:
 	USoundBase* CurrentBGM;
 
 	
-	float TargetVolume = 1;
+	
 
 public:
+
 
 	UFUNCTION(BlueprintCallable)
 	void PlayBGM(USoundBase* NewBGM, float FadeInDuration = 1.0f, float Volume = 1.0f);
@@ -46,4 +47,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ResumeBGM();
+
+	UFUNCTION(BlueprintCallable)
+	void setVolume(float newVolume);
+
+	UFUNCTION(BlueprintCallable)
+	UAudioComponent* getAudioComponent() { return BGMAudioComponent; };
 };

@@ -607,6 +607,20 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UPawnNoiseEmitterComponent* myNoiseEmitter;
 
+
+
+//Widget Control:
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void hideAllWidgets();
+
+	UFUNCTION(BlueprintCallable)
+	void unhideAllWidgets();
+
+
+
+
 //Audio
 
 	UFUNCTION()

@@ -48,7 +48,19 @@ protected:
 	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser) override;
 
 	
-	void HandleDeath() override;
+	void HandleBossDeath();
+
+	void playBossEndSequence();
+
+
+	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	class ULevelSequence* bossEndSequence;
+
+public:
+	UFUNCTION()
+	void OnBossEndSequenceFinished();
 
 //BossHUD
 protected:

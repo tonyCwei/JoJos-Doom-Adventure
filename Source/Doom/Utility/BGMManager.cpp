@@ -43,7 +43,7 @@ void ABGMManager::PlayBGM(USoundBase* NewBGM, float FadeInDuration, float Volume
     }
 
     CurrentBGM = NewBGM;
-    TargetVolume = Volume;
+    
 
     // Play the new BGM
     BGMAudioComponent->SetSound(NewBGM);
@@ -73,5 +73,10 @@ void ABGMManager::ResumeBGM()
     {
         BGMAudioComponent->SetPaused(false);
     }
+}
+
+void ABGMManager::setVolume(float newVolume)
+{
+    BGMAudioComponent->SetVolumeMultiplier(newVolume);
 }
 

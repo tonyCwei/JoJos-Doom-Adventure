@@ -27,6 +27,8 @@
 #include "Components/SpotLightComponent.h" 
 #include "GameInstance/DoomGameInstance.h"
 #include "GameInstance/DoomSaveGame.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Blueprint/UserWidget.h"
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -1117,6 +1119,35 @@ void ADoomCharacter::Scan()
 				canScan = true;
 			}, scanCD, false);
 
+	}
+}
+
+void ADoomCharacter::hideAllWidgets()
+{
+	TArray<UUserWidget*> foundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(
+		GetWorld(),
+		foundWidgets,
+		UUserWidget::StaticClass(),
+		false);
+
+	for (UUserWidget* foundWidget : foundWidgets) {
+		foundWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+}
+
+void ADoomCharacter::unhideAllWidgets()
+{
+	TArray<UUserWidget*> foundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(
+		GetWorld(),
+		foundWidgets,
+		UUserWidget::StaticClass(),
+		false);
+
+	for (UUserWidget* foundWidget : foundWidgets) {
+		foundWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 

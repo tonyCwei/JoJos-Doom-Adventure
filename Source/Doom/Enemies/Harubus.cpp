@@ -29,6 +29,12 @@
 #include "Sound/SoundCue.h"
 #include "Components/AudioComponent.h"
 
+#include "LevelSequence.h"
+#include "LevelSequenceActor.h"
+#include "LevelSequencePlayer.h"
+
+#include "Doom/Utility/BGMManager.h"
+
 AHarubus::AHarubus()
 {
 
@@ -166,14 +172,87 @@ void AHarubus::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType
 {
 	Super::DamageTaken(DamagedActor, Damage, DamageType, DamageInstigator, DamageCauser);
 	updateHealthBar();
+
+	if (isDead) HandleBossDeath();
 }
 
-void AHarubus::HandleDeath()
+void AHarubus::HandleBossDeath()
 {
-	Super::HandleDeath();
 	if (myBossHUD) {
 		myBossHUD->RemoveFromViewport();
 	}
+
+	laserTowerRef->Destroy();
+
+	
+
+
+	
+	FTimerHandle sequenceTimerHandle;
+	GetWorldTimerManager().SetTimer(sequenceTimerHandle, [&]()
+		{
+			playBossEndSequence();
+		}, 3, false);
+
+
+}
+
+void AHarubus::playBossEndSequence()
+{
+
+	ABGMManager* BGMManagerRef = Cast<ABGMManager>(
+		UGameplayStatics::GetActorOfClass(GetWorld(), ABGMManager::StaticClass())
+	);
+
+	if (BGMManagerRef) {
+		BGMManagerRef->setVolume(0.5);
+	}
+
+
+
+	if (bossEndSequence) {
+		FMovieSceneSequencePlaybackSettings PlaybackSettings;
+		PlaybackSettings.bRestoreState = false;
+
+		ALevelSequenceActor* SequenceActor;
+		ULevelSequencePlayer* SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(
+			GetWorld(),
+			bossEndSequence,
+			PlaybackSettings,
+			SequenceActor
+		);
+
+		if (SequencePlayer)
+		{
+			
+			SequencePlayer->Play(); 
+			
+			
+		}
+	
+		playerCharacter->hideAllWidgets();
+		playerCharacter->DisableInput(Cast<APlayerController>(playerCharacter->GetController()));
+		
+
+		FTimerHandle sequenceEndTimerHandle;
+		GetWorldTimerManager().SetTimer(sequenceEndTimerHandle, [&]()
+			{
+				OnBossEndSequenceFinished();
+			}, 4, false);
+	
+	}
+}
+
+void AHarubus::OnBossEndSequenceFinished()
+{
+	if (playerCharacter) {
+		playerCharacter->unhideAllWidgets();
+		playerCharacter->EnableInput(Cast<APlayerController>(playerCharacter->GetController()));
+		playerCharacter->SetActorLocation(FVector(2024.145676, -2680.591084, 2511.126363));
+	}
+	
+
+
 }
 
 void AHarubus::addBossHUD()

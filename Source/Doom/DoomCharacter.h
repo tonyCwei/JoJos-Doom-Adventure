@@ -317,7 +317,7 @@ public:
 	float maxStamina = 100;
 
 //Dash and Dodge
-private:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DashAction;
 
@@ -618,6 +618,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void unhideAllWidgets();
 
+//
+public:
+	UFUNCTION(BlueprintCallable)
+	void handleBossEnd();
+
+	UFUNCTION(BlueprintCallable)
+	void resetBossEnd();
 
 
 

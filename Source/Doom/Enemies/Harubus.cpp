@@ -34,12 +34,18 @@
 #include "LevelSequencePlayer.h"
 
 #include "Doom/Utility/BGMManager.h"
+#include "Blueprint/UserWidget.h"
+
 
 AHarubus::AHarubus()
 {
 
 	AnimationFlipBookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("AnimationFlipBookComponent"));
 	AnimationFlipBookComponent->SetupAttachment(RootComponent);
+
+	PromptChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("PromptChildActorComponent"));
+	PromptChildActorComponent->SetupAttachment(RootComponent);
+	PromptChildActorComponent->SetVisibility(false);
 
 	AnimationFlipBookComponent->SetLooping(false);
 	
@@ -151,6 +157,8 @@ void AHarubus::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 	GetWorldTimerManager().ClearTimer(onetwentyAttackTimer);
 	GetWorldTimerManager().ClearTimer(spawnTimerHandle);
+	GetWorldTimerManager().ClearTimer(startLaserAttackTimer);
+	
 }
 
 void AHarubus::Tick(float DeltaTime)
@@ -165,12 +173,12 @@ void AHarubus::Tick(float DeltaTime)
 		laserAttackTick();
 	}
 
-
 }
 
 void AHarubus::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)
 {
 	Super::DamageTaken(DamagedActor, Damage, DamageType, DamageInstigator, DamageCauser);
+
 	updateHealthBar();
 
 	if (isDead) HandleBossDeath();
@@ -178,23 +186,82 @@ void AHarubus::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType
 
 void AHarubus::HandleBossDeath()
 {
+	//play deathsound
+	if (deathSound) {
+		UGameplayStatics::PlaySoundAtLocation(this, deathSound, this->GetActorLocation());
+	}
+	//Remove BossHUD
 	if (myBossHUD) {
 		myBossHUD->RemoveFromViewport();
 	}
 
+	//F Prompt
+	PromptChildActorComponent->SetVisibility(true);
+
+
+	//If dead in mid of laser attack
+	endLaserAttack();
+	GetWorldTimerManager().ClearTimer(startLaserAttackTimer);
 	laserTowerRef->Destroy();
 
-	
+	//Stop AI
+	AAIController* myAIEnemyController = getAIController();
+	if (myAIEnemyController) {
+		myAIEnemyController->GetBrainComponent()->StopLogic("isDead");
+	}
+
+	//Update Flipbook
+	GetCharacterMovement()->StopMovementImmediately();
+	//directionalFlipbooks = deathFlipbooks;
+	EnemyFlipBookComponent->SetRelativeRotation(FRotator(0, -90, 0));
+	EnemyFlipBookComponent->SetFlipbook(deathFlipbook);
+	//EnemyFlipBookComponent->SetLooping(false);
 
 
+	//Add tag
+	Tags.Add(FName("ExecutableBoss"));
 	
+
+}
+
+void AHarubus::HandleDeath()
+{
+	facePlayerYaw();
+}
+
+void AHarubus::executeBoss()
+{
+
+	ABGMManager* BGMManagerRef = Cast<ABGMManager>(
+		UGameplayStatics::GetActorOfClass(GetWorld(), ABGMManager::StaticClass())
+	);
+
+	if (BGMManagerRef) {
+		BGMManagerRef->StopBGM(3);
+	}
+
+	UUserWidget* tvStaticWidget = CreateWidget<UUserWidget>(this->GetWorld(), TVStaticWidgetClass);
+	if (tvStaticWidget) tvStaticWidget->AddToViewport(1);
+	playerCharacter->DisableInput(Cast<APlayerController>(playerCharacter->GetController()));
+
+	/*if (TVStaticWidgetClass) {
+		FTimerHandle staticTimerHandle;
+		GetWorldTimerManager().SetTimer(staticTimerHandle, [&]()
+			{
+				UUserWidget* tvStaticWidget = CreateWidget<UUserWidget>(this->GetWorld(), TVStaticWidgetClass);
+				if (tvStaticWidget) tvStaticWidget->AddToViewport(1);
+				playerCharacter->DisableInput(Cast<APlayerController>(playerCharacter->GetController()));
+
+			}, 3, false);
+	}*/
+
+
 	FTimerHandle sequenceTimerHandle;
 	GetWorldTimerManager().SetTimer(sequenceTimerHandle, [&]()
 		{
+			Destroy();
 			playBossEndSequence();
-		}, 3, false);
-
-
+		}, 1.5, false);
 }
 
 void AHarubus::playBossEndSequence()
@@ -204,8 +271,8 @@ void AHarubus::playBossEndSequence()
 		UGameplayStatics::GetActorOfClass(GetWorld(), ABGMManager::StaticClass())
 	);
 
-	if (BGMManagerRef) {
-		BGMManagerRef->setVolume(0.5);
+	if (BGMManagerRef && BossEndSong) {
+		BGMManagerRef->PlayBGM(BossEndSong);
 	}
 
 
@@ -222,23 +289,25 @@ void AHarubus::playBossEndSequence()
 			SequenceActor
 		);
 
+		
 		if (SequencePlayer)
 		{
 			
 			SequencePlayer->Play(); 
+			float SequenceLength = SequencePlayer->GetDuration().AsSeconds();
 			
+
+			playerCharacter->handleBossEnd();
+			FTimerHandle sequenceEndTimerHandle;
+			GetWorldTimerManager().SetTimer(sequenceEndTimerHandle, [&]()
+				{
+					OnBossEndSequenceFinished();
+				}, SequenceLength, false);
+
 			
 		}
 	
-		playerCharacter->hideAllWidgets();
-		playerCharacter->DisableInput(Cast<APlayerController>(playerCharacter->GetController()));
 		
-
-		FTimerHandle sequenceEndTimerHandle;
-		GetWorldTimerManager().SetTimer(sequenceEndTimerHandle, [&]()
-			{
-				OnBossEndSequenceFinished();
-			}, 4, false);
 	
 	}
 }
@@ -246,14 +315,14 @@ void AHarubus::playBossEndSequence()
 void AHarubus::OnBossEndSequenceFinished()
 {
 	if (playerCharacter) {
-		playerCharacter->unhideAllWidgets();
-		playerCharacter->EnableInput(Cast<APlayerController>(playerCharacter->GetController()));
-		playerCharacter->SetActorLocation(FVector(2024.145676, -2680.591084, 2511.126363));
+		playerCharacter->resetBossEnd();
+		playerCharacter->SetActorLocation(FVector(5105.212827, -2426.513029, 2616.280702));
+		
 	}
-	
-
 
 }
+
+
 
 void AHarubus::addBossHUD()
 {
@@ -282,13 +351,6 @@ void AHarubus::facePlayerYaw()
 	FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), playerCharacter->GetActorLocation());
 	this->SetActorRotation(FRotator(0, TargetRotation.Yaw, 0));
 }
-
-
-
-
-
-
-
 
 
 
@@ -683,9 +745,9 @@ void AHarubus::laserAttack()
 		UGameplayStatics::PlaySoundAtLocation(this, laserStartSound, this->GetActorLocation());
 	}
 
-	FTimerHandle startAttackTimer;
+	
 
-	GetWorldTimerManager().SetTimer(startAttackTimer, [&]() {
+	GetWorldTimerManager().SetTimer(startLaserAttackTimer, [&]() {
 		//Start Self Laser
 		laserVFX->SetVisibility(true);
 		isLaserAttacking = true;

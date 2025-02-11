@@ -417,7 +417,7 @@ void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageTy
 	if (isInvin) return;
 
 	curHealth -= Damage;
-	UE_LOG(LogTemp, Display, TEXT("Boss Heath: %f"), curHealth);
+	//UE_LOG(LogTemp, Display, TEXT("Boss Heath: %f"), curHealth);
 
 	if (curHealth <= 0) {
 		isDead = true;

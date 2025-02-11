@@ -29,6 +29,7 @@
 #include "GameInstance/DoomSaveGame.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Blueprint/UserWidget.h"
+#include "Enemies/Harubus.h"
 
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -991,9 +992,10 @@ void ADoomCharacter::Interact(const FInputActionValue& Value)
 				interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
 				UE_LOG(LogTemp, Display, TEXT("%s, %s"), *HitActor->GetName(), *HitComponent->GetName());
 			}
-
-
-			
+		}
+		else if (HitActor->ActorHasTag("ExecutableBoss")) {
+			AHarubus* myHarubus = Cast<AHarubus>(HitActor);
+			if (myHarubus) myHarubus->executeBoss();
 		}
 	}
 }
@@ -1149,6 +1151,23 @@ void ADoomCharacter::unhideAllWidgets()
 	for (UUserWidget* foundWidget : foundWidgets) {
 		foundWidget->SetVisibility(ESlateVisibility::Visible);
 	}
+}
+
+void ADoomCharacter::handleBossEnd()
+{
+	isInvincible = true;
+	hideAllWidgets();
+	DisableInput(Cast<APlayerController>(this->GetController()));
+	
+}
+
+void ADoomCharacter::resetBossEnd()
+{
+	
+	unhideAllWidgets();
+	EnableInput(Cast<APlayerController>(this->GetController()));
+	GetController()->SetControlRotation(FRotator(0, -177, 0));
+	isInvincible = false;
 }
 
 void ADoomCharacter::play2DSound(USoundCue* soundCue)

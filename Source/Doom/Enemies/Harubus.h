@@ -38,29 +38,14 @@ public:
 
 
 //Aditional General
+
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	class UPaperFlipbookComponent* AnimationFlipBookComponent;
 
 	bool shouldFacePlayer = false;
 
-
-	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser) override;
-
-	
-	void HandleBossDeath();
-
-	void playBossEndSequence();
-
-
-	
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
-	class ULevelSequence* bossEndSequence;
-
-public:
-	UFUNCTION()
-	void OnBossEndSequenceFinished();
 
 //BossHUD
 protected:
@@ -232,6 +217,8 @@ public:
 //Laser Attack
 protected:
 	//Self Laser
+	FTimerHandle startLaserAttackTimer;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LaserAttack", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* laserSpwan;
 
@@ -294,7 +281,39 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void risingSunAttack();
 
+//Death
 
+protected:
+	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
+	TArray<class UPaperFlipbook*> deathFlipbooks;*/
+
+	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser) override;
+
+	void HandleDeath() override;
+
+	void HandleBossDeath();
+
+	void playBossEndSequence();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UUserWidget> TVStaticWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	class ULevelSequence* bossEndSequence;
+
+	UFUNCTION()
+	void OnBossEndSequenceFinished();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* BossEndSong;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+	class UChildActorComponent* PromptChildActorComponent;
+
+	
+public:
+	void executeBoss();
 
 //Audio
 protected:

@@ -5,6 +5,8 @@
 #include "GeometryCollection/GeometryCollectionComponent.h"
 #include "Doom/Item/ItemPickup.h"
 #include "Components/BoxComponent.h"
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AWoodCrate::AWoodCrate()
@@ -38,6 +40,10 @@ void AWoodCrate::Destruct(FVector hitLocation)
 {
 
 	//UE_LOG(LogTemp, Display, TEXT("destruct"));
+
+	if (destroySound) {
+		UGameplayStatics::PlaySoundAtLocation(this, destroySound, this->GetActorLocation());
+	}
 
 	//Spawn item
 	if (droppedItemClass) {

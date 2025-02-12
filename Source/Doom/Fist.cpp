@@ -19,9 +19,21 @@ void AFist::EndPlay(const EEndPlayReason::Type EndPlayReason)
     GetWorldTimerManager().ClearTimer(MeleeTimerHandle);
 }
 
+void AFist::PlayFireAnimation()
+{
+
+    if (FMath::RandRange(0, 1) == 0) {
+        WeaponFlipBookComponent->SetRelativeScale3D(FVector(0.08, 0.08, 0.08));
+    }
+    else {
+        WeaponFlipBookComponent->SetRelativeScale3D(FVector(-0.08, 0.08, 0.08));
+    }
+    Super::PlayFireAnimation();
+}
+
 void AFist::FireWeapon() {
    //Super::FireWeapon();
-    playWeaponSound();
+   playWeaponSound();
    Punch();
    resetFlipbook();
 }
@@ -81,6 +93,8 @@ void AFist::FireWeapon() {
             AWoodCrate* hitCrate = Cast<AWoodCrate>(HitActor);
             hitCrate->Destruct(HitResult.Location);
         }
+
+        playWeaponHitSound();
  	}
 
      PlayFireAnimation();

@@ -21,6 +21,9 @@ private:
 protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
+	void PlayFireAnimation() override;
+
+	
 public:
 
 	void FireWeapon() override;

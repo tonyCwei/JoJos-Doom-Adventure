@@ -16,8 +16,6 @@ public class Doom : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "Niagara" });
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EngineSettings" });
         PublicDependencyModuleNames.AddRange(new string[]{"Core","CoreUObject","Engine","InputCore","LevelSequence","MovieScene"});
-
-
-
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "PhysicsCore", "Chaos", "GeometryCollectionEngine" });
     }
 }

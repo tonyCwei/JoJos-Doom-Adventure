@@ -199,10 +199,13 @@ void AHarubus::HandleBossDeath()
 	PromptChildActorComponent->SetVisibility(true);
 
 
-	//If dead in mid of laser attack
+	//If dead in mid of Attacks
 	endLaserAttack();
-	GetWorldTimerManager().ClearTimer(startLaserAttackTimer);
 	laserTowerRef->Destroy();
+	EndPlay(EEndPlayReason::Destroyed);
+		//GetWorldTimerManager().ClearTimer(startLaserAttackTimer);
+		//GetWorldTimerManager().ClearTimer(onetwentyAttackTimer);
+		//GetWorldTimerManager().ClearTimer(spawnTimerHandle);
 
 	//Stop AI
 	AAIController* myAIEnemyController = getAIController();
@@ -290,12 +293,13 @@ void AHarubus::playBossEndSequence()
 		);
 
 		
-		if (SequencePlayer)
+		if (SequencePlayer && playerCharacter)
 		{
 			
 			SequencePlayer->Play(); 
 			float SequenceLength = SequencePlayer->GetDuration().AsSeconds();
 			
+			playerCharacter->SetActorLocation(FVector(5105.212827, -2426.513029, 2616.280702));
 
 			playerCharacter->handleBossEnd();
 			FTimerHandle sequenceEndTimerHandle;
@@ -316,7 +320,7 @@ void AHarubus::OnBossEndSequenceFinished()
 {
 	if (playerCharacter) {
 		playerCharacter->resetBossEnd();
-		playerCharacter->SetActorLocation(FVector(5105.212827, -2426.513029, 2616.280702));
+		
 		
 	}
 

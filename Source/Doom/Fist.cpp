@@ -11,6 +11,7 @@
 #include "DoomCharacter.h"
 #include "Enemies/BaseEnemy.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Prop/WoodCrate.h"
 
 void AFist::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
@@ -31,7 +32,9 @@ void AFist::FireWeapon() {
  	FVector lineTraceEnd = lineTraceForward * lineTraceDistance + lineTraceLocation;
  	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = {UEngineTypes::ConvertToObjectType(ECC_WorldStatic), 
  														 UEngineTypes::ConvertToObjectType(ECC_WorldDynamic), 	
- 														 UEngineTypes::ConvertToObjectType(ECC_Pawn)};
+ 														 UEngineTypes::ConvertToObjectType(ECC_Pawn),
+                                                         UEngineTypes::ConvertToObjectType(ECC_Destructible)
+                                                         };
 	
  	TArray<AActor*> ActorsToIgnore = {Cast<AActor>(this), UGameplayStatics::GetPlayerCharacter(this,0)};
  	FHitResult HitResult;													 
@@ -74,6 +77,9 @@ void AFist::FireWeapon() {
             //    FRotator spawnRotation = UKismetMathLibrary::FindLookAtRotation(HitResult.Location, playerCharacter->GetActorLocation());
             //    GetWorld()->SpawnActor<AActor>(bloodToSpawn, HitResult.Location, spawnRotation);
             //}
+        } else if (HitActor->ActorHasTag("WoodCrate")) {
+            AWoodCrate* hitCrate = Cast<AWoodCrate>(HitActor);
+            hitCrate->Destruct(HitResult.Location);
         }
  	}
 

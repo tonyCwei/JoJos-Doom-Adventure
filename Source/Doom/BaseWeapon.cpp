@@ -16,6 +16,8 @@
 #include "Enemies/BaseEnemy.h"
 #include "Particles/ParticleSystem.h"
 #include "Math/RotationMatrix.h"
+#include "GeometryCollection/GeometryCollectionComponent.h"
+#include "Prop/WoodCrate.h"
 
 
 // Sets default values
@@ -121,18 +123,16 @@ void ABaseWeapon::FireWeapon(){
 		} 
 		else if (ammoType == Bullet || ammoType == Shell) {
 			if (hitVFX) {
-				
 				FRotator spwanRotation = UKismetMathLibrary::MakeRotFromZ(HitResult.Normal);
-
-
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), hitVFX, HitResult.Location, spwanRotation);
 			}
-		
-		
-		
+			
+			//For wooden box
+			if (HitActor->ActorHasTag("WoodCrate")) {
+				AWoodCrate* hitCrate = Cast<AWoodCrate>(HitActor);
+				hitCrate->Destruct(HitResult.Location);
+			}
 		}
-
-
 	}
 
 	//Decrease Ammo

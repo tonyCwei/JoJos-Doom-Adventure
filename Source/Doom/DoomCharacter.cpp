@@ -990,7 +990,7 @@ void ADoomCharacter::Interact(const FInputActionValue& Value)
 			if (interactedObject) {
 			
 				interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
-				UE_LOG(LogTemp, Display, TEXT("%s, %s"), *HitActor->GetName(), *HitComponent->GetName());
+				//UE_LOG(LogTemp, Display, TEXT("%s, %s"), *HitActor->GetName(), *HitComponent->GetName());
 			}
 		}
 		else if (HitActor->ActorHasTag("ExecutableBoss")) {

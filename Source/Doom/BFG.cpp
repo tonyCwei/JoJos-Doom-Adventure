@@ -117,7 +117,7 @@ void ABFG::ShootProjectle() {
 	GetWorldTimerManager().ClearTimer(BFGAudioHandle);
 	myAudioComponent->Stop();
 	playWeaponSound();
-
+	playCameraShake();
     
 }
 

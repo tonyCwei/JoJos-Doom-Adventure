@@ -109,6 +109,7 @@ protected:
 
 	void updateFlipbook(float degree, int32 index);
 
+	UFUNCTION(BlueprintCallable)
 	void rotateToPlayer(float DeltaTime);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))

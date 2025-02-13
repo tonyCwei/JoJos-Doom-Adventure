@@ -136,7 +136,7 @@ void AShotgun::FireWeapon() {
 
         //PlaySound
         playWeaponSound();
-
+        playCameraShake();
         //Animation
         PlayFireAnimation();
 

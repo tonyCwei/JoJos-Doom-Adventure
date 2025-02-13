@@ -18,7 +18,8 @@
 #include "Math/RotationMatrix.h"
 #include "GeometryCollection/GeometryCollectionComponent.h"
 #include "Prop/WoodCrate.h"
-
+#include "Camera/CameraShakeBase.h"
+#include "Camera/PlayerCameraManager.h"
 
 // Sets default values
 ABaseWeapon::ABaseWeapon()
@@ -138,8 +139,9 @@ void ABaseWeapon::FireWeapon(){
 	//Decrease Ammo
 	decreaseAmmo();
 
-	//PlaySound
+	//PlayFX
 	playWeaponSound();
+	playCameraShake();
 	
 	//Animation
 	PlayFireAnimation();
@@ -178,7 +180,8 @@ void ABaseWeapon::ShootProjectle() {
 
 	//Play Sound
 	playWeaponSound();
-	
+	playCameraShake();
+
 	//Animation
 	PlayFireAnimation();
 }
@@ -254,6 +257,30 @@ void ABaseWeapon::decreaseAmmo() {
 	default:
 		return;
 	}
+}
+
+void ABaseWeapon::playCameraShake()
+{
+	// Ensure the camera shake class is valid
+	if (!CameraShakeClass) return;
+
+	// Get the owning player's controller
+	/*APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (!OwnerPawn) return;*/
+
+	APlayerController* PC = Cast<APlayerController>(playerCharacter->GetController());
+	if (!PC) return;
+
+	// Play the camera shake via the player's camera manager
+	/*if (PC->PlayerCameraManager) {
+		PC->PlayerCameraManager->StartCameraShake(
+			CameraShakeClass,
+			1.0f 
+		);
+	}*/
+
+	if (PC) PC->ClientStartCameraShake(CameraShakeClass);
+
 }
 
 void ABaseWeapon::playWeaponSound()

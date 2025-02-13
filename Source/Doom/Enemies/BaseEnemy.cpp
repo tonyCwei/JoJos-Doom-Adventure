@@ -243,14 +243,17 @@ void ABaseEnemy::updateFlipbook(float degree, int32 index)
 void ABaseEnemy::rotateToPlayer(float DeltaTime)
 {
 
+	if (playerCharacter) {
+		FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), playerCharacter->GetActorLocation());
+
+		FRotator NewRotation = FMath::RInterpConstantTo(this->GetActorRotation(), TargetRotation, DeltaTime, rotationSpeed);
+
+		//this->SetActorRotation(NewRotation);
+
+		this->SetActorRotation(FRotator(0, NewRotation.Yaw, 0));
 	
-	FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), playerCharacter->GetActorLocation());
-
-	FRotator NewRotation = FMath::RInterpConstantTo(this->GetActorRotation(), TargetRotation, DeltaTime, rotationSpeed);
-
-	//this->SetActorRotation(NewRotation);
-
-	this->SetActorRotation(FRotator(0, NewRotation.Yaw,0));
+	}
+	
 
 
 }

@@ -29,7 +29,7 @@ protected:
 	UGeometryCollectionComponent* woodCrateGeometryCollection;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits")
-	TSubclassOf<class AItemPickup> droppedItemClass;
+	TArray<TSubclassOf<class AItemPickup>> droppedItemClasses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* droppedItemPlace;

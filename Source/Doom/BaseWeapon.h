@@ -119,7 +119,7 @@ public:
 	Ammo GetAmmoType() { return ammoType; }
 
 
-// Audio
+// Audio and VFX
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
@@ -134,6 +134,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
 	 USoundCue* emptyMagSound;
 
+
+	 UPROPERTY(EditAnywhere, Category = "Edits", meta = (AllowPrivateAccess = "true"))
+	 TSubclassOf<class UCameraShakeBase> CameraShakeClass;
+
+	 void playCameraShake();
 public:
 
 	UFUNCTION(BlueprintCallable)

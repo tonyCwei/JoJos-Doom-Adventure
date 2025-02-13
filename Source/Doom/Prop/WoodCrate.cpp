@@ -46,10 +46,18 @@ void AWoodCrate::Destruct(FVector hitLocation)
 	}
 
 	//Spawn item
-	if (droppedItemClass) {
-		GetWorld()->SpawnActor<AItemPickup>(droppedItemClass, droppedItemPlace->GetComponentLocation(), droppedItemPlace->GetComponentRotation());
-	}
+	if (!droppedItemClasses.IsEmpty()) {
+		int32 itemIndex = FMath::RandRange(0, droppedItemClasses.Num() - 1);
+		TSubclassOf<AItemPickup> itemClass = droppedItemClasses[itemIndex];
 
+		if (itemClass) {
+			GetWorld()->SpawnActor<AItemPickup>(itemClass, droppedItemPlace->GetComponentLocation(), droppedItemPlace->GetComponentRotation());
+		}
+	}
+	
+
+
+	//Fracture
 	if (woodCrateGeometryCollection && boxCollision) {
 		woodCrateGeometryCollection->SetSimulatePhysics(true);
 		TArray<float> emptyDamageThresholds;
@@ -64,10 +72,7 @@ void AWoodCrate::Destruct(FVector hitLocation)
 		//woodCrateGeometryCollection->SetCollisionEnabled(ECollisionEnabled::);
 		
 		boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		
-		
-		
-		
+	
 		
 	}
 

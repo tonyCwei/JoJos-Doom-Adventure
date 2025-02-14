@@ -302,8 +302,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	class ULevelSequence* bossEndSequence;
 
-	UFUNCTION()
-	void OnBossEndSequenceFinished();
+	/*UFUNCTION()
+	void OnBossEndSequenceFinished();*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))
 	class USoundBase* BossEndSong;

@@ -344,6 +344,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool getIsInvincible() const { return isInvincible; }
 
+	UFUNCTION(BlueprintCallable)
+	void setIsInvincible(bool isInvincible_) { isInvincible = isInvincible_; }
+
 	//Perfect Dodge
 	UFUNCTION(BlueprintCallable)
 	void checkPerfectDodge();

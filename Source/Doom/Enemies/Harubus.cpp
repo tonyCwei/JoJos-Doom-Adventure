@@ -302,11 +302,11 @@ void AHarubus::playBossEndSequence()
 			playerCharacter->SetActorLocation(FVector(5105.212827, -2426.513029, 2616.280702));
 
 			playerCharacter->handleBossEnd();
-			FTimerHandle sequenceEndTimerHandle;
+			/*FTimerHandle sequenceEndTimerHandle;
 			GetWorldTimerManager().SetTimer(sequenceEndTimerHandle, [&]()
 				{
 					OnBossEndSequenceFinished();
-				}, SequenceLength, false);
+				}, SequenceLength, false);*/
 
 			
 		}
@@ -316,15 +316,12 @@ void AHarubus::playBossEndSequence()
 	}
 }
 
-void AHarubus::OnBossEndSequenceFinished()
-{
-	if (playerCharacter) {
-		playerCharacter->resetBossEnd();
-		
-		
-	}
-
-}
+//void AHarubus::OnBossEndSequenceFinished()
+//{
+//	
+//	ADoomCharacter* doomCharacterRef = Cast<ADoomCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+//	if (doomCharacterRef) doomCharacterRef->resetBossEnd();
+//}
 
 
 

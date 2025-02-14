@@ -18,7 +18,34 @@ public:
 
 	UDoomGameInstance();
 
+
+protected:
+
+
+
+	float playerHealth = 100;
+
+	float playerShield = 100;
+
+	int32 playerBullet = 50;
+
+	int32 playerShell = 0;
+
+	int32 playerCell = 0;
+
+	int32 playerRocekt = 0;
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UDoomSaveGame* doomSaveGame;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float countDownSeconds;
+
+	//PlayerData
+	UFUNCTION(BlueprintCallable)
+	void SavePlayerData();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadPlayerData();
 };

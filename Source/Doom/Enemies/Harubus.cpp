@@ -282,7 +282,7 @@ void AHarubus::playBossEndSequence()
 
 	if (bossEndSequence) {
 		FMovieSceneSequencePlaybackSettings PlaybackSettings;
-		PlaybackSettings.bRestoreState = false;
+		
 
 		ALevelSequenceActor* SequenceActor;
 		ULevelSequencePlayer* SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(

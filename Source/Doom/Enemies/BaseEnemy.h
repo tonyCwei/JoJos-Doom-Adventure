@@ -7,6 +7,7 @@
 #include "Doom/GameState/DoomGameStateBase.h"
 #include "BaseEnemy.generated.h"
 
+class USoundCue;
 
 UENUM(BlueprintType)
 enum EnemyState {

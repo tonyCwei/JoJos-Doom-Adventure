@@ -36,6 +36,12 @@ void AWoodCrate::BeginPlay()
 	Tags.Add("WoodCrate");
 }
 
+void AWoodCrate::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorldTimerManager().ClearTimer(destroyTimerHandle);
+}
+
 void AWoodCrate::Destruct(FVector hitLocation)
 {
 
@@ -76,7 +82,7 @@ void AWoodCrate::Destruct(FVector hitLocation)
 		
 	}
 
-	FTimerHandle destroyTimerHandle;
+	
 	GetWorld()->GetTimerManager().SetTimer(destroyTimerHandle, [&]()
 		{
 			Destroy();

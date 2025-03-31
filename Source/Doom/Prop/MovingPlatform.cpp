@@ -61,7 +61,7 @@ void AMovingPlatform::interact(FString interactedComponentName, AActor* interact
 
             playSuccessSound();
             playMovingPlatformSound();
-        
+            interactableMesh->ComponentTags.Empty();
         }
         else if (!errorMessagePlayed && !isActivated){
             errorMessagePlayed = true;

@@ -125,6 +125,7 @@ void ASecretDoor::interact(FString interactedComponentName, AActor* interactingA
 
 		playSuccessSound();
 		playMovingPlatformSound();
+		interactableMesh->ComponentTags.Empty();
 	}
 	else if (!errorMessagePlayed && !isActivated) {
 		errorMessagePlayed = true;

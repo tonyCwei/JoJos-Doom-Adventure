@@ -23,6 +23,7 @@ void AInteractable::BeginPlay()
 {
 	Super::BeginPlay();
 	this->Tags.Add(FName("Interactable"));
+	interactableMesh->ComponentTags.Add(FName("InteractPrompt"));
 
 }
 
@@ -54,7 +55,7 @@ void AInteractable::interact(FString interactedComponentName, AActor* interactin
 {
 	if (interactedComponentName != interactableMesh->GetName()) return;
 	
-	UE_LOG(LogTemp, Display, TEXT("%s is being interacted"), *this->GetName());
+	//UE_LOG(LogTemp, Display, TEXT("%s is being interacted"), *this->GetName());
 
 	
 }

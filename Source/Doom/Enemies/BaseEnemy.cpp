@@ -161,7 +161,7 @@ void ABaseEnemy::updateDirectionalSprite()
 	float degrees = FMath::RadiansToDegrees(radians);
 
 	//Enemy->Player dot Enemy Right vector
-	//if EPdotER > 0, player is on the left side of Enemy, enemy show front left. EPdotER < 0 means player is on the righ
+	//if EPdotER > 0, player is on the Enemy Right. EPdotER < 0 means player is on the enemy left
 	float EPdotER = FVector::DotProduct(vEnemeyPlayer, GetActorRightVector());
 
 

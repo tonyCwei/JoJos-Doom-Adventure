@@ -236,6 +236,7 @@ void ADoomCharacter::Tick(float DeltaTime)
 		
 	WeaponBob(DeltaTime);
 	updateCrosshair();
+	CheckInteraction();
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -981,17 +982,16 @@ void ADoomCharacter::Interact(const FInputActionValue& Value)
 
 	if (hasHit) {
 		AActor* HitActor = HitResult.GetActor();
-		if (HitActor->ActorHasTag("Door")) {
+		if (HitResult.GetComponent() && HitResult.GetComponent()->ComponentHasTag("Door")) {
 			InteractDoor(HitActor);
 		}
 		else if (HitActor->ActorHasTag("Interactable")) {
 			UPrimitiveComponent* HitComponent = HitResult.GetComponent();
 			AInteractable* interactedObject = Cast<AInteractable>(HitActor);
 			if (interactedObject) {
-			
 				interactedObject->interact(HitComponent->GetName(), Cast<AActor>(this));
-				//UE_LOG(LogTemp, Display, TEXT("%s, %s"), *HitActor->GetName(), *HitComponent->GetName());
 			}
+
 		}
 		else if (HitActor->ActorHasTag("ExecutableBoss")) {
 			AHarubus* myHarubus = Cast<AHarubus>(HitActor);
@@ -1014,6 +1014,48 @@ void ADoomCharacter::InteractDoor(AActor* door)
 
 	}
 
+
+}
+
+void ADoomCharacter::CheckInteraction()
+{
+	FVector lineTraceLocation = WeaponChildActorComponent->GetComponentLocation();
+	FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(WeaponChildActorComponent->GetComponentRotation());
+	FVector lineTraceEnd = lineTraceForward * interactDistance + lineTraceLocation;
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes = { UEngineTypes::ConvertToObjectType(ECC_WorldStatic),
+														 UEngineTypes::ConvertToObjectType(ECC_WorldDynamic),
+														 UEngineTypes::ConvertToObjectType(ECC_Pawn) };
+
+	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this), UGameplayStatics::GetPlayerCharacter(this,0) };
+	FHitResult HitResult;
+
+	//Line Trace
+	bool hasHit = UKismetSystemLibrary::LineTraceSingleForObjects(this->GetWorld(),
+		lineTraceLocation,
+		lineTraceEnd,
+		ObjectTypes,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::Type::None,
+		HitResult,
+		true);
+
+
+	if (hasHit && HitResult.GetComponent() && HitResult.GetComponent()->ComponentHasTag("InteractPrompt") ) {
+		if (!promptHUD && InteractPromptHUDClass) {
+			promptHUD = CreateWidget<UUserWidget>(this->GetWorld(), InteractPromptHUDClass);
+			if (promptHUD) {
+				promptHUD->AddToViewport();
+			}
+		}
+	}
+	else {
+		if (promptHUD) {
+			promptHUD->RemoveFromParent();
+			promptHUD = NULL;
+		}
+	
+	}
 
 }
 

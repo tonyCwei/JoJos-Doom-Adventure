@@ -28,7 +28,7 @@ void AGenerator::interact(FString interactedComponentName, AActor* interactingAc
 		isActivated = true;
 		playSuccessSound();
 		generatorLight->SetMaterial(0, greenlightMaterial);
-
+		interactableMesh->ComponentTags.Empty();
 
 		AMovingPlatform* myPlatform = Cast<AMovingPlatform>(UGameplayStatics::GetActorOfClass(GetWorld(), AMovingPlatform::StaticClass()));
 		if (myPlatform) myPlatform->activateGenerators();

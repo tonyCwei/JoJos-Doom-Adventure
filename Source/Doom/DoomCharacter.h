@@ -549,6 +549,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void InteractDoor(AActor* door);
 
+	void CheckInteraction();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HUD", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UUserWidget> InteractPromptHUDClass;
+
+	UUserWidget* promptHUD;
 	//KeyCard System
 
 public:

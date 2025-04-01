@@ -192,3 +192,10 @@ void ABaseEnemy::addMeleeAttackInfo()
 	}
 }
 ```
+
+As for enemy projectiles, since there’s no attack range check like melee attacks, 
+a different method is used to determine whether the player is going to be hit by the projectile. 
+To accomplish this, a trigger box is added to each enemy projectile. 
+This trigger box is triggered when it overlaps the player, which is when the dodge mechanic can be triggered.
+
+![Enemy Projectile Trigger Box](https://imgur.com/V94HIHO.png)

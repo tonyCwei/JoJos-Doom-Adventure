@@ -234,3 +234,27 @@ void ADoomCharacter::checkPerfectDodge()
 ```
 
 #### Part 2: Perfect Dodge Result and Effect 
+Since the time slow effect is only applied to enemies and not the player, simply setting `Global Time Dilation` will not work. 
+Instead, when a *Perfect Dodge* is performed, an actor `ABulletTimeAura` is spawned at the player's location. 
+This actor functions as a *time bubble*, slowing down all affected actors within its radius while leaving the player unaffected.
+  
+The `ABulletTimeAura` actor contains a sphere collision component. 
+When an enemy or other relevant actor enters this bubble, their `Custom Time Dilation` is modified to create the slow-motion effect. 
+Once they leave the bubble, their `Custom Time Dilation` is reset to normal. 
+
+Below is the implementation of the `BeginOverlap` and `EndOverlap` functions, which manage the time dilation effect on enemies:
+
+```cpp
+void ABulletTimeAura::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && !OtherActor->ActorHasTag("Player")) {
+			OtherActor->CustomTimeDilation = slowDownRate;
+	}
+}
+
+void ABulletTimeAura::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && !OtherActor->ActorHasTag("Player")) {
+			OtherActor->CustomTimeDilation = 1;
+	}
+}

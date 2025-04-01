@@ -18,10 +18,9 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 ## 🚀 Technical Highlights  
 
 ### Eight-Directional Sprite System  
-The game features an eight-directional sprite system, 
-replicating the classic *Doom (1993)*. 
+The game features an eight-directional sprite system similar to the classic *Doom (1993)*. 
 Enemies dynamically change their sprites based on their position relative to the player, 
-creating the illusion of a 3D object while maintaining a retro pixel-art style.  
+creating a sense of being a 3D object while only using sprites.  
 
 [![Eight-Directional Sprite System](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)  
 

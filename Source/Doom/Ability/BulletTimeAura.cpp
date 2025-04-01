@@ -61,19 +61,15 @@ void ABulletTimeAura::Tick(float DeltaTime)
 
 void ABulletTimeAura::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor) {
-		if (!OtherActor->ActorHasTag("Player")) {
+	if (OtherActor && !OtherActor->ActorHasTag("Player")) {
 			OtherActor->CustomTimeDilation = slowDownRate;
-		}
 	}
 }
 
 void ABulletTimeAura::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor) {
-		if (!OtherActor->ActorHasTag("Player")) {
+	if (OtherActor && !OtherActor->ActorHasTag("Player")) {
 			OtherActor->CustomTimeDilation = 1;
-		}
 	}
 }
 

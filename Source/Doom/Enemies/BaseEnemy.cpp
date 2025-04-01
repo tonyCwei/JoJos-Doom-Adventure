@@ -147,7 +147,6 @@ void ABaseEnemy::resetLocation()
 
 void ABaseEnemy::updateDirectionalSprite()
 {
-	
 	if (!playerCharacter) return;
 	
 	FVector vEnemeyPlayer = playerCharacter->GetActorLocation() - GetActorLocation();
@@ -156,7 +155,7 @@ void ABaseEnemy::updateDirectionalSprite()
 	//Enemy->Player dot Enemy Forward vector
 	float EPdotEF = FVector::DotProduct(vEnemeyPlayer, GetActorForwardVector());
 
-	//Degree with regard to Enemy Forward Vector
+	//Degree between Enemy->Player and Enemy Forward Vector
 	float radians = FMath::Acos(EPdotEF);
 	float degrees = FMath::RadiansToDegrees(radians);
 
@@ -164,50 +163,53 @@ void ABaseEnemy::updateDirectionalSprite()
 	//if EPdotER > 0, player is on the Enemy Right. EPdotER < 0 means player is on the enemy left
 	float EPdotER = FVector::DotProduct(vEnemeyPlayer, GetActorRightVector());
 
-
 	if (EPdotER > 0) {
 		if (degrees >= 0 && degrees < 20) {
+			//Show enemy front sprite
 			updateFlipbook(-90, 0);
 		}
 		else if (degrees >= 20 && degrees < 70) {
+			//Show enemy front right sprite
 			updateFlipbook(-45, 1);
 		}
 		else if (degrees >= 70 && degrees < 120) {
+			//Show enemy right sprite
 			updateFlipbook(0, 2);
 		}
 		else if (degrees >= 120 && degrees < 160) {
+			//Show enemy back right sprite
 			updateFlipbook(45, 3);
 		}
 		else {
+			//Show enemy back sprite
 			updateFlipbook(90, 4);
 		}
 	}
 	else {
 		if (degrees >= 0 && degrees < 20) {
+			//Show enemy front sprite
 			updateFlipbook(-90, 0);
 		}
 		else if (degrees >= 20 && degrees < 70) {
+			//Show enemy front left sprite
 			updateFlipbook(-135, 7);
 		}
 		else if (degrees >= 70 && degrees < 120) {
+			//Show enemy left sprite
 			updateFlipbook(180, 6);
 		}
 		else if (degrees >= 120 && degrees < 160) {
+			//Show enemy back left sprite
 			updateFlipbook(135, 5);
 		}
 		else {
+			//Show enemy back sprite
 			updateFlipbook(90, 4);
 		}
 	}
-
-
-	//UE_LOG(LogTemp, Warning, TEXT("Dot Product: %f"), degrees);
-
-
-
 }
 
-void ABaseEnemy::updateFlipbook(float degree, int32 index)
+void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 {
 	switch (enemyState)
 	{
@@ -235,8 +237,7 @@ void ABaseEnemy::updateFlipbook(float degree, int32 index)
 		break;
 	}
 
-
-	EnemyFlipBookComponent->SetRelativeRotation(FRotator(0, degree, 0));
+	EnemyFlipBookComponent->SetRelativeRotation(FRotator(0, relativeDegree, 0));
 	EnemyFlipBookComponent->SetFlipbook(currentFlipbooks[index]);
 }
 
@@ -347,15 +348,7 @@ void ABaseEnemy::MeleeAttack()
 	attackingstate = PreMeleeAttacking;
 
 	//Add attack info before starting the actual attack if player within range
-	float Distance = FVector::Dist(this->GetActorLocation(), playerCharacter->GetActorLocation());
-	if (Distance <= meleeAttackRange) {
-		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
-		curAttackInfo.Duration = meleeAttackDodgeWindow;
-		curAttackInfo.Attacker = this;
-
-		gameStateRef->addAttack(curAttackInfo);
-		isAdded = true;
-	}
+	addMeleeAttackInfo();
 
 	//give a attack window delay for perfect dodge
 	GetWorld()->GetTimerManager().SetTimer(attackWindowTimerHandle, [&]()
@@ -408,11 +401,18 @@ void ABaseEnemy::MeleeAttack()
 
 	}, meleeAttackDodgeWindow, false);
 
+}
 
-
-	
-
-	
+void ABaseEnemy::addMeleeAttackInfo()
+{
+	float Distance = FVector::Dist(this->GetActorLocation(), playerCharacter->GetActorLocation());
+	if (Distance <= meleeAttackRange) {// If player is within the melee attack range
+		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
+		curAttackInfo.Duration = meleeAttackDodgeWindow;
+		curAttackInfo.Attacker = this;
+		gameStateRef->addAttack(curAttackInfo);
+		isAdded = true;
+	}
 }
 
 void ABaseEnemy::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* DamageInstigator, AActor* DamageCauser)

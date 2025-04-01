@@ -578,14 +578,11 @@ void ADoomCharacter::Dash(const FInputActionValue& Value)
 void ADoomCharacter::checkPerfectDodge()
 {
 	for (FAttackInfo& attackInfo : gameStateRef->getActiveAttacks()) {
-		
 		float timeTillHit = attackInfo.StartTime + attackInfo.Duration - GetWorld()->GetTimeSeconds();
-
-		UE_LOG(LogTemp, Display, TEXT("TimeTillHit: %f"), timeTillHit);
 		if (timeTillHit > 0 && timeTillHit <= perfectDodgeWindow) {
 			perfectDodge();
+			break;
 		}
-	
 	}
 }
 
@@ -593,19 +590,17 @@ void ADoomCharacter::perfectDodge()
 {
 	FVector spawnLocation = GetActorLocation();
 	FRotator spawnRotation = GetActorRotation();
-	//FTransform SpawnTransform = LineTraceComponent->GetComponentTransform();
 
 	if (myBulletTimeAura) {
 		GetWorld()->SpawnActor<ABulletTimeAura>(myBulletTimeAura, spawnLocation, spawnRotation);
 	}
 
+	//Create dragging effect in the first 0.05 second of the prefect dodge
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.1f);
-
 	GetWorld()->GetTimerManager().SetTimer(perfectDodgeEffectHandle, [&]()
 		{
 			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
 		}, 0.05, false);
-		
 }
 
 

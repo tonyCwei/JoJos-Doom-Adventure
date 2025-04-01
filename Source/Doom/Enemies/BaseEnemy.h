@@ -189,6 +189,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void MeleeAttack();
 
+	void addMeleeAttackInfo();
+
 //Dash Attack for dogs
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Edits", meta = (AllowPrivateAccess = "true"))

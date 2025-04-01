@@ -258,3 +258,29 @@ void ABulletTimeAura::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			OtherActor->CustomTimeDilation = 1;
 	}
 }
+```
+
+Additionally, `GlobalTimeDilation` is momentarily modified at the very beginning (for 0.05 seconds) to create a *dragging effect*, 
+making the transition into slow motion feel more dynamic.   
+
+```cpp
+void ADoomCharacter::perfectDodge() 
+{
+	FVector spawnLocation = GetActorLocation();
+	FRotator spawnRotation = GetActorRotation();
+
+	if (myBulletTimeAura) {
+		GetWorld()->SpawnActor<ABulletTimeAura>(myBulletTimeAura, spawnLocation, spawnRotation);
+	}
+
+	// Create dragging effect in the first 0.05 seconds of the perfect dodge
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.1f);
+	GetWorld()->GetTimerManager().SetTimer(perfectDodgeEffectHandle, [&]()
+		{
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
+		}, 0.05, false);
+}
+```
+
+Finally, to further enhance the *Perfect Dodge* effect, a black-and-white "filter" is applied during the time slow. 
+This is achieved by attaching a *Post Process Component* to the `ABulletTimeAura` actor and setting its *Global Saturation* to black.  

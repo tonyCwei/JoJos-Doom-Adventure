@@ -24,21 +24,17 @@ Enemies dynamically change their sprites based on their position relative to the
 creating the illusion of a 3D object while maintaining a retro pixel-art style.  
 
 [![Eight-Directional Sprite System](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)  
+
 The system determines the player's relative position using vector calculations:  
 
-- **Enemy Forward Vector** (`GetActorForwardVector()`)  
-- **Enemy Right Vector** (`GetActorRightVector()`)  
+- **Enemy Forward Vector**  
+- **Enemy Right Vector** 
 - **Vector from Enemy to Player** (`Enemy->Player`)  
 
-By computing dot products, we determine whether the player is in front, behind, left, or right of the enemy:  
-
-1. **Dot Product of `Enemy->Player` and `Enemy Forward Vector`**  
-   - Converts to degrees using `Acos()` to determine if the player is in front or behind.  
+1. Use dot product of `Enemy->Player` and `Enemy Forward Vector` and Converts to degrees using `Acos()` to determine if the player is in front or behind.  
 
 2. **Dot Product of `Enemy->Player` and `Enemy Right Vector`**  
    - Determines whether the player is on the left or right.  
-
-Here’s the implementation in C++ using Unreal Engine 5:  
 
 ```cpp
 void ABaseEnemy::updateDirectionalSprite()

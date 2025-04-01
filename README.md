@@ -101,7 +101,7 @@ void ABaseEnemy::updateDirectionalSprite()
 ```
 
 `updateFlipbook` is a helper function that updates the flipbook array based on an enum called `enemyState`. 
-The `relativeDegree` parameter is used to set the relative rotation of the `EnemyFlipBookComponent`, ensuring it always faces the player.  
+The `relativeDegree` parameter is used to set the relative rotation of the `EnemyFlipBookComponent` with regards to the enemy actor itself, ensuring it always faces the player.  
 
 ```cpp
 void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)

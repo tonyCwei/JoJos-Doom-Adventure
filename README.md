@@ -152,8 +152,8 @@ Enemy Projectile Perfect Dodge:
 
 The *Perfect Dodge* system consists of two main parts:  
 
-1. **Determining if the Player's Dodge Was Perfect**  
-2. **Slowing Down Time Around the Player and Activating the Black-and-White Effect**  
+1. **Determine if the player's dodge was perfect**  
+2. **Slow down time around the player and add the black-and-white effect**  
 
 #### Part 1: Perfect Dodge Check  
 A struct called `FAttackInfo` is created in the custom GameState Class `ADoomGameStateBase`. This struct stores information about each attack, such as the start time, duration, and the attacker.

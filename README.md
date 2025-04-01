@@ -198,4 +198,4 @@ a different method is used to determine whether the player is going to be hit by
 To accomplish this, a trigger box is added to each enemy projectile. 
 This trigger box is triggered when it overlaps the player, which is when the dodge mechanic can be triggered.
 
-![Enemy Projectile Trigger Box](https://imgur.com/a/IcdSHyF)
+![Enemy Projectile Trigger Box](https://imgur.com/djvhuKE)

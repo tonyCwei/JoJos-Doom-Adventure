@@ -139,7 +139,7 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 
 ### Perfect Dodge System 
 The game features a *Perfect Dodge* system where the player can slow down time if they dodge an enemy attack (either melee or ranged) in the last second. 
-During a perfect dodge, time will slow around the player, allowing them to take more actions.
+During a perfect dodge, the environment will shift to black and white, and time will slow around the player, allowing them to take more actions.
 While time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
 
 Melee Attack Perfect Dodge:  
@@ -149,3 +149,46 @@ Melee Attack Perfect Dodge:
 Enemy Projectile Perfect Dodge:  
   
 [![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
+
+The *Perfect Dodge* system consists of two main parts:  
+
+1. **Determining if the Player's Dodge Was Perfect**  
+2. **Slowing Down Time Around the Player and Activating the Black-and-White Effect**  
+
+#### Part 1: Perfect Dodge Check  
+A struct called `FAttackInfo` is created in the custom GameState Class `ADoomGameStateBase`. This struct stores information about each attack, such as the start time, duration, and the attacker.
+
+```cpp
+struct FAttackInfo
+{
+	GENERATED_BODY()
+
+	float StartTime;
+	float Duration;
+	AActor* Attacker;
+
+	bool operator==(const FAttackInfo& Other) const
+	{
+		return (StartTime == Other.StartTime &&
+			Duration == Other.Duration &&
+			Attacker == Other.Attacker);
+	}
+};
+```
+
+Each time an enemy melee attacks, the addMeleeAttackInfo function is called. 
+This function checks if the player is within melee attack range, and if true, it updates the AttackInfo and adds it to the activeAttacks array in the game state.
+
+```cpp
+void ABaseEnemy::addMeleeAttackInfo()
+{
+	float Distance = FVector::Dist(this->GetActorLocation(), playerCharacter->GetActorLocation());
+	if (Distance <= meleeAttackRange) { // If player is within the melee attack range
+		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
+		curAttackInfo.Duration = meleeAttackDodgeWindow;
+		curAttackInfo.Attacker = this;
+		gameStateRef->addAttack(curAttackInfo);
+		isAdded = true;
+	}
+}
+```

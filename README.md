@@ -196,6 +196,21 @@ void ABaseEnemy::addMeleeAttackInfo()
 As for enemy projectiles, since there’s no attack range check like melee attacks, 
 a different method is used to determine whether the player is going to be hit by the projectile. 
 To accomplish this, a trigger box is added to each enemy projectile. 
-This trigger box is triggered when it overlaps the player, which is when the dodge mechanic can be triggered.
 
-<img src="https://i.imgur.com/CEuTxoO.png" width="400" />
+<img src="https://i.imgur.com/CEuTxoO.png" width="600" />
+
+This trigger box is activated when it overlaps with the player, which is when the dodge mechanic can be triggered and the projectile's attack information is added to the game state. 
+Below is the function that handles the overlap and adds the attack information to the game state for enemy projectiles:
+
+```cpp
+void AEnemyProjectile::BeginOverlapBoxDodge(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->ActorHasTag("Player")) {
+		curAttackInfo.StartTime = GetWorld()->GetTimeSeconds();
+		curAttackInfo.Duration = attackDuration;
+		curAttackInfo.Attacker = this;
+		gameStateRef->addAttack(curAttackInfo);
+		isAdded = true;
+	}
+}
+```

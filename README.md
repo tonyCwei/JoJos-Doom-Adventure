@@ -143,5 +143,8 @@ The game features a *Perfect Dodge* system where the player can slow down time i
 During a perfect dodge, time will slow around the player, allowing them to take more actions.  
 while time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
 
-Melee Attack Perfect Dodge
+Melee Attack Perfect Dodge:
+[![Melee Attack Perfect Dodge](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)
 
+Enemy Projectile Perfect Dodge:  
+[![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)

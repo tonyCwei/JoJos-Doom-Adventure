@@ -100,7 +100,7 @@ void ABaseEnemy::updateDirectionalSprite()
 }
 ```
 
-`updateFlipbook` is a helper function that updates the flipbook array based on an enum called `enemyState`. 
+`updateFlipbook` is a helper function that updates the flipbook array in use based on an enum called `enemyState`. 
 The `relativeDegree` parameter is used to set the relative rotation of the `EnemyFlipBookComponent` with regards to the enemy actor itself, ensuring it always faces the player.  
 
 ```cpp
@@ -150,7 +150,7 @@ Enemy Projectile Perfect Dodge:
   
 [![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
 
-The *Perfect Dodge* system consists of two main parts:  
+This *Perfect Dodge* system consists of two major parts:  
 
 1. **Determine if the player's dodge was perfect**  
 2. **Slow down time around the player and add the black-and-white effect**  
@@ -199,7 +199,7 @@ To accomplish this, a trigger box is added to each enemy projectile.
 
 <img src="https://i.imgur.com/CEuTxoO.png" width="500" />
 
-This trigger box is activated when it overlaps with the player, which is when the dodge mechanic can be triggered and the projectile's attack information is added to the game state. 
+This square box is triggered when it overlaps with the player, which is when the dodge mechanic can be activated and the projectile's attack information is added to the game state. 
 Below is the function that handles the overlap and adds the attack information to the game state for enemy projectiles:
 
 ```cpp

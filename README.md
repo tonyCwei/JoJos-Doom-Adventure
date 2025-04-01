@@ -140,8 +140,8 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 
 ### Perfect Dodge System 
 The game features a *Perfect Dodge* system where the player can slow down time if they dodge an enemy attack (either melee or ranged) in the last second. 
-During a perfect dodge, time will slow around the player, allowing them to take more actions.  
-while time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
+During a perfect dodge, time will slow around the player, allowing them to take more actions.
+While time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
 
 Melee Attack Perfect Dodge:  
   

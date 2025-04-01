@@ -215,4 +215,20 @@ void AEnemyProjectile::BeginOverlapBoxDodge(UPrimitiveComponent* OverlappedCompo
 }
 ```
 
-Now back to the player side
+Once proper `FAttackInfo` structs are stored in the `activeAttacks` array in the game state, the `checkPerfectDodge` function is called every time the player attempts a dodge. 
+This function iterates through the `activeAttacks` array and calculates the time until the attack hits. The time until hit (`timeTillHit`) 
+is determined by subtracting the current world time from the attack's projected hit time, which is calculated as `StartTime + Duration`.
+If the `timeTillHit` is positive and smaller than the player's *perfect dodge window*, the *Perfect Dodge* is performed. 
+
+```cpp
+void ADoomCharacter::checkPerfectDodge()
+{
+	for (FAttackInfo& attackInfo : gameStateRef->getActiveAttacks()) {
+		float timeTillHit = attackInfo.StartTime + attackInfo.Duration - GetWorld()->GetTimeSeconds();
+		if (timeTillHit > 0 && timeTillHit <= perfectDodgeWindow) {
+			perfectDodge();
+			break;
+		}
+	}
+}
+```

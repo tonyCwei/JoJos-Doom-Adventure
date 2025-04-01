@@ -102,7 +102,7 @@ void ABaseEnemy::updateDirectionalSprite()
 ```
 
 `updateFlipbook` is a helper function that updates the flipbook array based on an enum called `enemyState`. 
-The `relativeDegree` parameter is used to set the relative rotation of the `FlipbookComponent`, ensuring it always faces the player.  
+The `relativeDegree` parameter is used to set the relative rotation of the `EnemyFlipBookComponent`, ensuring it always faces the player.  
 
 ```cpp
 void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
@@ -137,3 +137,11 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 	EnemyFlipBookComponent->SetFlipbook(currentFlipbooks[index]);
 }
 ```
+
+### Perfect Dodge System 
+The game features a *Perfect Dodge* system where the player can slow down time if they dodge an enemy attack (either melee or ranged) in the last second. 
+During a perfect dodge, time will slow around the player, allowing them to take more actions.  
+while time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
+
+Melee Attack Perfect Dodge
+

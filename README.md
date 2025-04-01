@@ -176,7 +176,7 @@ struct FAttackInfo
 };
 ```
 
-Each time an enemy melee attacks, the addMeleeAttackInfo function is called. 
+Each time an enemy melee attacks, `addMeleeAttackInfo()` is called. 
 This function checks if the player is within melee attack range, and if true, it updates the AttackInfo and adds it to the activeAttacks array in the game state.
 
 ```cpp
@@ -232,3 +232,5 @@ void ADoomCharacter::checkPerfectDodge()
 	}
 }
 ```
+
+#### Part 2: Perfect Dodge Result and Effect 

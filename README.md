@@ -31,10 +31,9 @@ The system determines the player's relative position using vector calculations:
 - **Enemy Right Vector** 
 - **Vector from Enemy to Player** (`Enemy->Player`)  
 
-1. Use dot product of `Enemy->Player` and `Enemy Forward Vector` and Converts to degrees using `Acos()` to determine if the player is in front or behind.  
+1. Use dot product of `Enemy->Player` and `Enemy Forward Vector` and convert to degrees to determine if the player is in front or behind.  
 
-2. **Dot Product of `Enemy->Player` and `Enemy Right Vector`**  
-   - Determines whether the player is on the left or right.  
+2. Use dot product of `Enemy->Player` and `Enemy Right Vector` to determine whether the player is on the left or right.  
 
 ```cpp
 void ABaseEnemy::updateDirectionalSprite()

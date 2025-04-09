@@ -17,6 +17,31 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 - [Perfect Dodge System](#perfect-dodge-system)  
 - [Eight-Directional Sprite System](#eight-directional-sprite-system)  
 
+### Level Design
+
+During the level design process, a **blockout** was first created using Unreal Engine 5’s **cube grid system**. 
+
+This level includes two major objectives: 
+1. **Find three colored keys** (Blue, Orange, and Red) to unlock different parts of the level.
+2. **Activate three generators** to power the passageway to the boss fight.
+
+The blockout allowed me to quickly plan and decide where to place **locked doors** and **generators**, 
+helping me experiment with how these elements fit within the level's layout.
+
+![BlockOut](https://imgur.com/pCFdiDR)
+
+Once the blockout was complete and the core gameplay elements were established, 
+the **actual map** was built based on the blockout layout.
+The entire level was also fully optimized through **level streaming** to ensure better performance.
+
+<https://imgur.com/vPEuAoS>
+*Finished Level*
+  
+<https://imgur.com/oQUBKQK>
+*Boss Arena*
+
+
+
 ### Perfect Dodge System 
 The game features a *Perfect Dodge* system where the player can slow down time if they dodge(Press E) an enemy attack (either melee or ranged) in the last second. 
 During a perfect dodge, the environment will shift to black and white, and time will slow around the player, allowing them to take more actions.
@@ -157,7 +182,7 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 
 ![Scanner](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif)  
 
-Here's how to make it work:  
+How it works:  
 1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Check out Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
 2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.

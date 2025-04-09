@@ -193,7 +193,11 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 - **Pickups** (Health, Armor, Ammo, Keys): Highlighted in **Green**
 - **Weapon Pickups**: Highlighted in **Blue**  
 
-![Scanner](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif)  
+<p align="center">
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif">
+  <br>
+  <em>Scanner</em>
+</p>
 
 How it works:  
 1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Check out Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
@@ -208,8 +212,12 @@ The game features an eight-directional sprite system similar to the classic *Doo
 Enemies dynamically change their sprites based on their position relative to the player, 
 creating a sense of being a 3D object while only using sprites.  
 
-![Eight-Directional Sprite System1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)
-![Eight-Directional Sprite System2](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHlocjBud3AybThrZXAzbnB4bXNwZzJ3MXZ6b3p6cjlobjBjODZ4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/s3x1EbznMiVRjNHkeu/giphy.gif)
+<p align="center">
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif">
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHlocjBud3AybThrZXAzbnB4bXNwZzJ3MXZ6b3p6cjlobjBjODZ4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/s3x1EbznMiVRjNHkeu/giphy.gif">
+  <br>
+  <em>Eight-Directional Sprite System</em>
+</p>
 
 The system determines the player's relative position using vector calculations:  
 

@@ -254,7 +254,7 @@ How it works:
 
 
 Above attack patterns are categorized into **Light** and **Medium** attacks. **Heavy** attacks consist of different **combinations** of the above boss attacks.
-The boss will first determine which **attack category** to use—**Light**, **Medium**, **Heavy**, or **Filler**—based on cooldowns and internal timers. 
+The boss will first determine which **attack category**(Light, Medium, Heavy, or Filler) to use based on cooldowns and internal timers. 
 Once the category is selected, the boss will then **randomly choose an attack** from the available task pool within that category.
 
 <p align="center">

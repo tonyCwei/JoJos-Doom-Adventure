@@ -28,20 +28,23 @@ This level includes two major objectives:
 The blockout allowed me to quickly plan and decide where to place **locked doors** and **generators**, 
 helping me experiment with how these elements fit within the level's layout.
 
-![BlockOut](https://i.imgur.com/pCFdiDR.png)
+<p align="center">
+  <img src="https://i.imgur.com/pCFdiDR.png" width="500">
+  <br>
+</p>
 
 Once the blockout was complete and the core gameplay elements were established, 
 the **actual map** was built based on the blockout layout.
 The entire level was also fully optimized through **level streaming** to ensure better performance.
 
 <p align="center">
-  <img src="https://i.imgur.com/vPEuAoS.png" alt="FinishedLevel">
+  <img src="https://i.imgur.com/vPEuAoS.png" width="500">
   <br>
-  <em>FinishedLevel</em>
+  <em>Finished Level</em>
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/oQUBKQK.jpg" alt="BossArena">
+  <img src="https://i.imgur.com/oQUBKQK.jpg" width="500">
   <br>
   <em>Boss Arena</em>
 </p>
@@ -106,7 +109,9 @@ As for enemy projectiles, since there’s no attack range check like melee attac
 a different method is used to determine whether the player is going to be hit by the projectile. 
 To accomplish this, a trigger box is added to each enemy projectile. 
 
-<img src="https://i.imgur.com/CEuTxoO.png" width="500" />
+<p align="center">
+  <img src="https://i.imgur.com/CEuTxoO.png" width="500">
+</p>
 
 This square box is triggered when it overlaps with the player, which is when the dodge mechanic can be activated and the projectile's attack information is added to the game state. 
 Below is the function that handles the overlap and adds the attack information to the game state for enemy projectiles:

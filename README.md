@@ -61,13 +61,13 @@ During a perfect dodge, the environment will shift to black and white, and time 
 While time slows for the enemies and environment, the player themselves remain unaffected by the time slowdown.
 
 <p align="center">
-  <img src="https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif">
+  <img src="https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif" width="100%">
   <br>
   <em>Melee Attack Perfect Dodge</em>
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif">
+  <img src="https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif" width="100%">
   <br>
   <em>Enemy Projectile Perfect Dodge</em>
 </p>

@@ -219,27 +219,27 @@ How it works:
 </p>
 
 <p align="center">
-  <img src="gifs/DropAttack.gif">
-  <br>
-  <em>Boss Drop Attack</em>
-</p>
-
-<p align="center">
   <img src="gifs/SummonAttack.gif">
   <br>
   <em>Boss Summon Attack</em>
 </p>
 
 <p align="center">
-  <img src="gifs/RisingOrb.gif">
+  <img src="gifs/DropAttack.gif">
   <br>
-  <em>Boss Rising Orb Attack</em>
+  <em>Boss Drop Attack</em>
 </p>
 
 <p align="center">
   <img src="gifs/LaserAttack.gif">
   <br>
   <em>Boss Laser Attack</em>
+</p>
+
+<p align="center">
+  <img src="gifs/RisingOrb.gif">
+  <br>
+  <em>Boss Rising Orb Attack</em>
 </p>
 
 

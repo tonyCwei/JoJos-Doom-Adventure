@@ -34,13 +34,17 @@ Once the blockout was complete and the core gameplay elements were established,
 the **actual map** was built based on the blockout layout.
 The entire level was also fully optimized through **level streaming** to ensure better performance.
 
-![FinishedLevel](https://i.imgur.com/vPEuAoS.png)
-*Finished Level*
-  
-![BossArena](https://i.imgur.com/oQUBKQK.jpg)
-*Boss Arena*
+<p align="center">
+  <img src="https://i.imgur.com/vPEuAoS.png" alt="FinishedLevel">
+  <br>
+  <em>FinishedLevel</em>
+</p>
 
-
+<p align="center">
+  <img src="https://i.imgur.com/oQUBKQK.jpg" alt="BossArena">
+  <br>
+  <em>Boss Arena</em>
+</p>
 
 ### Perfect Dodge System 
 The game features a *Perfect Dodge* system where the player can slow down time if they dodge(Press E) an enemy attack (either melee or ranged) in the last second. 

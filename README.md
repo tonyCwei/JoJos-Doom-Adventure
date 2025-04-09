@@ -219,7 +219,7 @@ How it works:
 </p>
 
 <p align="center">
-  <img src="">
+  <img src="gifs/DropAttack.gif">
   <br>
   <em>Boss Drop Attack</em>
 </p>

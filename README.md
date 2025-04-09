@@ -35,7 +35,7 @@ The blockout allowed me to quickly plan and decide where to place **locked doors
 helping me experiment with how these elements fit within the level's layout.
 
 <p align="center">
-  <img src="https://i.imgur.com/pCFdiDR.png" width="500">
+  <img src="https://i.imgur.com/pCFdiDR.png">
   <br>
 </p>
 
@@ -44,13 +44,13 @@ the **actual map** was built based on the blockout layout.
 The entire level was also fully optimized through **level streaming** to ensure better performance.
 
 <p align="center">
-  <img src="https://i.imgur.com/vPEuAoS.png" width="500">
+  <img src="https://i.imgur.com/vPEuAoS.png">
   <br>
   <em>Finished Level</em>
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/oQUBKQK.jpg" width="500">
+  <img src="https://i.imgur.com/oQUBKQK.jpg">
   <br>
   <em>Boss Arena</em>
 </p>
@@ -120,7 +120,7 @@ a different method is used to determine whether the player is going to be hit by
 To accomplish this, a trigger box is added to each enemy projectile. 
 
 <p align="center">
-  <img src="https://i.imgur.com/CEuTxoO.png" width="500">
+  <img src="https://i.imgur.com/CEuTxoO.png">
 </p>
 
 This square box is triggered when it overlaps with the player, which is when the dodge mechanic can be activated and the projectile's attack information is added to the game state. 
@@ -392,8 +392,6 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 ```
 
 ### Additional Gameplay Elements
-
-## 🎞️ Gameplay Highlights
 
 <div align="center">
 

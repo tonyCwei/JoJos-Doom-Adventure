@@ -200,7 +200,7 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 - **Weapon Pickups**: Highlighted in **Blue**  
 
 <p align="center">
-  <img src="https://media.giphy.com/media/kFlsAvmIrwL93RJ9OZ/giphy.gif">
+  <img src="https://media.giphy.com/media/kFlsAvmIrwL93RJ9OZ/giphy.gif" width="100%">
   <br>
   <em>Scanner</em>
 </p>
@@ -214,31 +214,31 @@ How it works:
 ### Boss Fight
 
 <p align="center">
-  <img src="https://media.giphy.com/media/mRZljRnmdSmO3IT1MF/giphy.gif">
+  <img src="https://media.giphy.com/media/mRZljRnmdSmO3IT1MF/giphy.gif" width="100%">
   <br>
   <em>Boss Projectile Attack</em>
 </p>
 
 <p align="center">
-  <img src="gifs/SummonAttack.gif">
+  <img src="gifs/SummonAttack.gif" width="100%">
   <br>
   <em>Boss Summon Attack</em>
 </p>
 
 <p align="center">
-  <img src="gifs/DropAttack.gif">
+  <img src="gifs/DropAttack.gif" width="100%">
   <br>
   <em>Boss Drop Attack</em>
 </p>
 
 <p align="center">
-  <img src="gifs/LaserAttack.gif">
+  <img src="gifs/LaserAttack.gif" width="100%">
   <br>
   <em>Boss Laser Attack</em>
 </p>
 
 <p align="center">
-  <img src="gifs/RisingOrb.gif">
+  <img src="gifs/RisingOrb.gif" width="100%">
   <br>
   <em>Boss Rising Orb Attack</em>
 </p>
@@ -272,8 +272,8 @@ Enemies dynamically change their sprites based on their position relative to the
 creating a sense of being a 3D object while only using sprites.  
 
 <p align="center">
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHlocjBud3AybThrZXAzbnB4bXNwZzJ3MXZ6b3p6cjlobjBjODZ4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/s3x1EbznMiVRjNHkeu/giphy.gif">
+  <img src="https://media.giphy.com/media/gZdBe1mF5ISCfxP2To/giphy.gif" width="100%">
+  <img src="https://media.giphy.com/media/s3x1EbznMiVRjNHkeu/giphy.gif" width="100%">
   <br>
   <em>Eight-Directional Sprite System</em>
 </p>
@@ -393,27 +393,28 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 
 ### Additional Gameplay Elements
 
-<div align="center">
+<p align="center">
+  <img src="https://media.giphy.com/media/ugq4uRhIgsFqdZ1xdy/giphy.gif" width="100%">
+  <br>
+  <em>Zig-Zag Enemy</em>
+</p>
 
-  <div style="display: inline-block; width: 45%; margin: 1%;">
-    <img src="https://media.giphy.com/media/ugq4uRhIgsFqdZ1xdy/giphy.gif" width="100%" alt="Zig-Zag Enemy" />
-    <p><strong>Zig-Zag Enemy</strong></p>
-  </div>
+<p align="center">
+  <img src="gifs/LaserRoom.gif" width="100%">
+  <br>
+  <em>Laser Room</em>
+</p>
 
-  <div style="display: inline-block; width: 45%; margin: 1%;">
-    <img src="gifs/LaserRoom.gif" width="100%" alt="Laser Room" />
-    <p><strong>Laser Room</strong></p>
-  </div>
+<p align="center">
+  <img src="gifs/ChaosDestruction.gif" width="100%">
+  <br>
+  <em>Chaos Destruction</em>
+</p>
 
-  <div style="display: inline-block; width: 45%; margin: 1%;">
-    <img src="gifs/ChaosDestruction.gif" width="100%" alt="Chaos Destruction" />
-    <p><strong>Chaos Destruction</strong></p>
-  </div>
+<p align="center">
+  <img src="https://media.giphy.com/media/L3boiCPlOiUaeT7EV8/giphy.gif" width="100%">
+  <br>
+  <em>Chase Sequence</em>
+</p>
 
-  <div style="display: inline-block; width: 45%; margin: 1%;">
-    <img src="https://media.giphy.com/media/L3boiCPlOiUaeT7EV8/giphy.gif" width="100%" alt="Chase Sequence" />
-    <p><strong>Chase Sequence</strong></p>
-  </div>
-
-</div>
 

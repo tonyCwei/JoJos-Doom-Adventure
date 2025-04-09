@@ -212,11 +212,7 @@ How it works:
 
 ### Boss Fight
 
-<p align="center">
-  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjNhdnJ2NXh0NnQ0a2p3YjU2bjl5cWZoYWFtdHpzMmtrN3ptdWF1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mRZljRnmdSmO3IT1MF/giphy.gif">
-  <br>
-  <em>Boss Projectile Attack</em>
-</p>
+
 
 <p align="center">
   <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW5oNXh5dml0eTVxbXByeW92cDc2NjVlNWtqZXd4OXF4dWUycTN5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/D0RUVYdNYxrkQ37lyM/giphy.gif">

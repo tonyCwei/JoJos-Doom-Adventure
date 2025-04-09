@@ -149,7 +149,7 @@ This is achieved by attaching a *Post Process Component* to the `ABulletTimeAura
 
 ### Scanner
 
-Pressing `Z` in-game activates the **Environmental Scanner**, which highlights important objects in the surroundings using a real-time visual filter:
+Pressing `Z` in-game activates the **Environmental Scanner**, which highlights important objects in the surroundings:
 
 - **Enemies**: Highlighted in **Red**
 - **Pickups** (Health, Armor, Ammo, Keys): Highlighted in **Green**
@@ -157,9 +157,9 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 
 ![Scanner](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif)  
 
-How it Works:  
+Here's how to make it work:  
 1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Check out Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
-2. The **Material Parameter Collection** controls the expanding effect by adjusting the radius.
+2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.
 
 

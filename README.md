@@ -158,7 +158,7 @@ The game features an eight-directional sprite system similar to the classic *Doo
 Enemies dynamically change their sprites based on their position relative to the player, 
 creating a sense of being a 3D object while only using sprites.  
 
-![Eight-Directional Sprite System1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)  
+![Eight-Directional Sprite System1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)
 ![Eight-Directional Sprite System2](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHlocjBud3AybThrZXAzbnB4bXNwZzJ3MXZ6b3p6cjlobjBjODZ4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/s3x1EbznMiVRjNHkeu/giphy.gif)
 
 The system determines the player's relative position using vector calculations:  

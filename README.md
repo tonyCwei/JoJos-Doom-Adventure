@@ -219,25 +219,25 @@ How it works:
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/D0RUVYdNYxrkQ37lyM/giphy.gif">
+  <img src="">
   <br>
   <em>Boss Drop Attack</em>
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/UeWkeQgokKU59F3DaO/giphy.gif">
+  <img src="https://media.giphy.com/media/m6C8vkaZ1ksbtEhFnb/giphy.gif">
   <br>
   <em>Boss Summon Attack</em>
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/qJz7Hm9vayZJqKkq0r/giphy.gif">
+  <img src="">
   <br>
   <em>Boss Rising Orb Attack</em>
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/Qa3dNvpYMUzb7IrL6B/giphy.gif">
+  <img src="">
   <br>
   <em>Boss Laser Attack</em>
 </p>

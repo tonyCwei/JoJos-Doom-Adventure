@@ -393,14 +393,29 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 
 ### Additional Gameplay Elements
 
+## 🎞️ Gameplay Highlights
+
 <div align="center">
 
-  <img src="https://media.giphy.com/media/ugq4uRhIgsFqdZ1xdy/giphy.gif" width="45%" alt="Zig-Zag Enemy" />
-  <img src="gifs/LaserRoom.gif" width="45%" alt="Laser Room" />
+  <div style="display: inline-block; width: 45%; margin: 1%;">
+    <img src="https://media.giphy.com/media/ugq4uRhIgsFqdZ1xdy/giphy.gif" width="100%" alt="Zig-Zag Enemy" />
+    <p><strong>Zig-Zag Enemy</strong></p>
+  </div>
 
-  <br><br>
+  <div style="display: inline-block; width: 45%; margin: 1%;">
+    <img src="gifs/LaserRoom.gif" width="100%" alt="Laser Room" />
+    <p><strong>Laser Room</strong></p>
+  </div>
 
-  <img src="gifs/ChaosDestruction.gif" width="45%" alt="Chaos Destruction" />
-  <img src="https://media.giphy.com/media/L3boiCPlOiUaeT7EV8/giphy.gif" width="45%" alt="Chase Sequence" />
+  <div style="display: inline-block; width: 45%; margin: 1%;">
+    <img src="gifs/ChaosDestruction.gif" width="100%" alt="Chaos Destruction" />
+    <p><strong>Chaos Destruction</strong></p>
+  </div>
+
+  <div style="display: inline-block; width: 45%; margin: 1%;">
+    <img src="https://media.giphy.com/media/L3boiCPlOiUaeT7EV8/giphy.gif" width="100%" alt="Chase Sequence" />
+    <p><strong>Chase Sequence</strong></p>
+  </div>
 
 </div>
+

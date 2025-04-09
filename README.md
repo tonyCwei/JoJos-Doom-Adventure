@@ -408,7 +408,7 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 <p align="center">
   <img src="gifs/ChaosDestruction.gif" width="100%">
   <br>
-  <em>Chaos Destruction</em>
+  <em>Chaos Destruction System</em>
 </p>
 
 <p align="center">

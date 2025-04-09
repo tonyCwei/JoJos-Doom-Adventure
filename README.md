@@ -21,7 +21,7 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 - [Scanner](#scanner)
 - [Boss Fight](#boss-fight)
 - [Eight-Directional Sprite System](#eight-directional-sprite-system)
-- [Additional Gameplay Footage](#additional-gameplay-footage)
+- [Additional Gameplay Elements](#additional-gameplay-elements)
 
 ### Level Design
 
@@ -391,4 +391,16 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 }
 ```
 
-### Additional Gameplay Footage
+### Additional Gameplay Elements
+
+<div align="center">
+
+  <img src="https://media.giphy.com/media/ugq4uRhIgsFqdZ1xdy/giphy.gif" width="45%" alt="Zig-Zag Enemy" />
+  <img src="gifs/LaserRoom.gif" width="45%" alt="Laser Room" />
+
+  <br><br>
+
+  <img src="gifs/ChaosDestruction.gif" width="45%" alt="Chaos Destruction" />
+  <img src="https://media.giphy.com/media/L3boiCPlOiUaeT7EV8/giphy.gif" width="45%" alt="Chase Sequence" />
+
+</div>

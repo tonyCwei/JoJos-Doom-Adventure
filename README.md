@@ -21,6 +21,7 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 - [Scanner](#scanner)
 - [Boss Fight](#boss-fight)
 - [Eight-Directional Sprite System](#eight-directional-sprite-system)
+- [Additional Gameplay Footage](#additional-gameplay-footage)
 
 ### Level Design
 
@@ -212,6 +213,31 @@ How it works:
 ### Boss Fight
 
 
+<p align="center">
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjNhdnJ2NXh0NnQ0a2p3YjU2bjl5cWZoYWFtdHpzMmtrN3ptdWF1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mRZljRnmdSmO3IT1MF/giphy.gif">
+  <br>
+  <em>Boss Projectile Attack</em>
+
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR4bDRxcWQ0OXJ2d3hsb3JtZ2ExanJhN29uNXNueWR2N2hoa3ZwbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qJz7Hm9vayZJqKkq0r/giphy.gif">
+  <br>
+  <em>Boss Rising Orb Attack</em>
+
+  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW5oNXh5dml0eTVxbXByeW92cDc2NjVlNWtqZXd4OXF4dWUycTN5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/D0RUVYdNYxrkQ37lyM/giphy.gif">
+  <br>
+  <em>Boss Drop Attack</em>
+
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXZmN2Y0cXhnZzJneXJ1Mzk1ZHZhemZoMnp4amY5NHp4cGowNXN5eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Qa3dNvpYMUzb7IrL6B/giphy.gif">
+  <br>
+  <em>Boss Laser Attack</em>
+
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExd282MHBmZXU5MmEwNXZ2dWF3ajcxZ2J4d3o1OXVsN24zM2t4cDhmNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UeWkeQgokKU59F3DaO/giphy.gif">
+  <br>
+  <em>Boss Summon Attack</em>
+</p>
+
+
+
+
 ### Eight-Directional Sprite System  
 The game features an eight-directional sprite system similar to the classic *Doom (1993)*. 
 Enemies dynamically change their sprites based on their position relative to the player, 
@@ -336,3 +362,5 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
 	EnemyFlipBookComponent->SetFlipbook(currentFlipbooks[index]);
 }
 ```
+
+### Additional Gameplay Footage

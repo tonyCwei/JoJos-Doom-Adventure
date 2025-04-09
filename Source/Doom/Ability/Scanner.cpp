@@ -50,12 +50,7 @@ void AScanner::BeginPlay()
 		scanTimeline->SetLooping(false);
 
 	}
-
-
 	scanTimeline->PlayFromStart();
-
-
-	
 }
 
 void AScanner::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -82,9 +77,7 @@ void AScanner::scanTimelineUpdate(float Value)
 	};
 
 	TArray<AActor*> ActorsToIgnore = { Cast<AActor>(this) };
-
 	float curRadius = Value * maxScanRadius;
-
 	bool hasHit = UKismetSystemLibrary::SphereTraceMultiForObjects(
 		this->GetWorld(),
 		actorLocation,
@@ -97,7 +90,6 @@ void AScanner::scanTimelineUpdate(float Value)
 		HitResults,
 		true
 	);
-
 
 	if (hasHit) {
 		for (FHitResult hitResult : HitResults) {
@@ -114,10 +106,6 @@ void AScanner::scanTimelineUpdate(float Value)
 			else if (HitActor->ActorHasTag("Enemy")) {
 				Cast<ABaseEnemy>(HitActor)->activateCustomDepth();
 			}
-
-
-			
-
 		}
 
 	}

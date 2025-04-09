@@ -4,9 +4,14 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 
 ## 🎮 Gameplay Video
 <p align="center">
-[![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
-*Click the image above to watch the full gameplay video with detailed timestamps on YouTube*
+  <a href="https://youtu.be/dAzUW5b5_-w">
+    <img src="https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg" alt="Watch the gameplay">
+  </a>
+  <br>
+  <em>Click the image above to watch the full gameplay video with detailed timestamps on YouTube</em>
 </p>
+
+
 
 
 ## 🕹️ Play the Game

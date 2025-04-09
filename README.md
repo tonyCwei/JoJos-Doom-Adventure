@@ -200,7 +200,7 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 - **Weapon Pickups**: Highlighted in **Blue**  
 
 <p align="center">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif">
+  <img src="https://media.giphy.com/media/kFlsAvmIrwL93RJ9OZ/giphy.gif">
   <br>
   <em>Scanner</em>
 </p>

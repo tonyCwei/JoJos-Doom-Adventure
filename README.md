@@ -58,7 +58,9 @@ While time slows for the enemies and environment, the player themselves remain u
   <img src="https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif">
   <br>
   <em>Melee Attack Perfect Dodge</em>
+</p>
 
+<p align="center">
   <img src="https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif">
   <br>
   <em>Enemy Projectile Perfect Dodge</em>

@@ -207,8 +207,9 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 
 How it works:  
 1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
-2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**
+2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**.
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.
+4. A **Sphere Trace** with the same expanding radius as the scanner material is draw during each frame of scanner's **TimelineUpdate**. For any actors that need to be highlighted, their `RenderCustomDepth` property is toggled **on**, enabling them to appear in the scan. After a delay of **5 seconds** (the duration of the highlight), `RenderCustomDepth` is toggled **off**, returning them to normal rendering.
 
 ### Boss Fight
 

@@ -417,5 +417,6 @@ void ABaseEnemy::updateFlipbook(float relativeDegree, int32 index)
   <em>Chase Sequence</em>
 </p>
 
-For a full gameplay breakdown featuring all 7 weapons, 5 enemy types, and more, please check out the video in the [🎮 Gameplay Video](#-gameplay-video) section above.
+**For a full gameplay breakdown featuring all 7 weapons, 5 enemy types, and more, 
+please check out the video in the [🎮 Gameplay Video](#-gameplay-video) section above.**
 

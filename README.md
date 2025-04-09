@@ -3,13 +3,13 @@
 Source Code of JoJo's Doom Adventure with Unreal Engine 5  
 
 ## 🎮 Gameplay Video
-![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
+[![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
 *Click the image above to watch the full gameplay video with detailed timestamps on YouTube*
 
 
 
 ## 🕹️ Play the Game
-![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg)](https://frigidough.itch.io/jojos-doom-adventure)  
+[![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg)](https://frigidough.itch.io/jojos-doom-adventure)  
 
 
 ## 🚀 Highlights  
@@ -24,11 +24,11 @@ While time slows for the enemies and environment, the player themselves remain u
 
 Melee Attack Perfect Dodge:  
   
-![Melee Attack Perfect Dodge](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)
+![Melee Attack Perfect Dodge](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)
 
 Enemy Projectile Perfect Dodge:  
   
-![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
+![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
 
 This *Perfect Dodge* system consists of two major parts:  
 

@@ -147,6 +147,12 @@ void ADoomCharacter::perfectDodge()
 Finally, to further enhance the *Perfect Dodge* effect, a black-and-white "filter" is applied during the time slow. 
 This is achieved by attaching a *Post Process Component* to the `ABulletTimeAura` actor and setting its *Global Saturation* to black.
 
+### Scanner
+
+[![Eight-Directional Sprite System1]()  
+
+
+
 ### Eight-Directional Sprite System  
 The game features an eight-directional sprite system similar to the classic *Doom (1993)*. 
 Enemies dynamically change their sprites based on their position relative to the player, 

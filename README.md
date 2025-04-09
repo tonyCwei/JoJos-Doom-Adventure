@@ -244,6 +244,14 @@ How it works:
 
 
 
+| **Boss Attack**        | **Mechanics**                                                                                                                                         | **Damage Per Hit**                                         |
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| **Projectile**         | Shoots projectiles in a 120-degree arc                                                                                                                | 6 per projectile                                            |
+| **Summon**             | Summons 4 self-destructive enemies                                                                                                                    | 25 damage per enemy                                         |
+| **Drop Attack**        | Disappears, shows red circle indicator on the floor, then drops to deal AoE damage (radius: 1200, delay: 1.5s)                                       | 20 AoE                                                      |
+| **Laser Attack**       | Continuously shoots laser beams toward the player, and summons a laser tower in the center of the arena                                              | Tower: 5 dmg/sec, Boss: 6 dmg/sec                           |
+| **Rising Orb Attack**  | 3 orbs rise into the sky and fly toward the player once at the top. Orbs can be destroyed (each orb has 50 HP)                                       | 10 per orb                                                  |
+
 
 
 

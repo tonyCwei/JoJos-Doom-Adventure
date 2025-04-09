@@ -3,9 +3,10 @@
 Source Code of JoJo's Doom Adventure with Unreal Engine 5  
 
 ## 🎮 Gameplay Video
+<p align="center">
 [![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
 *Click the image above to watch the full gameplay video with detailed timestamps on YouTube*
-
+</p>
 
 
 ## 🕹️ Play the Game
@@ -200,7 +201,7 @@ Pressing `Z` in-game activates the **Environmental Scanner**, which highlights i
 </p>
 
 How it works:  
-1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Check out Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
+1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
 2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.
 

@@ -16,8 +16,11 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 
 ## 🚀 Highlights  
 
-- [Perfect Dodge System](#perfect-dodge-system)  
-- [Eight-Directional Sprite System](#eight-directional-sprite-system)  
+- [Level Design](#level-design)
+- [Perfect Dodge System](#perfect-dodge-system)
+- [Scanner](#scanner)
+- [Boss Fight](#boss-fight)
+- [Eight-Directional Sprite System](#eight-directional-sprite-system)
 
 ### Level Design
 
@@ -206,7 +209,7 @@ How it works:
 2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.
 
-
+### Boss Fight
 
 
 ### Eight-Directional Sprite System  

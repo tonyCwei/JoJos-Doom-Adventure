@@ -225,19 +225,19 @@ How it works:
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/m6C8vkaZ1ksbtEhFnb/giphy.gif">
+  <img src="gifs/SummonAttack.gif">
   <br>
   <em>Boss Summon Attack</em>
 </p>
 
 <p align="center">
-  <img src="">
+  <img src="gifs/RisingOrb.gif">
   <br>
   <em>Boss Rising Orb Attack</em>
 </p>
 
 <p align="center">
-  <img src="">
+  <img src="gifs/LaserAttack.gif">
   <br>
   <em>Boss Laser Attack</em>
 </p>

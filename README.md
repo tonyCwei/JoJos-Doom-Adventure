@@ -28,16 +28,16 @@ This level includes two major objectives:
 The blockout allowed me to quickly plan and decide where to place **locked doors** and **generators**, 
 helping me experiment with how these elements fit within the level's layout.
 
-![BlockOut](https://imgur.com/pCFdiDR)
+![BlockOut](https://i.imgur.com/pCFdiDR.png)
 
 Once the blockout was complete and the core gameplay elements were established, 
 the **actual map** was built based on the blockout layout.
 The entire level was also fully optimized through **level streaming** to ensure better performance.
 
-<https://imgur.com/vPEuAoS>
+![FinishedLevel](https://i.imgur.com/vPEuAoS.png)
 *Finished Level*
   
-<https://imgur.com/oQUBKQK>
+![BossArena](https://i.imgur.com/oQUBKQK.jpg)
 *Boss Arena*
 
 

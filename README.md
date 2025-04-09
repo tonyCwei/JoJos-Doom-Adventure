@@ -3,13 +3,13 @@
 Source Code of JoJo's Doom Adventure with Unreal Engine 5  
 
 ## 🎮 Gameplay Video
-[![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
+![Watch the gameplay](https://img.youtube.com/vi/dAzUW5b5_-w/0.jpg)](https://youtu.be/dAzUW5b5_-w)  
 *Click the image above to watch the full gameplay video with detailed timestamps on YouTube*
 
 
 
 ## 🕹️ Play the Game
-[![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg)](https://frigidough.itch.io/jojos-doom-adventure)  
+![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg)](https://frigidough.itch.io/jojos-doom-adventure)  
 
 
 ## 🚀 Highlights  
@@ -24,11 +24,11 @@ While time slows for the enemies and environment, the player themselves remain u
 
 Melee Attack Perfect Dodge:  
   
-[![Melee Attack Perfect Dodge](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)
+![Melee Attack Perfect Dodge](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)](https://media.giphy.com/media/HJYw7YHBabJ1qHLwVH/giphy.gif)
 
 Enemy Projectile Perfect Dodge:  
   
-[![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
+![Enemy Projectile Perfect Dodge](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)](https://media.giphy.com/media/pXhK0TDWxcG7Cb5F5w/giphy.gif)
 
 This *Perfect Dodge* system consists of two major parts:  
 
@@ -158,7 +158,7 @@ The game features an eight-directional sprite system similar to the classic *Doo
 Enemies dynamically change their sprites based on their position relative to the player, 
 creating a sense of being a 3D object while only using sprites.  
 
-[![Eight-Directional Sprite System1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)  
+![Eight-Directional Sprite System1](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmdzNXJpODJ2MHptODd5eTI3ajVvZW9ueGxkdWliM2w5bDVxeG1ueiZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9Zw/gZdBe1mF5ISCfxP2To/giphy.gif)  
 ![Eight-Directional Sprite System2](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHlocjBud3AybThrZXAzbnB4bXNwZzJ3MXZ6b3p6cjlobjBjODZ4eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/s3x1EbznMiVRjNHkeu/giphy.gif)
 
 The system determines the player's relative position using vector calculations:  

@@ -209,7 +209,7 @@ How it works:
 1. Spwan the [Scanner Actor](Source/Doom/Ability/Scanner.cpp) at the player location, which contains a **Post Process Component** that will apply the scanner material([Material Blueprint](https://blueprintue.com/blueprint/kme0-79b/)).
 2. The scanner expanding effect is achieved by updating the material's radius through **Material Parameter Collection** in the scanner's **TimelineUpdate**.
 3. **Custom Stencils** are assigned to relevant objects, allowing the material to differentiate between enemies, pickups, and weapons.
-4. A **Sphere Trace** with the same expanding radius as the scanner material is draw during each frame of scanner's **TimelineUpdate**. For any actors that need to be highlighted, their `RenderCustomDepth` property is toggled **on**, enabling them to appear in the scan. After a delay of **5 seconds** (the duration of the highlight), `RenderCustomDepth` is toggled **off**, returning them to normal rendering.
+4. A **Sphere Trace** with the same expanding radius as the scanner material's is draw during each frame of scanner's **TimelineUpdate**. For any hit actors that need to be highlighted, their `Render CustomDepth Pass` property is toggled **on**, enabling them to appear in the scan. After a delay of **5 seconds** (the duration of the highlight), `RenderCustomDepth` is toggled **off**, returning them to normal rendering.
 
 ### Boss Fight
 
@@ -252,6 +252,16 @@ How it works:
 | **Laser**       | Continuously shoots laser beams toward the player and summons a laser tower in the center of the arena                                           | Tower: 5/sec, Boss: 6/sec                   |
 | **Rising Orb**  | 3 orbs rise into the sky and fly toward the player once at the top. Orbs can be destroyed (each orb has 50 HP)                                   | 10 per orb                                  |
 
+
+Above attack patterns are categorized into **Light** and **Medium** attacks. **Heavy** attacks consist of different **combinations** of the above boss attacks.
+The boss will first determine which **attack category** to use—**Light**, **Medium**, **Heavy**, or **Filler**—based on cooldowns and internal timers. 
+Once the category is selected, the boss will then **randomly choose an attack** from the available task pool within that category.
+
+<p align="center">
+  <img src="https://i.imgur.com/A4lfjIU.jpg">
+  <br>
+  <em>Boss' Behavior Tree</em>
+</p>
 
 
 

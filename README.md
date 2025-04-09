@@ -15,7 +15,7 @@ Source Code of JoJo's Doom Adventure with Unreal Engine 5
 
 
 ## 🕹️ Play the Game
-[![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg)](https://frigidough.itch.io/jojos-doom-adventure)  
+[![itch.io Version](https://img.shields.io/badge/Download%20on-itch.io-FA5C5C.svg?logoWidth=150)](https://frigidough.itch.io/jojos-doom-adventure)  
 
 
 ## 🚀 Highlights  

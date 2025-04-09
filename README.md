@@ -149,8 +149,14 @@ This is achieved by attaching a *Post Process Component* to the `ABulletTimeAura
 
 ### Scanner
 
+Pressing `Z` in-game activates the **Environmental Scanner**, which highlights important objects in the surroundings using a real-time visual filter:
+
+- **Enemies**: Highlighted in **Red**
+- **Pickups** (Health, Armor, Ammo, Keys): Highlighted in **Green**
+- **Weapon Pickups**: Highlighted in **Blue**  
+- 
 ![Scanner](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWR4cjd1dHB4NGI3Zm5waDg1NnptcmF1aDVsZm1mZjBla2VhZjFmYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kFlsAvmIrwL93RJ9OZ/giphy.gif)  
-![Material](https://blueprintue.com/blueprint/zonjfmu_/)
+
 
 
 ### Eight-Directional Sprite System  
